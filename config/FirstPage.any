@@ -1,0 +1,70 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # FirstPage: configuration file for the FirstPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "First Page of WebDisplay (text from FirstPage.any)"
+
+	/Body {
+		/HTML {
+			/TemplateName { FirstPage }
+		}
+	}
+
+
+	#---- Parts --------------------------------------------------------------
+	/NextPage {
+		/Form {
+			/Method "GET"
+			/Action "GoNextPage"
+			/Template {
+				"[[#wd Lookup NextButton ]]"
+			}
+		}
+	}
+	
+	/NextButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "Next Page"
+			}
+		}
+	}
+	
+	/InfoPage {
+		/Form {
+			/Method "GET"
+			/Action "GoInfoPage"
+			/Template {
+				"[[#wd Lookup InfoButton ]]"
+			}
+		}
+	}
+
+	/InfoButton {
+		/Button {
+			/Name  "Submit"
+			/Label {
+				/Type String
+				/Default "I'm going to the Info Page"
+			}
+		}		
+	}
+	
+	/AnotherLink {
+		/Link {
+			/Action "GoAnotherPage"
+			/Label {
+				/Type String
+				/Default "I'm going to another Page"
+			}
+		}
+	}
+}

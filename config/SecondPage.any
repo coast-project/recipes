@@ -1,0 +1,80 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # SecondPage: configuration file for the SecondPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Second Page of WebDisplay (from SecondPage.any)"
+
+	/Body {
+		/HTML {
+			/TemplateName { SecondPage }
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/Photo {
+		/Image {
+			/ImageName AROSA.gif
+		}
+	}
+	
+	/Text1 {
+		{/Lookup Question2 }
+		"<small><i>(picture from SharedPageLayout/SecondPage.any)</i></small>"
+	}
+	
+	/Question2 {
+		/String {
+			/Default "This is definitely not Zermatt"
+		}
+	}
+
+	#---- Renderer Specification for Next Button -----------------------------
+	/NextPage {
+		/Form {
+			/Method "GET"
+			/Action "GoNextPage"
+			/Template {
+				"[[#wd Lookup NextButton ]]"
+			}
+		}
+	}
+
+	/NextButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/String {
+					/Default "Next Page"
+				}
+			}
+		}
+	}
+	#---- Renderer Specification for Previous Button -------------------------
+	/PrevPage {
+		/Form {
+			/Method "GET"
+			/Action "GoPrevPage"
+			/Template {
+				"[[#wd Lookup PrevButton ]]"
+			}
+		}
+	}
+	
+	/PrevButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/String {
+					/Default "Previous Page"
+				}
+			}
+		}
+	}
+
+}

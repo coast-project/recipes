@@ -1,0 +1,48 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # AnotherPage: configuration file for the AnotherPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "This is another Page"
+
+	/PageLayout {
+		/HTML {
+			/TemplateName { AnotherPage }
+		}
+	}
+
+	#---- Parts ----------------------------------------------------------------    
+	/SpecialLayout {
+		/Form {
+			/Method "GET"
+			/Action	"Home"
+			/Template {
+				"<center><small><i>"
+				"[[#wd Lookup AnotherText ]]"
+				"</i></small></center>"
+			}
+		}
+	}
+	
+	/AnotherText {
+		/String {
+			/Default "(This page is built without using SharedPageLayout.html but with its own slot /PageLayout)"	
+		}
+	}
+
+	/FirstLink {
+		/Link {
+			/Action "GoFirstPage"
+			/Label {
+				/String {
+					/Default "Go to First Page"
+				}
+			}
+		}
+    }
+}

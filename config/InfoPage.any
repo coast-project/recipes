@@ -1,0 +1,37 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # InfoPage: configuration file for the InfoPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "This is the Info Page"
+
+	/Body {
+		/Form {
+			/Method "GET"
+			/Action	"GoFirstPage"
+			/Template {
+				"<center><h2>Hello - This is my <blink>Info</blink> Page</h2><br>"
+				"[[#wd Lookup GoBackButton ]]"
+				"</center>"
+			}
+		}
+	}
+	
+	#---- Parts ----------------------------------------------------------------
+
+	/GoBackButton {
+		/Button {
+			/Name	"Submit"
+			/Label {
+				/Type String
+				/Default "Return to FirstPage"
+			}
+		}
+    }
+
+}

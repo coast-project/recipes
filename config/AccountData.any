@@ -1,0 +1,31 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # AccountData: Input file for the Table Renderer
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+	{
+		/KTOST	"22222"
+		/KTOBEZ	"Ferien"
+		/WHRC	"ECU"
+	}
+	{
+		/KTOST	"3333333"
+		/KTOBEZ	"Job "
+		/WHRC	"CHF"
+	}
+	{
+		/KTOST	"4444"
+		/KTOBEZ	"wife and darling"
+		/WHRC	"Lire"
+	}
+	{
+		/KTOST	"555555.66666666666.7"
+		/KTOBEZ	"queen"
+		/WHRC	"thousand of pounds"
+	}
+}

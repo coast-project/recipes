@@ -1,0 +1,69 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # ThirdPage: configuration file for the ThirdPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Third Page of WebDisplay (from ThirdPage.any)"
+
+	/Body {
+		/HTML {
+			/TemplateName { ThirdPage }
+		}
+	}
+	
+	#---- Parts --------------------------------------------------------------
+	/Question1 {
+		/String {
+			/Default "This is Zermatt again ..."
+		}
+	}
+	
+	#---- Renderer Specification for Next Button -----------------------------
+	/NextPage {
+		/Form {
+			/Method "GET"
+			/Action "GoNextPage"
+			/Template {
+				"[[#wd Lookup NextButton ]]"
+			}
+		}
+	}
+	
+	/NextButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/String {
+					/Default "Next Page"
+				}
+			}
+		}
+	}
+	#---- Renderer Specification for Previous Button -------------------------
+	/PrevPage {
+		/Form {
+			/Method "GET"
+			/Action "GoPrevPage"
+			/Template {
+				"[[#wd Lookup PrevButton ]]"
+			}
+		}
+	}
+	
+	/PrevButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/String {
+					/Default "Previous Page"
+				}
+			}
+		}
+	}
+
+}
