@@ -1,0 +1,115 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2000 itopia
+# All Rights Reserved
+#
+# Role: Role configuration file
+#--------------------------------------------------------------------
+{
+    /Version    "$Id$"
+
+    /Name "Role.any"
+
+	/Role			0
+	/Default		0
+	/GuestRole		0
+	/CustomerRole	1
+	/AdminRole		2
+
+	#---- Action Map -------------------------------------------------------------
+
+    /Map {
+		# the following actions are available for all pages and Examples with role 'Role'
+        /Default {
+            /Home           	"IntroPage"
+            /GoRecipeListPage 	"RecipeListPage"
+			/GoFirstPage 		"FirstPage"      #to start Example1
+			/GoExample2     	"Ex2Page"		 #to start Example2
+			/Login				"Ex3Page"		 #to start Example3
+			/GoExample4			"Ex4Page"		 #to start Example4
+            /GoRecipesPage  	"RecipesPage"    #to get the recipes
+			/GoTips 	 		"TipsPage"		 #for some Tips and Hints
+			/GoDoku		 		"DokuPage"		 #to view the WD-Doku only
+			/GoRenderTest		"RenderTest"	 #to Renderers Testpage
+			/GoActionTest		"ActionTest"	 #to Actions Testpage
+			/GoViewingFiles		"ViewPage"		 #for viewing the config files within the browser
+		 }
+
+		# specific action/page maps ------------------------------------
+
+		# For Start of Demo Application
+		#--------------------------
+		/IntroPage {
+			/GoRecipeListPage "RecipeListPage"
+		}
+
+		/RecipeListPage {
+		}
+
+		/RecipesPage {
+			/GoRecipeListPage "RecipeListPage"  #for all Examples
+		}
+
+		/TipsPage {
+		}
+
+		# For Example 1
+		#--------------
+		/FirstPage {
+			/GoNextPage     "SecondPage"
+			/GoInfoPage 	"InfoPage"
+			/GoAnotherPage  "AnotherPage"
+		}
+		/SecondPage {
+			/GoNextPage      "ThirdPage"
+			/GoPrevPage      "FirstPage"
+		}
+		/ThirdPage {
+			/GoPrevPage      "SecondPage"
+			/GoNextPage      "FirstPage"
+		}
+		/AnotherPage {
+			/GoToInfoPage 	"InfoPage"
+			/GoFirstPage    "FirstPage"
+		}
+		/InfoPage {
+			/NextStep		"FirstPage"
+			/GoFirstPage 	"FirstPage"
+		}
+
+		# For Example 2
+		#--------------
+		/Ex2Page {
+			/MyFormAction		"ShowInputPage"
+			/MyCheckFormAction  "ConfirmPage"
+			/GoFirstPage 		"FirstPage"
+			/GoShowInputPage 	"ShowInputPage"
+			/GoConfirmPage		"ConfirmPage"
+		}
+
+		/ConfirmPage {
+			/InputOk			"Ex2Page"		#"ShowInputPage"
+			/InputNok			"Ex2Page"		#"ShowInputPage"
+			/GoFirstPage 		"FirstPage"
+			/GoExample2     	"Ex2Page"
+			/GoShowInputPage 	"ShowInputPage"
+		}
+
+		/ShowInputPage {
+			/GoBack 			"Ex2Page"
+			/GoFirstPage 		"FirstPage"
+			/GoExample2     	"Ex2Page"
+			/GoConfirmPage		"ConfirmPage"
+		}
+
+		# For Example 3 (see as well GuestRole.any and CustomerRole.any)
+		#---------------------------------------------------------------
+
+		# For Example 4
+		#--------------
+		/Ex4Page {
+		}
+    } #map end
+
+    /SessionTimeout  	600 					# timeout in seconds
+	#---- Parts ----------------------------------------------------------------
+}
