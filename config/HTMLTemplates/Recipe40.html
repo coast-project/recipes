@@ -1,0 +1,68 @@
+<center><h2>[[#wd Lookup TitleRecipe40 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>In fact: WebDisplay is allready a http-server! Youd don't need any
+Apache, Internet Information Server or other http-server. This example show you
+the different parameters for configuring a http(s)-server.
+<h3>Preconditions</h3>
+<ul>
+	<li>You have a well configured base WebDisplay system.</li>
+	<li>You have like to make some changes at the system.</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define on which ports the server is listening.<br>
+		Server.any:<br>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ListenerPool {					# this server listens on 2 ports"
+		"	HTTP HTTPS"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+	<li>Define the port number and security-files. For the https service you have
+		to define a certification and a key file. You can produce them by using the
+		tools from OpenSSL (<a href="http://www.openssl.org" target=_blank>http://www.openssl.org</a>).<br>
+		Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/HTTP {      # defines http listener"
+		"	/Port 8895"
+		"}"
+		"/HTTPS {     # defines https listener"
+		"	/Port 8896"
+		"	#--- SSL configuration needs certificate and private key files"
+		"	/CertFile  &#34;recipes_cert.pem&#34;"
+		"	/KeyFile   &#34;recipes_key.pem&#34;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>For resolving a valid BaseAddress you have to enter the HostName.<br>
+		Server.any:<br>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/UseBaseURL   0      # switches use of base URL on/off"
+		"/HostName     &#34;marvin.itopia.loc&#34;"
+		"/BaseAddress {"
+		"	/Condition {"
+		"		/ContextCondition { header.HTTPS }"
+		"		/True   { &#34;https://&#34; {/Lookup HostName} &#34;:&#34; {/Lookup HTTPS.Port} &#34;/&#34; }"
+		"		/False  { &#34;http://&#34; {/Lookup HostName} &#34;:&#34; {/Lookup HTTP.Port} &#34;/&#34; }"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe22 ]]: [[#wd Lookup TitleRecipe22 ]]</li>
+</ul>
