@@ -1,0 +1,169 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # RecipesPage: configuration file for the RecipesPage page
+ #
+ # $Id$
+
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle {/Lookup WhichRecipe }
+
+	/PageLayout {
+		/HTML {
+			/TemplateName { SharedRecipesLayout }
+		}
+	}
+
+	/Body {
+		/Form {
+			/Method "GET"
+			/Action	"Home"
+			/Layout {
+				/Lookup ConcreteRecipe
+			}			
+		}
+	}
+
+
+	#---- Parts --------------------------------------------------------------	
+	/RecipesWelcome {
+		/Type HTML
+		/Data {
+			/Template {
+				"<table width=100%>"
+					"<tr>"
+						"<td align=center>[[#wd Lookup RecipesList ]]</td>"
+						"<td align=center>[[#wd Lookup AppropriateExample ]]</td>"
+					"</tr>"
+				"</table>"
+			}
+		}
+	}
+
+	/RecipesList {
+		/Form {
+			/Method "GET"
+			/Action	"GoRecipeListPage"
+			/Layout {
+				/Lookup RecipesListButton
+			}
+		}
+	}
+
+	/RecipesListButton {
+		/Button {
+			/Name "submit"
+			/Label { " Go to the list of all recipes " }
+		}
+	}	
+		
+	/Example1 {
+		/Form {
+			/Method "GET"
+			/Action	"GoFirstPage"
+			/Layout {
+				/Lookup AppliButton1
+			}
+		}
+	}
+
+	/AppliButton1 {
+		/Button {
+			/Name "submit"
+			/Label { "       Go to the Example  1     " }            
+		}
+	}	
+	
+	/Example2 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample2"
+			/Layout {
+				/Lookup  AppliButton2
+			}
+		}
+	}
+
+	/AppliButton2 {
+		/Button {
+			/Name "submit"
+			/Label { "       Go to the Example  2     "	}            
+		}
+	}		
+	/Example3 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample3"
+			/Layout {
+				/Lookup AppliButton3
+			}
+		}
+	}
+
+	/AppliButton3 {
+		/Button {
+			/Name "submit"
+			/Label { "       Go to the Example  3     "	}            
+		}
+	}
+	
+	/Example4 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample4"
+			/Layout {
+				/Lookup AppliButton4
+			}
+		}
+	}
+
+	/AppliButton4 {
+		/Button {
+			/Name "submit"
+			/Label { "       Go to the Example  4     " }            
+		}
+	}	
+		
+	/ConcreteRecipe {
+		/HTML {
+			/TemplateName { /Lookup WhichRecipe }
+		}
+	}	
+	
+	/AppropriateExample {
+		/Switch {
+			/ContextLookupName "WhichRecipe"
+			/Case {
+				/Recipe1  { /Lookup Example1 }
+				/Recipe2  { /Lookup Example1 }
+				/Recipe3  { /Lookup Example1 }
+				/Recipe4  { /Lookup Example1 }
+				/Recipe5  ""
+				/Recipe6  { /Lookup Example2 }
+				/Recipe7  { /Lookup Example2 }
+				/Recipe8  { /Lookup Example3 }
+				/Recipe9  { /Lookup Example3 }
+				/Recipe10 { /Lookup Example2 }
+				/Recipe11 { /Lookup Example3 }
+				/Recipe12 ""
+				/Recipe13 ""
+				/Recipe14 ""
+				/Recipe20 { /Lookup Example4 }
+				/Recipe21 { /Lookup Example4 }
+				/Recipe22 { /Lookup Example4 }
+				/Recipe23 ""
+				/Recipe24 { /Lookup Example4 }
+				/Recipe25 { /Lookup Example4 }
+				/Recipe26 { /Lookup Example4 }
+				/Recipe27 { /Lookup Example4 }
+				/Recipe28 { /Lookup Example4 }
+				/Recipe29 { /Lookup Example4 }
+				/Recipe30 { /Lookup Example4 }
+				/Recipe40 ""
+			}
+		}
+	}	
+}

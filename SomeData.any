@@ -1,0 +1,24 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # SomeData: Input file for the Action Test
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+  /Text {
+    /First Chapter {
+      /Paragraph1 "As you can see this file has been stored as an Anything."
+      /Paragraph2 "Now it is read into the sessionstore."
+    }
+    /Second Chapter {
+      /Paragraph1 "Instead of this action you can test any existing action."
+    }
+  }
+  /Data {
+    /somedata { 12 43 56 90 34 }
+    /anydata  { 90 98 54 22 44 }
+  }
+}
