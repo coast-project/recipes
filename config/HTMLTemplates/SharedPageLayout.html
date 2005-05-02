@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--==================================================================
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # SharedPageLayout.html: overall page layout
+ #
+ # $Id$
+ #==================================================================-->
+<html>
+	<head>
+		[[#wd BaseURLRenderer ]]
+		<title>
+			[[#wd Lookup PageTitle ]]
+		</title>
+		<link rel="stylesheet" type="text/css" href="[[#wd Lookup StylePath ]]Formats.css">
+		<style type="text/css">
+		<!--
+		.... Extra-Style-Sheet-Angaben ...
+		//-->
+		</style>
+	</head>
+
+	<body>
+		<!-- this is comment: 
+			Lookup means ContextLookupRenderer (see Aliases in config.any) 
+			and equals to [[#wd ContextLookupRenderer PageSpecificWelcomeSection ]]
+		 -->
+		[[#wd Lookup NewHeader ]]
+		 
+		[[#wd Lookup PageSpecificWelcomeSection ]]
+		
+		[[#wd Lookup Header ]]
+		[[#wd Lookup Body ]]
+		[[#wd Lookup Footer ]]
+	</body>
+</html>
+		
