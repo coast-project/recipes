@@ -1,0 +1,59 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2000 itopia
+# All Rights Reserved
+#
+# $RCSfile$: comment purpose of file
+#
+#--------------------------------------------------------------------
+{
+	/Version	"$Id$"
+
+    /PageTitle "Renderer Test"
+
+	/Body {
+		/HTML {
+			/TemplateName { RenderTest }
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/Header {
+	}
+	
+	/PageSpecificWelcomeSection {
+	}
+	
+	# definition of parts that are used for this page
+	
+	/EvaluateButton {
+		/Button {
+			/Name	"submit"
+			/Label {
+				/Type		String
+				/Default	"Evaluate"
+			}
+		}
+	}
+
+	/ClearButton {
+		/ResetButtonRenderer {
+			/Name	"submit"
+			/Label {
+				/Type		String
+				/Default	"Cancel"
+			}
+		}
+	}
+	
+	# -------------- configuration for action -----------------------
+	# (may be placed here since the action is only used on this page)
+		
+	/EvalExpression {
+		{
+			/EvalExpression {
+				/RendererSlot	"fields.Renderer"
+				/StateSlot	"fields.Environment"
+			}
+		}
+	}
+}

@@ -1,0 +1,124 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # RecipeListPage: configuration file for the RecipeListPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Overview of Recipes"
+
+	/Body {
+		/Form {
+			/Method "GET"
+			/Action	"GoRecipesPage"
+			/TemplateName { RecipeListPage }
+		}
+	}
+
+
+	#---- Parts --------------------------------------------------------------
+	/Header {
+	}	
+	
+	/PageSpecificWelcomeSection {
+		/HTML {
+			/Template {
+				"<center><table>"
+					"<tr>"
+						"<td align=center width=25%>"
+							"[[#wd Lookup StartAppli1 ]]"
+						"</td>"
+						"<td align=center width=25%>"
+							"[[#wd Lookup StartAppli2 ]]"
+						"</td>"
+						"<td align=center width=25%>"
+							"[[#wd Lookup StartAppli3 ]]"
+						"</td>"
+						"<td align=center width=25%>"
+							"[[#wd Lookup StartAppli4 ]]"
+						"</td>"
+					"</tr>"
+				"</table></center>"
+			}
+		}
+	}
+	
+	/StartAppli1 {
+		/Form {
+			/Method "GET"
+			/Action	"GoFirstPage"
+			/Layout {
+				/Lookup StartButtonEx1
+			}				
+		}	
+	}
+	/StartButtonEx1 {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "Example 1"
+			}
+		}
+	}
+		
+	/StartAppli2 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample2"
+			/Layout {
+				/Lookup StartButtonEx2
+			}				
+		}	
+	}
+	/StartButtonEx2 {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "Example 2"
+			}
+		}
+	}
+		
+	/StartAppli3 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample3"
+			/Layout {
+				/Lookup StartButtonEx3
+			}				
+		}	
+	}
+	/StartButtonEx3 {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "Example 3"
+			}
+		}
+	}	
+	
+	/StartAppli4 {
+		/Form {
+			/Method "GET"
+			/Action	"GoExample4"
+			/Layout {
+				/Lookup StartButtonEx4
+			}				
+		}	
+	}
+	/StartButtonEx4 {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "Example 4"
+			}
+		}
+	}			
+}

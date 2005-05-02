@@ -1,0 +1,63 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # DokuPage: configuration file for the DokuPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "WebDisplay Documentation"
+
+	/Body {
+		/Form {
+			/Method "GET"
+			/Action	"GoRecipeListPage"
+			/TemplateName { WDV100 }
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/Header {
+	}
+	
+	/PageSpecificWelcomeSection {
+	}
+
+	/OutsideView {
+		/Image {
+			/ImageName "OutsideView.GIF"
+			/Options {
+				"alt=OutsideView.GIF (10510 Byte)" "WIDTH=1039" "HEIGHT=719"
+			}			
+		}
+	}
+	
+	/InternalArch {
+		/Image {
+			/ImageName "InternalArch.GIF"
+			/Options {
+				"alt=InternalArch.GIF (27840 Byte)" "WIDTH=1039" "HEIGHT=719"
+			}			
+		}
+	}	
+	
+	/InitialRequest {
+		/Image {
+			/ImageName "InitialRequest.GIF"
+			/Options {
+				"alt=InitialRequest.GIF (10495 Byte)" "WIDTH=1039" "HEIGHT=719"
+			}			
+		}
+	}
+	
+	/NormalRequest {
+		/Image {
+			/ImageName "NormalRequest.GIF"
+			/Options {
+				"alt=NormalRequest.GIF (11457 Byte)" "WIDTH=1039" "HEIGHT=719"
+			}
+		}
+	}
+}
