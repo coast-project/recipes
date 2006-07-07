@@ -1,0 +1,58 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # ShowWhichUsersPage: configuration file for the ShowWhichUsersPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Example 3 Page of WebDisplay (text from ShowWhichUsersPage.any)"
+	
+	/Body {
+		/Form {
+			/Method "POST"
+			/Action	"Logout"
+			/Template {
+				"<center><h2>Hello Dear <blink>[[#wd Lookup UserName ]]</blink></h2>"
+				"<p>Actual Role:   [[#wd Lookup MyRole ]]"
+				"<p>Dynamic Text:  [[#wd Lookup DynamicText ]]&nbsp;<i>( <=this is for recipe 26)</i>"
+				"<br><br><p>[[#wd Lookup SubmitButton ]]</center>"
+			}
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>This is the PageSpecificWelcomeSection <small><i>(text from ShowWhichUsersPage.any)</i></small></td>"
+					"<td align=right width=33%>&#160;</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+
+	/SubmitButton {
+		/Button {
+			/Name 	"submit"
+			/Label {
+				/Type String
+				/Data {
+					/Default "    Back    "
+				}
+			}
+		}
+	}
+
+}

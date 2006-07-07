@@ -1,0 +1,94 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # ConfirmPage: configuration file for the ConfirmPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Example 2 Page of WebDisplay (text from ConfirmPage.any)"
+
+	/Body {
+		/HTML {
+			/Template {
+				"[[#wd Lookup ConfirmationForm ]]"
+			}
+		}
+	}
+
+
+	#---- Parts --------------------------------------------------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr><td>" {/Lookup NavigationBar } "</td></tr>"
+			"</table>"
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>"
+						"Above is our simple navigation bar <small><i>(see " {/Lookup Recipe10 } ")</i></small><br>"
+						"This is the PageSpecificWelcomeSection <small><i>(text from ConfirmPage.any)</i></small>"
+					"</td>"
+					"<td align=right width=33%>&#160;</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+	
+	/ConfirmationForm {
+		/Form {
+			/Method "GET"
+			/Action "MyConfirmationAction"
+			/Template {
+				"<center>"
+				"<table><th>You have entered:</th></table><p>"
+				"<table border=1>"
+				"<tr><td width=50%>My first field: </td>"
+				"<td width=50%>[[#wd Lookup { /ContextLookupName MyFirstField } ]]</td></tr>"
+				"<tr><td>My second field: </td>"
+				"<td>[[#wd Lookup { /ContextLookupName MySecondField } ]]</td></tr></table>"
+				"<p>[[#wd Lookup OkButtonRenderer ]]   [[#wd Lookup CancelButtonRenderer ]]"
+				"</center>"
+			}
+		}
+	}
+	
+	/OkButtonRenderer {
+		/Button {
+			/Name "OkButton"
+			/Label {
+				/String {
+					/Default "I confirm"
+				}
+			}
+		}
+	}
+	
+	/CancelButtonRenderer {
+		/Button {
+			/Name "CancelButton"
+			/Label {
+				/String {
+					/Default "Cancel"
+				}
+			}
+		}
+	}
+	
+	/ConfirmPagePage {
+		/String {
+			/Default "Confirmation Page"
+		}
+	}
+	
+}

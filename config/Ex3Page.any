@@ -1,0 +1,90 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # Ex3Page: configuration file for the Ex3Page page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Example 3 Page of WebDisplay (text from Ex3Page.any)"
+	
+	/Body {
+		/Form {
+			/Method "POST"
+			/Action	"MyDoCheckPassword"
+			/TemplateName "Ex3Page"
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>This is the PageSpecificWelcomeSection <small><i>(text from Ex3Page.any)</i></small></td>"
+					"<td align=right width=33%>&#160;</td>"
+				"</tr>"
+				"<tr>"
+					"<td align=left>"
+						{/Lookup RecipesListPage } "&nbsp;&nbsp;&nbsp;&nbsp;" {/Lookup LogoutLink }
+					"</td>"
+					"<td align=center>"
+						"<b>Example 3</b><br>Recipes 8, 9 and 11<br>"
+					"</td>"
+					"<td align=right>&#160;</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+
+	/NameField {
+		/Text {
+			/Name 		"resultLoginName"
+			/Value		"yourName"
+			/Size		16
+		}
+	}
+
+	/PasswordField {
+		/Text {
+			/Name 		"resultPassword"
+			/Value		"password"
+			/Unreadable	1
+			/Size		16
+		}
+	}
+
+	/SubmitButton {
+		/Button {
+			/Name 	"submit"
+			/Label {
+				/String {
+					/Default "   Login   "
+				}
+			}
+		}
+	}
+
+	/TimeoutLogin {
+		/Switch {
+			/ContextLookupName query.action
+			/Case		{ 
+				/Login	{ "<blink><h3>Attention</h3></blink><p>You see this page because you"
+						" exceed the <tt>SessionTimeout</tt> (default 60 seconds) set in Role.any"
+						" and this is the default login page at session timeout. For more details"
+						" have a look at "{/Lookup Recipe9 }", "{/Lookup TitleRecipe9 }"." }
+			}
+			/Default	{ " " }
+		}
+	}
+}

@@ -1,0 +1,64 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # IntroPage: configuration file for the IntroPage page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Introduction to WebDisplay"
+
+	/Body {
+		/Form {
+			/Method "GET"
+			/Action	"GoRecipeListPage"
+			/TemplateName { IntroPage }
+		}
+	}
+
+
+	#---- Parts --------------------------------------------------------------
+	/Header {
+	}
+	
+	/PageSpecificWelcomeSection {
+		"<table>"
+			"<tr>"
+				"<td ALIGN=center width=70%>"
+					{/Image {
+						/ImageName somelogo_big.gif
+						/Options {
+							"width=540" "alt='somelogo'"
+						}
+					}}
+				"</td>"
+				"<td ALIGN=right width=30%>"
+					{/Lookup Start }
+				"</td>"
+			"</tr>"
+		"</table>"
+	}
+
+	/Start {
+		/Form {
+			/Method "GET"
+			/Action	"GoRecipeListPage"
+			/Template {
+				"[[#wd Lookup StartButton ]]"
+			}				
+		}	
+	}
+
+
+	/StartButton {
+		/Button {
+			/Name "submit"
+			/Label {
+				/Type String
+				/Default "  Start now  "
+			}
+		}
+	}	
+}

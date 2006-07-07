@@ -1,0 +1,121 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # Ex2Page: configuration file for the Ex2Page page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Example 2 Page of WebDisplay (text from Ex2Page.any)"
+	
+	/Body {
+		/HTML {
+			/Template {
+				"[[#wd HTML { /TemplateName { Ex2Page } } ]]"
+#				"[[#wd Lookup Ex2PageIn ]]"
+				"<table border width=66%>"
+				"<tr>"
+					"<td align=left valign=bottom width=33%><br>[[#wd Lookup MyForm ]]</td>"
+					"<td align=left valign=bottom width=33%><br>[[#wd Lookup MyCheckForm ]]</td>"
+				"</tr>"
+				"<tr>"
+					"<td align=center height=80><small><i>(Form- and FieldRenderer in Ex2Page.any <br> see [[#wd Lookup Recipe6 ]])</i></small></td>"
+					"<td align=center height=80><small><i>(Form- and FieldRenderer in Ex2Page.any <br> see [[#wd Lookup Recipe7 ]])</i></small></td>"
+				"</tr><p></table><p>"	
+			}
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr><td width=100%>" {/Lookup NavigationBar } "</td></tr>"
+			"</table>"
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>"
+						"Above is our simple navigation bar <small><i>(see " {/Lookup Recipe10 } ")</i></small><br>"
+						"This is the PageSpecificWelcomeSection <small><i>(text from Ex2Page.any)</i></small>"
+					"</td>"
+					"<td align=right width=33%>&#160;</td>"
+				"</tr>"
+				"<tr>"
+					"<td align=left>"
+						{/Lookup RecipesListPage } "&nbsp;&nbsp;&nbsp;&nbsp;" {/Lookup LogoutLink }
+					"</td>"
+					"<td align=center>"
+						"<b>Example 2</b><br>Recipes 6, 7 and 10<br>"
+					"</td>"
+					"<td align=right>&#160;</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+	
+	/MyForm {
+		/Form {
+			/Method "GET"
+			/Action "MyFormAction"
+			/Template {
+				"<p>My first field: [[#wd Lookup MyFirstFieldRenderer ]]"
+				"<p>My second field: [[#wd Lookup MySecondFieldRenderer ]]"
+				"<p>[[#wd Lookup MyButtonRenderer ]]"
+			}
+		}
+	}
+
+	/MyButtonRenderer {
+		/Button {
+			/Name "MyButton"
+			/Label {
+				/String {
+					/Default "Press Me"
+				}
+			}
+		}
+	}
+
+	/MyFirstFieldRenderer {
+		/Text {
+			/Name "MyFirstField"
+			/Value "Default"
+			/Size 32
+		}
+	}
+	
+	/MySecondFieldRenderer {
+		/CheckBox {
+			/Name  "MySecondField"
+			/Value "on"
+		}
+	}
+
+	/MyCheckForm {
+		/Form {
+			/Method "GET"
+			/Action "MyCheckFormAction"
+			/Template {
+				"<p>My first field: [[#wd Lookup MyFirstFieldRenderer ]]"
+				"<p>My second field: [[#wd Lookup MySecondFieldRenderer ]]"
+				"<p>[[#wd Lookup MyButtonRenderer ]]"
+			}
+		}
+	}
+
+	/Example2Page {
+		/String {
+			/Default "Example 2"			
+		}
+	}	
+}
