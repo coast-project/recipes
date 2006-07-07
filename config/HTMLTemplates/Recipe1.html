@@ -1,0 +1,158 @@
+<center><h2>[[#wd Lookup TitleRecipe1 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>A new page is incorporated into an existing WebDisplay project, using an
+already defined superpage by the following steps:
+<ul>
+	<li>Add the new page name to the config.any slot /Pages (<i>MyNewPage</i>).</li>
+	<li>Create a configuration file for the new page (<i>MyNewPage.any</i>).</li>
+	<li>Update the navigation maps in the configuration of roles that are allowed
+		to access the new page. (<i>/Map in Role.any</i>)</li>
+</ul>
+<h3>Preconditions</h3>
+<ol>
+	<li>The config.any file exists and contains a valid WebDisplay application
+		configuration.</li>
+	<li>There exists an appropriate and valid "super page" with a corresponding
+configuration file "SuperPage.any" (e.g. Page.any for pages instantiated
+from class Page)</li>
+	<li>There is already a HTML template file "SharedPageTemplate.html" file that
+defines the general layout of our new page. For the example the SharedPageTemplate.html
+looks like this:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;html>"
+		"	&lt;head>"
+		"		&lt;title>"
+		"			[[&#35;wd Lookup PageTitle &#93;&#93;"
+		"		&lt;/title>"
+		"	&lt;/head>"
+		"	&lt;body background= imagedir/backgrnd.gif >"
+		"		[[&#35;wd Lookup Header &#93;&#93;"
+		"		[[&#35;wd Lookup Body &#93;&#93;"
+		"		[[&#35;wd Lookup Footer &#93;&#93;"
+		"	&lt;/body>"
+		"&lt;/html>"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<i><font size=-1><b>Explanation:</b> This HTML template file defines several
+places for WebDisplay to fill in. Each of these places is specified using
+the macro-extension mechanism with a pair of double square brackets ([[&#35;wd
+... ]]). The &#35;wd specifies this as a WebDisplay macro. The rest of the
+macro is a Renderer specification. This can be given literally using the
+renderer name (Image) and an Anything defining the renderers parameters.
+Note that Lookup stands short for ContextLookupRenderer, which in turn looks
+in the context for a renderer specification with the given name (e.g. Footer).
+These renderer specifications are to be given by the derived pages configuration
+files.</font></i>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Add the page name to the appropriate slot in the config.any file's /Pages
+slot. This structure allows you to define multiple pages to be derived
+from a single C++ class derived from class Page. These pages share the
+same program code but differ in their configuration. In addition the configurations
+of such derived pages are also "inherited". That allows you to specify
+new pages by just giving the differences in configuration regarding the
+"super page". In our example the new page named InfoPage is given as an
+instance of the Page (C++-)class:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/Pages { # define the hierarchy of pages in the application"
+		"		/Page { # define subordinate configurations"
+		"			&#34;InfoPage&#34; #there may be some more derived pages here"
+		"		}"
+		"}"
+	}
+}]]
+</pre></li>
+	<li>Create a new configuration file for the page added (named InfoPage.any).
+Define all the page dependend Renderer specifications that are used by
+the HTML template used for your page (SharedPageTemplate.html in the example).
+Because page configurations are "inherited" you might rely on renderer
+configurations already given by the "super page". For example the PageTitle
+and Body are specific to InfoPage, whereas the other Renderer specifications
+(Header, Footer) are taken from Page.any. The resulting file InfoPage.any
+might look like:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/PageTitle &#34;This is the Info Page&#34;"
+		"	/Body {"
+		"		/Form {"
+		"			/Template {"
+		"				&#34;Hello - This is my InfoPage&#34;"
+		"				&#34;[[&#35;wd Lookup GoBackButton &#93;&#93;&#34;"
+		"			}"
+		"			/Method &#34;GET&#34;"
+		"			/Action &#34;GoFirstPage&#34;"
+		"		}"
+		"	}"
+		" "
+		"#---- Parts ----------------------------------------------------------------"
+		" "
+		"	/GoBackButton {"
+		"		/Button {"
+		"			/Submit"
+		"			/Label {"
+		"				/String {"
+		"					/Default &#34;Return to FirstPage&#34;"
+		"				}"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre></li>
+	<li>Update the role specific navigation maps for the new page in the configuration
+files of each role you want to grant access to your page. The navigation
+maps are normally located in a role's config file "Rolename.any". The navigation
+map specifies two aspects:
+	<ol>
+		<li>The action name that will result in retrieving the new page from a special page<br>
+			(<tt>/FirstPage {<br>&nbsp;&nbsp;&nbsp;&nbsp;/GoInfoPage "InfoPage"<br>}</tt>)</li>
+		<li>The valid (non-default) actions for the role, once your new page was reached
+			(<tt>/InfoPage {<br>&nbsp;&nbsp;&nbsp;&nbsp;/GoFirstPage "FirstPage"<br>}</tt>).</li>
+	</ol>
+	<p><i><font size=-1><b>Note:</b> The actions given here are simple names specifying
+config entries and the resulting new pages' names. For actions that have
+side effects and more functionality see another Receipe.</font></i>
+	<p>For example Role.any contains:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Map {"
+		"	# the following actions are available for all pages&nbsp;"
+		"	/Default {"
+		"		/Home &#34;IntroPage&#34;"
+		"	}"
+		" "
+		"	/FirstPage {"
+		"		/GoNextPage     &#34;SecondPage&#34;"
+		"		/GoInfoPage     &#34;InfoPage&#34;"
+		"		/GoAnotherPage &#34;AnotherPage&#34;"
+		"	 }"
+		" "
+		"	/InfoPage {"
+		"		# additional actions and their resulting pages"
+		"		/NextStep        &#34;FirstPage&#34;"
+		"		/GoFirstPage    &#34;FirstPage&#34;"
+		"	 }"
+		"	 #... other pages navigation maps"
+		"}"
+	}
+}]]
+</pre></li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe30 ]]: [[#wd Lookup TitleRecipe30 ]]</li>
+	<li>[[#wd Lookup Recipe13 ]]: [[#wd Lookup TitleRecipe13 ]]</li>
+	<li>[[#wd Lookup Recipe5 ]]: [[#wd Lookup TitleRecipe5 ]]</li>
+</ul>

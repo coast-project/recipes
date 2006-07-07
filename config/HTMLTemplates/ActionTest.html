@@ -1,0 +1,59 @@
+<!--==================================================================
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # ActionTest.html: overall page layout
+ #
+ # $Id$
+ #==================================================================-->
+<center><h2>Action's Test page</h2></center>
+<p>This page give's you the possibility to test any action-function you like.
+Just enter the Anything and the Action you like to see which sideeffect with the
+appropriate store happen. For this just press the Evaluate button.
+You can also change or define your own TmpStore, Page and Role definitions.
+The action which is actual in the field is for example and read in the data from
+the file SomeData.any and put it into sessionstore.
+
+<form method="post" action="[[#wd URL {/Action EvalAction} ]]" name="EvalForm">
+<table border=0 width="100%">
+	<tr> 
+		<td colspan=3><br><h4>Additional State in TmpStore</h4></td>
+	</tr><tr>
+		<td colspan=3><textarea name="fld_Environment" rows="5" cols="80">[[#wd Lookup { fields.Environment "{ #Environment \n}" } ]]</textarea></td>
+	</tr><tr>
+		<td><br><h4>Page:</h4>[[#wd Lookup PageBox ]]</td>
+		<td></td>
+		<td><br><h4>Role:</h4>[[#wd Lookup RoleBox ]]</td>
+	</tr><tr>
+		<td colspan=3><br><h4>Action</h4>[[#wd Lookup ActionField ]]</td>
+	</tr><tr>
+		<td colspan=3><br><h4>Action Expression</h4></td>
+	</tr><tr>
+		<td colspan=3><textarea name="fld_Action" rows="5" cols="80">[[#wd Lookup { fields.Action 
+			"{ #Action \nDoRead\n	/Read {\n		/Filename SomeData\n		/Slotname anyslot\n	}\n}" } ]]</textarea></td>
+	</tr><tr>
+		<td colspan=3><br>&nbsp;&nbsp;&nbsp;&nbsp;[[#wd Lookup EvaluateButton ]]&nbsp;&nbsp;&nbsp;&nbsp;
+		[[#wd Lookup ClearButton ]]</td>
+	</tr><tr>
+		<td colspan=3><hr></td>
+	</tr><tr>
+		<td colspan=3><br><h4>[[#wd Lookup { Actionreturn "Result of the action" } ]]</h4></td>
+	</tr><tr>
+        <td><br><h4>Stores before</h4></td>
+        <td><br><h4>Differences?</h4></td>
+        <td><br><h4>Stores after</h4></td>
+	</tr><tr bgcolor="#CfFFFF">
+		<td>tmp:<br><textarea name="fld_Tmpb" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Tmpb "<tmp before>" } } ]]</textarea></td>
+		<td align=center><br>[[#wd Lookup { TmpDiffer "NO" } ]]</td>
+		<td>tmp:<br><textarea name="fld_Tmpa" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Tmpa "<tmp after>" } } ]]</textarea></td>
+	</tr><tr bgcolor="#CfFFFF">
+		<td>request:<br><textarea name="fld_Requestb" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Requestb "<request before>" } } ]]</textarea></td>
+		<td align=center><br>[[#wd Lookup { RequestDiffer "NO" } ]]</td>
+		<td>request:<br><textarea name="fld_Requesta" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Requesta "<request after>" } } ]]</textarea></td>
+	</tr><tr bgcolor="#CfFFFF">
+		<td>session:<br><textarea name="fld_Sessionb" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Sessionb "<session before>" } } ]]</textarea></td>
+		<td align=center><br>[[#wd Lookup { SessionDiffer "NO" } ]]</td>
+		<td>session:<br><textarea name="fld_Sessiona" rows="3" cols="35">[[#wd HTMLEscapeRenderer { /Lookup { Sessiona "<session after>" } } ]]</textarea></td>
+	</tr>
+</table>
+</form>

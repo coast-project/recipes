@@ -1,0 +1,185 @@
+<center><h2>[[#wd Lookup TitleRecipe2 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Two existing (static) pages should be linked by using 
+a 'direct' Link. This is achieved by the following steps:
+<ol>
+	<li>Prepare configuration files for the two existing pages.</li>
+	<li>Add the new configured "WebDisplay-pages" to the main configuration in config.any</li>
+	<li>Add a LinkRenderer call to both page's HTML source</li>
+	<li>Specify the corresponding LinkRenderer arguments in both pages config files</li>
+	<li>Adjust the Action/Page navigation map for the roles you have (<i>Role.any</i>)</li>
+</ol>
+<h3>Preconditions</h3>
+<ol>
+	<li>The config.any file exists and contains a valid WebDisplay 
+		application configuration.</li>
+	<li>There are already two simple HTML files like these 
+			e.g. FirstPage.html:	
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {		
+		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+	}
+}]]
+</pre>
+			and	e.g. AnotherPage.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;center&gt;&lt;h1&gt;Welcome on the Another page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+	}
+}]]
+</pre>
+</ol>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Create a new configuration file for the corresponding HTML files. In our 
+example these are called FirstPage.any and AnotherPage.any. These configurations
+will connect WebDisplay's configuration with the already existing HTML files.
+<br>Content of file FirstPage.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/Body {"
+		"		/Form {"
+		"			/Method       &#34;GET&#34;"
+		"			/Action       &#34;GoToInfoPage&#34;"
+		"			/TemplateName &#34;FirstPage&#34;  #HTML filename"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+Content of file AnotherPage.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/Body {"
+		"		/HTML {"
+		"			/TemplateName  &#34;AnotherPage&#34;  #HTML filename"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+<p>
+<font size=-1><i><b>Note:</b> It is not necessary in general to create
+a configuration file for each content page you want to display.
+Using more active content allows you to generate a myriad
+of pages with a single configuration (and some kind of 
+more dynamic action). See other recipes.</i></font>
+
+	<li>Add the new configured "WebDisplay-pages" to the main configuration in config.any.
+This is done in section /Pages. The super-tag of our new pages will denote the 
+C++ class used for creating the Page objects.
+In our example these pages can be instances of base class Page.
+Therefore we add the two names "FirstPage" and "AnotherPage" to /Page
+in /Pages section in file Config.any as follows:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Pages {"
+		"	# subclasses for  &#34;Page&#34;"
+		"	/Page {"
+		"		&#34;FirstPage&#34;  &#34;AnotherPage&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	<li>Insert a macro call to a "LinkRenderer" into your HTML files. Now they become
+real HTML template files, that are to be interpreted by WebDisplay's
+HTMLTemplateRenderer. In this example we do it by using the 
+indirection mechanism provided by the ContextLookupRenderer (aliased to "Lookup").
+This results to the following content of FirstPage.html 
+and AnotherPage.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+		"&lt;!-- LinkRenderer in FirstPage.html --&gt;"
+		"[[&#35;wd Lookup AnotherLink &#93;&#93;"
+	}
+}]]
+</pre>
+New content of file AnotherPage.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;html&gt;"
+		"	&lt;head&gt;"
+		"		&lt;title&gt;"
+		"			[[&#35;wd ContextLookupRenderer PageTitle &#93;&#93;"
+		"		&lt;/title&gt;"
+		"	&lt;/head&gt;"
+		"	&lt;body&gt;"
+		"		[[&#35;wd Lookup SpecialLayout &#93;&#93;"
+		"		&lt;center&gt;&lt;h1&gt;Hello - This is my another Page&lt;/h1&gt;&lt;/center&gt;"
+		"		&lt;!-- LinkRenderer &#34;FirstLink&#34; specified in AnotherPage.any --&gt;"
+		"		[[&#35;wd Lookup FirstLink &#93;&#93;"
+		"	&lt;/body&gt;"
+		"&lt;/html&gt;"
+	}
+}]]
+</pre>
+	<li>Because we only refered to our new LinkRenderers in the HTML template files
+we need to add the concrete LinkRenderer specification somewhere. This is
+done in the configuration of the page that uses it. However, such
+configuration entries might be shared by exploiting common configuration ancestors
+for pages. In our example we define our two renderers FirstLink and AnotherLink
+in  file FirstPage.any and AnotherPage.any as follows:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"#---- inserted Renderer Specification in FirstPage.any ---------------------"
+		"/AnotherLink {"
+		"	/Link {"
+		"		/Action &#34;GoAnotherPage&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;I'm going to another Page&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+		"#---- inserted Renderer Specification in AnotherPage.any ---------------------"
+		"/FirstLink {"
+		"	/Link {"
+		"		/Action &#34;GoFirstPage&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Go to First Page&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	<li>Last but not least we need to add our newly defined actions
+with their resulting pages into the action-page navigation map of the
+roles used. If we only have one role, or want all our
+roles to access these two pages add the following to Role.any configuration.
+Assuming only a single role, this example implies that the action
+GoFirstPage and GoAnotherPage are valid regardles of the current page.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Map {"
+		"	# the following actions are available for all pages"
+		"	/Default {"
+		"		/Home           &#34;FirstPage&#34;"
+		"		/GoFirstPage    &#34;FirstPage&#34;     # action defined by link render with resulting page"
+		"		/GoAnotherPage  &#34;AnotherPage&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+</ol>
+<h3>Remarks</h3>
+<p>This example shows a very simple method to link two (static) HTML pages by configuration
+the files Config.any, FirstPage.any/html, AnotherPage.any/html, and Role.any. No additional C++
+code needs to be written for this example. 
+<h3>Glossary</h3>
+<p>ContextLookupRenderer, LinkRenderer                
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe3 ]]: [[#wd Lookup TitleRecipe3 ]]</li>
+</ul>

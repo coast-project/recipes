@@ -1,0 +1,210 @@
+<center><h2>[[#wd Lookup TitleRecipe24 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>In the most webapplications we need some customer responses.<br>
+This example shows you a simple way to create a input form to gather information 
+from customers by using the 'FormRenderer'.<br>
+The form tag is the most important element for creating HTML-Forms. All field 
+elements ('FieldRenderer' with type=text, type=submit etc.) have to be defined inside 
+a 'FormRenderer'. <br>
+A subclass of the Action class can then be used - by overwriting the DoAction 
+method - to handle the user input. The user input can be accessed through the Contexts 
+"Query" item, which itself contains a "fields" item storing all the fields and their values.
+<h3>Preconditions</h3>
+<ul>
+	<li>You need the Page - i.e. the respective Page configuration file - where
+		you want to use the Renderer.
+	</li>
+	<li>If you want to use any Renderer by an alias name be sure to include 
+		that name in the Renderers section of Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Renderers {"
+		"	/FormRenderer { Form }"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define a FormRenderer, which holds all the needed fields and launches the action, that
+		will handle the input. Include it in the Body part of the page, that is going to hold it.<br>
+		Sample:<bR>
+		The Renderer specification for a FormRenderer may look as follows:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/UserInputForm {       # name of specified renderer"
+		"	/Form {             # kind of renderer (aliasname)"
+		"		/Method &#34;GET&#34;		 	 # method to send the message to the browser (POST or GET)"
+		"		/Action &#34;MyDoSomething&#34; # the Action, that should be triggered by WebDisplay. It has to be an action name"
+		"		                        # that is defined in the Actions section of the config.any file."
+		"		/Template {"
+		"			&#34;[[&#35;wd Lookup AnElementOfForm &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup TextArea &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup PasswordField &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup CheckBox &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup SubmitButton &#93;&#93;&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Inside a form there are a lot of possibilities to define elements.<br>
+	Some of them are shown in this example.
+	<ul>
+		<li>An empty textfield for entering data:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/AnElementOfForm {        # name of specified ContextLookupRenderer"
+		"	/Text {                # kind of renderer (aliasname)"
+		"		/Name	 username   # the information will be able to catch by this name in the query of an action "
+		"		/Value   UserNameField"
+		"		/Size    32"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+		<li>A text area:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/TextArea { 				# textfield with several input lines"
+		"	/TextAreaRenderer {"
+		"		/Name   textarea"
+		"		/Value  TextAreaField"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+		<li>A password field:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/PasswordField {				# for the inputed data a '*' instead of the realy data is displayed"
+		"	/Text {"
+		"		/Name       resultPassword"
+		"		/Value      lookupPasswdDefault"
+		"		/Unreadable 1"
+		"		/Size       16"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+		<li>A check box:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/CheckBox {					# checkbox to set true/false (example: switch on/off a feature) "
+		"	/CheckBox {"
+		"		/Name   BoxField"
+		"		/Value  &#34;on&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+		<li>A submit button:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/SubmitButton {				# submit button to submit entries"
+		"	/Button {"
+		"		/Name submit"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Next Page&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+	</ul>	
+	</li>
+	<li>Define an action item in the file Config.any and add a action/page map in Role.any.<br>
+		File Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Actions {"
+		"	aliases for &#34;Actions&#34;"
+		"	/MyDoSomething {       { this name is mapped to a new C++ Class derived from the abstract class Action }"
+		"		&#34;DoSomething&#34;       { aliasname }"
+		"	 }"
+		"}"
+	}
+}]]
+</pre>
+		File Role.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Ex4Page {"
+		"	/GoExample4  &#34;Ex4Page&#34; #returns obviously to the same page again"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Write a new C++ class for a customized action e.g. 
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"//---- DoSomething -------------------------------------------------------------------"
+		" "
+		"class DoSomething : public Action {"
+		"public:"
+		"	DoSomething();"
+		"	bool DoAction(String &action, Context &c);"
+		"};"
+		" "
+		"//---- DoSomething -------------------------------------------------------------------"
+		"RegisterAction(DoSomething);"
+		" "
+		"DoSomething::DoSomething()"
+		"{"
+		"}"
+		" "
+		"bool DoSomething::DoAction(String &action, Context &c)"
+		"{"
+		"	Anything query = c.GetQuery();"
+		"	"
+		"	StartTrace(DoSomething.DoAction);	// debugging"
+		"	TraceAny(query, &#34;query&#34;);"
+		"	"
+		"	// make the wanted checks"
+		"	Anything result;"
+		"	if (query.LookupPath( result, &#34;fields.loginname&#34; )) {"
+		"		String thatsthename = result.AsString(&#34;&#34;);"
+		"		if ( thatsthename.Length() ) {"
+		"			Anything tmpStore = c.GetTmpStore();"
+		"			"
+		"			tmpStore[&#34;thatsthename&#34;] = thatsthename; // name of defined textfield  "
+		"			if (thatsthename == &#34;Markus&#34;) { // analyze the input data"
+		"				action = &#34;GoExample4&#34;;  // result action (remains ot the same page)"
+		"				return true; "
+		"			}"
+		"		}"
+		"	}"
+		"	action = &#34;GoExample4&#34;;  // default action (remains ot the same page)"
+		"	return true;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe6 ]]: [[#wd Lookup TitleRecipe6 ]]</li>
+	<li>[[#wd Lookup Recipe9 ]]: [[#wd Lookup TitleRecipe9 ]]</li>
+</ul>

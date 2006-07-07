@@ -1,0 +1,263 @@
+<center><h2>[[#wd Lookup TitleRecipe12 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>HTTP requests are short lived, e.g. get a html page or post some
+data out of a form and be done with it. This sort of interaction style
+assumes no relation between pages other than defined by the link structure
+of html pages themselves. For an application like a shopping mall you need more
+information to handle the interaction correctly. You need a session context
+that holds accumulated information over a defined set of pages and
+during some period of time. WebDisplay executes every request in a session
+context, where you can store long lived data and accumulate the state
+necessary to guide the interaction of your application.
+<h3>Preconditions</h3>
+<ol>
+	<li>Define the roles for your application.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"Guest      Is allowed to browse publicly available information"
+		"Shopper    Has acquired a shopping cart and already put items in it"
+		"PShopper   A shopper who has already identified itself (e.g. by paying a bill)"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define your page scope (it doesn't have to be the final page structure).<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"ShoppingPage"
+		"	MallEntry"
+		"	BookShop"
+		"		TrivialLiterature"
+		"		SF"
+		"		ComputerBooks"
+		"	VideoShop"
+		"		Love Stories"
+		"		Crime"
+		"		Sex"
+		"		Horror"
+		"		War"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define possible interactions with your application.<br>
+		Sample:<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"	GoBookShop"
+		"	GoVideoShop"
+		"	GoBack"
+		"	PutItemIntoCart"
+		"	RemoveItemFromCart"
+		"	EmptyCart"
+		"	PayBill"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Decide whether you need subclasses of roles or can do it with the built-in
+		Role class of WebDisplay. You have to decide on the grounds of security
+		considerations. If you just use a role to access a different set of pages but
+		have no further security restrictions use the built-in role.<br><br>
+	</li>
+	<li>Define the set of pages belonging to one role. Implement a HTML-Prototype of
+		some of the pages to test your concept.<br>
+		For each page used define an entry in Config.any under the tag Pages. Since
+		Pages have an inheritance relationship. It is possible to factor commonly used
+		functionality into root pages.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Pages {"
+		"	/Page { # the root of all pages"
+		"		/ShoppingPage {     # specialized shopping page"
+		"			EntryPage           # entrance into the shopping mall"
+		"			/VideoShopPage {    # the video section of the mall"
+		"				# specialized video shop pages"
+		"				LoveStory Sex Crime Horror War"
+		"			}"
+		"			/BookShopPage {     # the book section of the mall"
+		"				# specialized book shop pages"
+		"				TrivialLit SF ComputerBooks"
+		"			}"
+		"			BillPage"
+		"		}"
+		"		/AdvertisingPage {      # advertising pages to draw in people passing by"
+		"			NewMovies NewBooks"
+		"		}"
+		"		GeneralInformation"
+		"		RelatedLinks"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		For each page you have to associate a configuration file. Therein you define
+		the structure of the pages and dynamic elements of the pages. Try to factor
+		commonly used elements into root pages. Use HTML-Templates to define the
+		page structure (see [[#wd Lookup Recipe4 ]] and [[#wd Lookup Recipe5 ]] for details).<br><br>
+	</li>
+	<li>Define the navigation actions of your application and implement it in the action
+		page map of the role. For each role you need to define the action-page map in the config
+		file 'RoleName'.any.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"#---- Action/Page Map -------------------------------------------------------------"
+		"/Map {"
+		"	/Default {	# list the actions available for all pages "
+		"		/Home          EntryPage"
+		"		/GoBookShop    BookShopPage"
+		"		/GoVideoShop   VideoShopPage"
+		"		/GoPayTheBill  BillPage"
+		"	}"
+		" "
+		"	# list the specific action/page maps"
+		"	/EntryPage         { ... }"
+		"	/BookShopPage      { ... }"
+		"	..."
+		"}"
+	}
+}]]
+</pre>
+		If you use more than one role you have to define the actions that
+		trigger role changes. Define them in the Config.any file under the tag 
+		RoleChanges.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/RoleChanges {"
+		"	/CartGrabbed    Shopper"
+		"	/BillPayed      PShopper"
+		"	/CartEmptied    Guest"
+		"}"
+	}
+}]]
+</pre>
+		If you have decided that you need some custom-made roles, implement the C++-
+		subclasses with the relevant security hooks (see [[#wd Lookup Recipe8 ]] and
+		[[#wd Lookup Recipe9 ]] for details).<br><br>
+	</li>
+	<li>Define the actions triggering state changes in your application. Implement these
+		actions as subclasses of C++-Class Action.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"class PutItemIntoCart : public ShoppingAction {"
+		"	public:"
+		"		PutItemIntoCart();"
+		"		~PutItemIntoCart();"
+		"		bool DoAction(String &action, Context &c);"
+		"};"
+	}
+}]]
+</pre>
+		Implement the DoAction routine. Here you are able to store away necessary
+		session state for later use:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"bool PutItemIntoCart::DoAction(String &action, Context &c)"
+		"{"
+		"	Anything roleStore(c.GetRoleStore());	// fetch the actives role store"
+		"	Anything tmpStore(c.GetTmpStore());		// fetch the temporary store"
+		"	Anything queryStore(c.GetQuery());		// fetch the submitted query"
+		" "
+		"	// do whatever state changes or calculation are necessary"
+		"	// by manipulating one of the stores above"
+		"	// and by evaluating values of the submitted query"
+		"	if ( queryStore.IsDefined(&#34;ShoppingItems&#34;) )"
+		"	{"
+		"		// access the query information relevant for this action"
+		"		Anything newShoppingItems= queryStore[&#34;ShoppingItems&#34;];"
+		" "
+		"		// do something"
+		"		for(long i= 0; i < newShoppingItems.GetSize(); i++)"
+		"		{"
+		"			roleStore[&#34;Cart&#34;][&#34;Items&#34;].Append(newShoppingItems[i]);"
+		"		}"
+		"	}"
+		" "
+		"	// Set an action that triggers a valid next page."
+		"	// This return value might be unchanged that means stay"
+		"	// on the same page."
+		"	action = ...;"
+		"	"
+		"	return true;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define the pages that use the dynamically accumulated state to give
+		the user feedback on his actions. If they only show data without
+		calculation, you can use lookup renderers and html-templates to define
+		your pages (see [[#wd Lookup Recipe4 ]]).<br>
+		If you need to do some calculation before showing your page, you have to
+		derive a C++-class from Page and implement the Page::Preprocess Method.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"void ShoppingPage::Preprocess(Context &c)"
+		"{"
+		"	Anything roleStore(c.GetRoleStore());	// fetch the actives role store"
+		"	Anything tmpStore(c.GetTmpStore());		// fetch the temporary store"
+		"	Anything queryStore(c.GetQuery());		// fetch the submitted query"
+		" "
+		"	// calculate data needed for the rendering of the page"
+		"	// e.g. the total amount of your items in the cart"
+		"	Anything shoppingItems= roleStore[&#34;Cart&#34;][&#34;Items&#34;];"
+		"	double totalAmount= 0;"
+		" "
+		"	for(long i= 0; i < shoppingItems.GetSize(); i++)"
+		"	{"
+		"		totalAmount += shoppingItems[i][&#34;Price&#34;].AsDouble();"
+		"	}"
+		" "
+		"	// store it away in the tmpStore"
+		"	// here they are available for the following renderers"
+		"	tmpStore[&#34;TotalAmount&#34;]= totalAmount;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define the tags in your 'PageName'.any and 'PageName'.html files that use
+		the dynamically calculated state.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"..."
+		"&lt;table border=0 bgcolor=&#34;#D8E7FF&#34; cellpadding=0 cellspacing=0>"
+		"	&lt;td>"
+		"		Total Amount:"
+		"	&lt;td>"
+		"	&lt;td>"
+		"		[[&#35;wd Lookup TotalAmount &#93;&#93;	&lt;!-- finds the value in tmpStore -->"
+		"	&lt;/td>"
+		"&lt;/table>"
+		"..."
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<p>Config.any entries for Roles, Pages, Renderers, Actions.<br>
+State handling in WebDisplay<br>
+Uses protocoll of Action, Page
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe4 ]]: [[#wd Lookup TitleRecipe4 ]]</li>
+	<li>[[#wd Lookup Recipe5 ]]: [[#wd Lookup TitleRecipe5 ]]</li>
+	<li>[[#wd Lookup Recipe6 ]]: [[#wd Lookup TitleRecipe6 ]]</li>
+	<li>[[#wd Lookup Recipe8 ]]: [[#wd Lookup TitleRecipe8 ]]</li>
+	<li>[[#wd Lookup Recipe9 ]]: [[#wd Lookup TitleRecipe9 ]]</li>
+	<li>[[#wd Lookup Recipe30 ]]: [[#wd Lookup TitleRecipe30 ]]</li>
+</ul>

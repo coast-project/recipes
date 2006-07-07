@@ -1,0 +1,347 @@
+<!--==================================================================
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # TipsPage.html: overall page layout
+ #
+ # $Id$
+ #==================================================================-->
+<center><h2>Tips and Hints for starting developing with WebDisplay</h2></center>
+
+<center><h3>Index</h3>
+<table>
+	<tr><td align=center><br><h4>General overview</h4></td></tr>
+	<tr><td align=left><ul>
+		<li><a href="[[#wd Lookup PageURL ]]#WD">Short description of WebDisplay</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new WebDisplay application</a></li>
+	</ul></td></tr>
+	<tr><td align=center><br><h4>Some Details</h4>
+	<tr><td align=left><ul>
+		<li><a href="[[#wd Lookup PageURL ]]#ContentOfWD">What WebDisplay is made of</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#DebugWD">How to Debug</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#Spec1WD">Architecture of renderer specifications</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#Misc">Miscellaneous</a></li>
+	</ul></td></tr></table>
+</center>
+<a name="WD"></a>
+<hr>
+<h3>Short description of WebDisplay</h3>
+<h4>Abstract</h4>
+<p>WebDisplay is a platform for developing and deploying World Wide Web applications.
+For development, it provides a framework, reusable components, and a configuration 
+mechanism that is used to create web applications. For deployment, it provides 
+an efficient and scaleable server and additional flexible communication infrastructure.
+<h4>Motivation and Highlights</h4>
+<p>Implementing World Wide Web applications typically centers around writing 
+Common Gateway Interface (CGI) programs for an HTTP server. As long as these 
+web applications are not too sophisticated simple implementation in Perl or Python 
+suffices. If a web application has to maintain the notion of a session, that is 
+keeping state across multiple pages, the naive CGI approach is getting cumbersome 
+because HTTP servers and the CGI mechanism has no simple means for maintaining state.
+Keeping state in files within the filesystem is slow and doesn't scale very well.
+In addition since http servers typically call CGIs concurrently 
+appropriate file locking has to take place.
+<p>The design and implementation of WebDisplay started out as an attempt to solve 
+the problem of maintaining state within a session in an efficient and scaleable way. 
+The underlying architecture was based on the concept of a server framework. 
+The basic server receives requests for pages from an associated http server. 
+In order to handle a request a developer has to override a single method. 
+Because the method belongs to an object that can be preserved across requests 
+it is simple to keep state across requests too.
+<h4>Steps to perform for developing a new WebDisplay application</h4>
+<ol>
+	<li>You need a concept for your target system e.g.
+		<ul>
+			<li>what you would like to show on the customers browser</li>
+			<li>what kind of data you will need and how you can get them</li>
+			<li>are there any security requirements</li>
+			<li>what is the general layout</li>
+			<li><br>and so forth</li>
+		</ul>
+	</li>
+	<li>Then you must match your requests to the structure WebDisplay is offering. That means 
+		<ul>
+			<li>you have to know what WebDisplay is supposed to be 
+				<br>(see
+				<a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay Class-Index</a>
+				 and of course [[#wd Lookup RecipesListPage ]] )</li>
+			<li>keep in mind, that with WebDisplay you can configure a lot without writing any code</li>
+			<li>think about the hierarchical structure and what parts are used again and again
+				<br>and so on</li>
+		</ul>
+	</li>
+	<li>Now set up your developing environment (see <a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new WebDisplay application</a>)
+		<br>&nbsp;</li> 
+	<li>Go on adding the necessary configuration files and writing some code (e.g. for the back end)
+		<br>&nbsp;</li>
+	<li>Test your application using the configurable trace and debug output (see <a href="[[#wd Lookup PageURL ]]#DebugWD">How to Debug</a> )
+	</li>
+</ol>
+<a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
+
+<a name="StartWD"></a><hr>
+<h3>Starting a new WebDisplay application</h3>
+<ul>
+	<li><h4>Preconditions:</h4>
+		<ul>
+			<li>Developing System e.g. UNIX with SNiFF+ and Compiler g++</li>
+			<li>Browser like Netscape Navigator</li>
+			<li>At last you need the source of the framework WebDisplay and for an easy start a sample application like 'Hello World'</li>
+		</ul>
+	</li>
+	<li><h4>Steps to do:</h4>
+		<ul><li>Copy the WebDisplay2 framework in one Directory and the small 'Hello World' project in a different directory
+		</li><li>Setup your project with SNiFF+
+		</li><li>Change the sample configuration files (at least config.any, page.any, role.any) to fit your needs
+		</li><li>Generate the application using the existing makefiles
+		</li><li>Start your application with the shellscript: <tt>startwda.sh</tt>
+			<br>Start your browser and enter the following (to your environment adapted) URL:
+			<br><i>'http://[[#wd Lookup header.HOST ]]/'</i>
+		</li><li>Hopefully you will get now your first page. 
+			<br><i>(If not, you just started to develop and debug your own WebDisplay application.)</i>
+		</li></ul>
+	</li>
+</ul>
+<a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
+
+<a name="ContentOfWD"></a><hr>
+<h3>What WebDisplay is made of</h3>
+<p>The WebDisplay framework consists of the following C++ classes:
+<p><a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay2 Class-Index</a>
+<p>Furthermore there are some predefined make files to create a linkable library. These makefiles
+are updated automatically supported by Sniff+.
+<p>By the way, WebDisplay2 can be generated for SunOS5.[678], Linux >= 2.1.2 and Win32!
+<p>In order to get a running application one has to add some mandatory configuration files 
+<br><i>(Add this files in a different directory structure than the WebDisplay sources)</i>:
+<table border=1 bgcolor=#DFFEFE>
+<tr valign=top>
+	<td>
+		<ul>
+			<li>Config.any</li>
+			<li>Dbg.any</li>
+			<li>'YourFirst'Page.any</li>
+			<li>Page.any</li>
+			<li>Role.any</li>
+			<li>Server.any</li>
+		</ul>
+	</td>
+</tr>
+</table>
+<p>For example in our Hello World Project there are the following files:
+<table border=1 width=100%>
+	<tr Valign=TOP>
+		<th width=25%>In subdirectory <br>'helloworld_src'</th>
+		<th width=25%>In subdirectory <br>'config'</th>
+		<th width=25%>In subdirectory <br>'config/HTMLTemplates'</th>
+		<th width=25%>In subdirectory <br>'config/HTMLTemplates/static/images'</th>
+	</tr><tr valign=top>
+		<td width=25%>
+			HelloWorldActions.cpp
+			<br>HelloWorldActions.h
+		</td><td width=25%>
+			Config.any
+			<br>Dbg.any
+			<br>HelloWorldPage.any
+			<br>OutputMapperMeta.any
+			<br>Page.any
+			<br>PicturePage.any
+			<br>Role.any
+			<br>Server.any
+		</td><td width=25%>
+			HelloWorldPage.html
+			<br>PicturePage.html
+			<br>SharedPageLayout.html
+		</td><td width=25%>
+			somelogo_big.gif
+			<br>somelogo_small.gif
+		</td>
+	</tr>
+</table>
+<p>For a deeper description of WebDisplay see
+	<a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay2 Class-Index</a>
+<br>&nbsp;<br>
+<a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
+
+<a name="DebugWD"></a><hr>
+<h3>How to Debug</h3>
+<ol>
+	<li><h4>Trace output on cerr:</h4>
+		For debugging purposes there are a Tracer class and macros. 
+		This macros help keep the coding expense
+		for inserting trace statements into the source-code at a minimum.
+		If the preprocessor flag DEBUG is not set they expand into nothing.
+		To keep the trace output at acceptable levels we introduced a config
+		file for debugging Dbg.any. Therein you can switch the trace on and off.<br>
+		At the top of Dbg.any you can set some general switches:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/LowerBound        10      # 0 => no debug output"
+		"/UpperBound        120     # "
+		"/DumpAnythings     1       # print full Anythings"
+	}
+}]]
+</pre>
+		Trace statements are scoped. In every scope of a C++-Program you can
+		use a StartTrace or StartTrace1 macro. They take as a first parameter
+		a trigger e.g. StartTrace(Server.Load). This results into output onto
+		cerr like <tt>Server.Load: --- entering ---</tt> and
+		<tt>Server.Load: --- leaving ---</tt>
+		on entering resp. leaving the scope. Within the scope you can use as many
+		Trace macros as you need. They are all set with the same switch.
+		To set the switch you have to insert the following lines into Dbg.any
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Server {"
+		"	/MainSwitch     40"
+		"	/EnableAll      50"
+		"	/Load           45"
+		"}"
+	}
+}]]
+</pre>
+		The keyword <tt>MainSwitch</tt> enable or disable the output from
+		all those traces which start with "Server". The keyword <tt>EnableAll</tt>
+		overrides the specific switches (e.g. Load).
+		See as well Dbg.cpp or rather Dbg.h and Dbg.any.
+	</li>
+	<li><h4>Debug output at the end of each HTML-Page:</h4>
+		<p>If the flag DEBUG is set, some information about session, stores and so forth 
+		are always rendered into the reply in 'Context::HTMLDebugStores'. So you can check the actual 
+		context from which the shown HTML-Page depends at the end of the page itself.
+		<br>(Have a brief look at the end of this page.)
+	</li>
+	<li><h4>Additional Debug Information:</h4>
+		<p>See [[#wd Lookup Recipe22 ]] for adding additional Debug output, but be aware that 
+		there you make a change to the framework.
+	</li>
+	<li><h4>Native Debug Output</h4>
+		<p>With some environment settings you have the possibility to get more information about
+		the inner work from WebDisplay.<br>
+		The values of <tt>WD_LOGONCERR</tt> and <tt>WD_DOLOG</tt> control the level of severities 
+		shown either on the console or in the syslog.<br>Possible values are:
+<pre>
+  1: DEBUG
+  2: INFO
+  3: WARNING
+  4: ERROR
+  5: ALERT
+</pre>
+		The flag <tt>TRACE_STATICALLOC</tt> shows you the allocation and deletion of
+		all statically allocated objects used in WebDisplay2.
+	</li>
+</ol>
+<a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
+
+<a name="Spec1WD"></a><hr>
+<h3>Architecture of renderer specifications</h3>
+<p>In order to let the WebDisplay know which renderer to use now and what data to overgive,
+a renderer specification is needed. It's obvious that the renderer specification 
+is described in an anything format and it has the following principle structure:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/'renderername' {"
+		"		/'moreInfosForThisRenderer'"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+<p>With 'name' this individual renderer specification will be found; 
+<br>Under the key <font color=#FF0000>Type</font> you specify which renderer is meant;
+<br>Under the key <font color=#FF0000>Data</font> some Parameters for this renderer can be configured and 
+therefore this deeper structure depends on each given renderer type;
+<p>Samples:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/AnElementOfForm {"
+		"	/TextField {		# 'TextField' is an alias for TextFieldRenderer (see Config.any)"
+		"		/Name	username"
+		"		/Value	UserNameField"
+		"		/Size	32"
+		"	}"
+		"}"
+		" "
+		"/MyBuildingBlock {"
+		"	/String {			# 'String' is an alias for StringRenderer (see config.any)"
+		"		/Default	&#34;Hello World&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+<p>The <b>HTMLTemplateRenderer</b> is a tiny bit especial, because you can either define 
+the whole specification in the *.any file or you can refer to a HTML Template file.
+
+<ul>
+	<li>Complete renderer specification in a *.any file:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/MyKey {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;&lt;center>&lt;h4>This is something &lt;/h4>&lt;/center>&lt;hr>&#34;"
+		"			&#34;[[&#35;wd Image rule02.gif &#93;&#93;&#34;"
+		"			&#34;How do I create a &#34;static&#34; HTML page?&#34;"
+		"			&#34;&lt;br>[[&#35;wd Lookup Recipe1 &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Image { /ImageName &#34;MyPhoto.gif&#34; } &#93;&#93;&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Renderer specification refers to a *.html file:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/MyKey {"
+		"	/HTML {"
+		"		/TemplateName { RecipeListPage }	# Did you notice? Without '.hmtl'!!!"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	The file which then will be read has the name RecipeListPage.html and in this file there might be
+	something like:
+	<pre>
+&lt;table>&lt;tr>&lt;td>
+&lt;p>&lt;ul>&lt;li>
+How do I create a "static" HTML page?
+&lt;br>[[&#35;wd Lookup Recipe1 ]]
+&lt;/li>&lt;/ul>	
+&lt;/td>&lt;/tr>&lt;/table>
+&lt;center>&lt;p>[[&#35;wd Image rule02.gif ]]&lt;/center>
+	</pre>
+	</li>
+</ul>
+<p>In addition there is a different kind of structure to call 
+recursively another renderer specification within the data block, that is:
+<pre>
+[[&#35;wd 'renderername' 'rendererdata' ]]
+<font color=#FF0000>[[&#35;wd Image rule02.gif ]]</font>
+[[&#35;wd Image { /ImageName "MyPhoto.gif" } ]]
+</pre>
+<p>Keep in mind that this only can be used within HTML-Description and that
+HTML-Description is possiple as well in an own HTML-File and (quoted) in the 
+renderer specification if the Type is HTML !!!
+
+<p>A closer look at the above examples will preserve you from confusion, where to use
+which form of the specification.
+<p><a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
+
+<a name="Misc"></a><hr>
+<h3>Miscellaneous</h3>
+<ul>
+	<li>If you like to display text in the browser, just click the link:
+		<ul>
+			<li>[[#wd Lookup ViewFiles ]]<br><br></li>
+		</ul>
+	</li>
+	<li>Sniff+ can be set up in that way, that it supports the creation and making of Renderers,
+		Actions and other C++ stuff. Just select in the <b>Project Editor</b> window the menu 
+		<b>TemplateFiles/New whatever</b>.
+	</li>
+</ul>	
+<p><a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>

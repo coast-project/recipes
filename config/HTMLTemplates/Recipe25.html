@@ -1,0 +1,255 @@
+<center><h2>[[#wd Lookup TitleRecipe25 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>There are many applications where the content of a page cannot be
+statically defined but - since it depends on some mutable data - has 
+to be determined at runtime (By querying a database, reading a file, 
+using some proprietary middleware, etc. Examples might be current stock 
+quotes, customer data like account statements, personal profiles etc.)
+
+<p>This recipe explains what needs to be done to use dynamic data for the
+rendition of some page content.
+
+<p>There are basically three steps to be taken:
+<ol>
+	<li>Retrieval of the data that needs to be visualized, and transformation 
+		of that data into an Anything representation:
+		The concrete structure of the Anything depends on the Renderer to be 
+		used for creating the final output (e.g. HTML). It may be 
+		tailored to the needs of an existing Renderer. Alternatively a new
+		Renderer may be created to handle any specialized Anything data structure.
+	</li>
+	<li>The Anything is then used as input for the rendering process by
+		placing it - under a well known slot name - in the Context before any 
+		rendering is started.
+	</li>
+	<li>The concrete Renderer to utilize the data needs to be configured properly - so
+		as to find the data - and may then be used as a building block for the Page 
+		that wants to dynamically create some content.
+	</li>
+</ol>
+<p>(Caution: Once the data is in the Context, in principle any Renderer - that 
+wishes to do so - may use it to create some output. This implies that it is 
+the responsibility of the application to avoid possible conflicts - e.g. 
+corruption of data that is used by multiple Renderers.)
+<h3>Preconditions</h3>
+<p>In the following example the page Ex4Page (which is a sub-page of Page) is to 
+display some dynamic output, i.e. the current date. Initially  Ex4Page simply 
+displays the static HTML template Ex4Page.html. The action that leads to 
+Ex4Page is GoExample4. It is assumed that all the respective configuration data is 
+setup properly - i.e. no C++ code was yet written but the configuration files 
+contain something like this:<br>
+<p>Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Roles {"
+		"	/Role {"
+		"		&#34;Default&#34;"
+		"	}"
+		"}"
+		" "
+		"/Pages {"
+		"	# subclasses for &#34;Page&#34;"
+		"	&#34;Ex4Page&#34;"
+		"	..."
+		"}"
+		" "
+	}
+}]]
+</pre>
+<p>Role.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Map {"
+		"	/Default {"
+		"		/GoExample4 &#34;Ex4Page&#34;"
+		"		..."
+		"	}"
+		"}"
+		" "
+	}
+}]]
+</pre>
+<p>Ex4Page.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/PageLayout {"
+		"	/HTML {"
+		"		/TemplateName &#34;Ex4Page&#34;"
+		"	}"
+		"}"
+		" "
+	}
+}]]
+</pre>
+<p>Ex4Page.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"...."
+		"(the current time should go here)"
+		"..."
+	}
+}]]
+</pre>
+<h3>Steps to do:</h3>
+<ol>
+	<li>A string containing the current date is easily created by the following
+		C++ code:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"time_t now;"
+		"time(&now);"
+		"struct tm res;"
+		"struct tm *tt= localtime_r(&now, &res);"
+		" "
+		"char date[200];"
+		"strftime(date, 100, &#34;%C&#34;, tt);"
+	}
+}]]
+</pre>
+		Putting the date into an Anything is straight forward too:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"Anything anyDate= Anything(date);"
+	}
+}]]
+</pre>
+		(The example is deliberately kept very simple. However a real application
+		might retrieve some arbitrary data at this point -  e.g. using a database.)<br><br>
+	</li>
+	<li>The Anything created in step 1 is now typically placed in the 
+		AppTmpStore for later processing by the Renderers. In this example the
+		data is put at slot 'currentDate'. <br>
+		(Eventhough the data may - in principle - be placed anywhere in the 
+		Context, AppTmpStore is the right choice when it comes to data that is 
+		used for one particular request only. An empty AppTmpStore is used for 
+		each new request and it is discarded after the request is processed, i.e. 
+		it acts as a scratch pad.) 
+		<p>The question that needs to be answered now is were exactly to place 
+		the C++ code shown above. There are two alternatives:
+		<ul>
+			<li>The code may be tied to the Action leading to the Page on which the 
+				data should be used, i.e. we write some C++ code for GoExample4. The code that
+				modifies the AppTmpStore is then placed in the respective DoAction() method:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"class GoExample4 : public Action {"
+		"public:"
+		"	GoExample4() {}"
+		"	bool DoAction(String &action, Context &c);"
+		"};"
+		" "
+		"RegisterAction(GoExample4);"
+		" "
+		"bool GoExample4::DoAction(String &action, Context &c)"
+		"{"
+		"	Anything tmpStore= c.GetTmpStore();"
+		" "
+		"	time_t now;"
+		"	time(&now);"
+		"	struct tm res;"
+		"	struct tm *tt= localtime_r(&now, &res);"
+		" "
+		"	char date[200];"
+		"	strftime(date, 100, &#34;%C&#34;, tt);"
+		" "
+		"	tmpStore[&#34;currentDate&#34;]= date;"
+		" "
+		"	return true;"
+		"}"
+	}
+}]]
+</pre>
+			</li>
+			<li>The alternative is to create C++ code for the Page (or one of its super-
+				pages) that wants to use the data, e.g. Ex4Page. The code that modifies the 
+				AppTmpStore is then placed in the respective Preprocess() method:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"class Ex4Page : public Page {"
+		"public:"
+		"	Ex4Page();"
+		"	Ex4Page(const char *title);"
+		" "
+		"	virtual void Preprocess(Context &c);"
+		"	IFAObject *Clone() const;"
+		"};"
+		" "
+		"RegisterPage(Ex4Page);"
+		"Ex4Page::Ex4Page() : Page(&#34;Ex4Page&#34;) {}"
+		" "
+		"IFAObject *Ex4Page::Clone() const"
+		"{"
+		"	return new Ex4Page;"
+		"}"
+		" "
+		"void Ex4Page::Preprocess(Context &c)"
+		"{"
+		"	Anything tmpStore= c.GetTmpStore();"
+		" "
+		"	time_t now;"
+		"	time(&now);"
+		"	struct tm res;"
+		"	struct tm *tt= localtime_r(&now, &res);"
+		" "
+		"	char date[200];"
+		"	strftime(date, 100, &#34;%C&#34;, tt);"
+		" "
+		"	tmpStore[&#34;currentDate&#34;]= date;"
+		"}"
+	}
+}]]
+</pre>
+			</li>
+		</ul>
+		Whether we create code for the Action::DoAction() or the Page::Preprocess()
+		the AppTmpStore is modified before any rendering takes place!<br><br>
+	</li>
+	<li>Whenever page Ex4Page is now reached (in the first case via GoExample4) we can safely assume
+		that slot 'currentDate' in AppTmpStore contains a string with the
+		current date. We may therefore use a simple ContextLookupRenderer to 
+		lookup and display that string:<br>
+		Ex4Page.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"..."
+		"[[&#35;wd Lookup currentDate &#93;&#93;"
+		"..."
+	}
+}]]
+</pre>
+		More complex Renderers may require more configuration data than just a single
+		slot-name like 'currentDate'. The Renderer specification is then conveniantly 
+		put in the configuration file of the page and is rendered indirectly into 
+		the HTML template:<br>
+		Ex4Page.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"..."
+		"/ArbitraryRendererSpec {"
+		"	/Lookup {"
+		"		/ContextLookupName	&#34;currentDate&#34;"
+		"	}"
+		"}"
+		"..."
+	}
+}]]
+</pre>
+		Ex4Page.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"...."
+		"[[&#35;wd Lookup ArbitraryRendererSpec &#93;&#93;"
+		"..."
+	}
+}]]
+</pre>
+</li>
+</ol>	
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>ContextLookupRenderer, Page configuration
+<ul>
+	<li>[[#wd Lookup Recipe26 ]]: [[#wd Lookup TitleRecipe26 ]]</li>
+</ul>

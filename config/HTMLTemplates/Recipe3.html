@@ -1,0 +1,175 @@
+<center><h2>[[#wd Lookup TitleRecipe3 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Some (static) HTML pages should be showed by a new WebDisplay project.
+The pages will be linked with a next and previous button. To achieve this
+result the following steps are performed:
+<ol>
+	<li>Add the new pages names to the main configuration (<i>/Pages</i>)</li>
+	<li>Create a page configuration for each HTML file (<i>Pagename.any</i>)</li>
+	<li>Extend configuration to add the image buttons configuration(<i>FormRenderer,
+		FieldRenderer</i>)</li>
+	<li>Extend the HTML template files refering the button renderers by name (<i>[[&#35;wd
+		Lookup ...]]</i>)</li>
+	<li>Adjust the Action/Page navigation map for the roles at hand (<i>/Map</i>)</li>
+</ol>
+<p><i><font size=-1><b>Note:</b> This example is much more complex than the title task implies
+to show more relevant features of WebDisplay. Look at other [[#wd Lookup Recipe2 ]]
+for simpler ways of integrating and connecting HTML files to a WebDisplay
+server using simple links.</font>
+</i>
+<h3>Preconditions</h3>
+<ol>
+	<li>The config.any file exists and contains a valid WebDisplay application
+		configuration.</li>
+	<li>We got 3 simple static HTML files - that's it.</li>
+</ol>
+
+<h3>Steps to do:</h3>
+<ol>
+	<li>Add the page names to the appropiate slot in the config.any file's
+		Pages slot.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Pages {"
+		"	/Page {"
+		"		&#34;FirstPage&#34; &#34;SecondPage&#34; &#34;ThirdPage&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre></li>
+	<li>Create for every HTML file a new file PageName.any. For example with the
+		following Content of file PageName.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/Version &#34;PageName.any Version 1.0 1997/12/04&#34;"
+		"	/PageLayout {"
+		"		/HTML {"
+		"			/TemplateName &#34;PageName&#34;      #HTML filename"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre></li>
+<li>
+Add a FormRenderer and an associated FieldRenderer specification for the
+buttons in every PageName.any file e.g.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"#----&nbsp; Renderer Specification for Next Button ---------------------"
+		"/NextPage {"
+		"	/Form {"
+		"		/Template {"
+		"			&#34;[[&#35;wd Lookup NextButton &#93;&#93;&#34;"
+		"		}"
+		"		/Method &#34;GET&#34;"
+		"		/Action &#34;GoNextPage&#34;"
+		"	}"
+		"}"
+		" "
+		" "
+		"/NextButton {"
+		"	/Button {"
+		"		/Name &#34;submit&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Next Page&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"#----&nbsp; Renderer Specification for Previous Button ---------------------"
+		"/PrevPage {"
+		"	/Form {"
+		"		/Template {"
+		"			&#34;[[&#35;wd Lookup PrevButton &#93;&#93;&#34;"
+		"		}"
+		"		/Method &#34;GET&#34;"
+		"		/Action &#34;GoPrevPage&#34;"
+		"	}"
+		"}"
+		" "
+		"/PrevButton {"
+		"	/Button {"
+		"		/Name &#34;submit&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Previous Page&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre></li>
+	<li>Insert a ContextLookupRenderer for the buttons which should be displayed on
+		the pages in every HTML file e.g. SecondPage.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;html>"
+		"	&lt;head>"
+		"		&lt;title>"
+		"			Welcome to the WebDisplay"
+		"		&lt;/title>"
+		"	&lt;/head>"
+		"	&lt;body background= imagedir/backgrnd.gif >"
+		"		&lt;center>&lt;h1>Welcome on the second page of WebDisplay&lt;/h1>&lt;/center>"
+		"		&lt;!-- Renderers for Next/Previous buttons specified in SecondPage.any -->"
+		"		[[&#35;wd Lookup PrevPage &#93;&#93;"
+		"		[[&#35;wd Lookup NextPage &#93;&#93;"
+		"	&lt;/body>"
+		"&lt;/html>"
+	}
+}]]
+</pre></li>
+	<li>Insert the action/page map for the pages in file Role.any. For each page
+		(or the default) the map contains a mapping from symbolic actions to pages.
+		The default action is used if no action was specified e.g.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Map {"
+		"	# the following actions are available for all pages&nbsp;"
+		"	/Default {"
+		"		/Home       &#34;FirstPage&#34;"
+		"		/GoNextPage &#34;FirstPage&#34;"
+		"		/GoPrevPage &#34;FirstPage&#34;"
+		"	}"
+		"	# specific action/page maps"
+		"	/FirstPage {"
+		"		/GoNextPage &#34;SecondPage&#34;"
+		"	}"
+		"	/SecondPage {"
+		"		/GoPrevPage &#34;FirstPage&#34;"
+		"		/GoNextPage &#34;ThirdPage&#34;"
+		"	}"
+		"	/ThirdPage {"
+		"		/GoPrevPage &#34;SecondPage&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre></li>
+</ol>
+
+<h3>Remarks</h3>
+<p>This example shows how you can build a WebDisplay application from scratch
+in a simple way. In every Page.any file we had to insert a Renderer specification
+for the buttons. This disadvantage should be avoided. It's recommended
+to use a 'Shared Page-Layout', which allows to define layout rules only
+once and reuse them. The 'Shared Page-Layout' is descripted in recipes
+4/5.
+<h3>Glossary</h3>
+<p>FormRenderer, FieldRenderer, Shared Page-Layout, HTML-Templates
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe4 ]]: [[#wd Lookup TitleRecipe4 ]]</li>
+	<li>[[#wd Lookup Recipe5 ]]: [[#wd Lookup TitleRecipe5 ]]</li>
+</ul>

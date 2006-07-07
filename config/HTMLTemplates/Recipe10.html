@@ -1,0 +1,184 @@
+<center><h2>[[#wd Lookup TitleRecipe10 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>This recipe shows you how you can implement a navigation aid in the form of a menu bar.<br>
+Ideally it should be context-sensitive by showing which page a user is looking at.
+<h3>Preconditions</h3>
+<ul>
+	<li>Define the pages for your application. Get an idea, how you want to navigate them</li>
+	<li>Define the general structure of your page</li>
+	<li>Define where you want to place your navigation bar</li>
+</ul>				        
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define some standard template for your page.<br>
+	Sample (could be in SharedPageLayout.html):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;html>"
+		"	&lt;head>"
+		"		&lt;title>"
+		"			[[&#35;wd Lookup PageTitle &#93;&#93;"
+		"		&lt;/title>"
+		"	&lt;/head>"
+		"	&lt;body>"
+		"		[[&#35;wd Lookup Header &#93;&#93;"
+		"		[[&#35;wd Lookup Body &#93;&#93;"
+		"		[[&#35;wd Lookup Footer &#93;&#93;"
+		"	&lt;/body>"
+		"&lt;/html>"
+	}
+}]]
+</pre>
+		If you have decided that your menu bar is always on the top, then you
+		have to implement it somewhere in the Renderer defining the 'Header'.<br><br>
+	</li>
+	<li>Define your subtags for the chosen location of the navigation bar.<br>
+	Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Header {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;[[&#35;wd Lookup NavigationBar &#93;&#93;&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		Now you can do several things, every page can overwrite the tag NavigationBar
+		or you can define also a standard structure for NavigationBar and the pages
+		just complement it or redefine substructures of the bar.<br><br>
+	</li>
+	<li>Sample for complete overwrite <i>(not in the application example)</i>:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/NavigationBar {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;[[&#35;wd Lookup GoAdminHome &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup GoServerKill &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup GoConnectionsAllow &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup GoLogout &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup GoLogging &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup GoTransTest &#93;&#93;&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		You have to define each subtag in the bar e.g. a link.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/GoServerKill {"
+		"	/Link {"
+		"		/Action &#34;ServerKill&#34;"
+		"		/Label {"
+		"			/Lookup {"
+		"				/LookupName Admin.serverKill_L"
+		"			}"
+		"		}"
+		"	}"
+		"	/Target	&#34;_top&#34;"
+		"}"
+	}
+}]]
+</pre>
+		or no link to show where you are
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/GoAdminHome {"
+		"	/Lookup {"
+		"		/LookupName	Admin.adminHome_L"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		The complete overwrite solution is easier for small samples. You have
+		full control of the navigation bar on each page. This is easy to
+		customize but hard to standardize and error prone if you want to have
+		a defined look and feel on each page.<br><br>
+	</li>
+	<li>In the defined structure case you just define the structure of the
+		navigation bar. For each structural element you have to define its implementation.<br>
+		Sample (e.g. in Page.any):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/NavigationBar {"
+		"	/HTML {"
+		"		/TemplateName &#34;NavigationBar&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		And then in NavigationBar.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"[[&#35;wd Lookup StartPagePage &#93;&#93;"
+		"[[&#35;wd Lookup RecipesListPage &#93;&#93;"
+		"[[&#35;wd Lookup Example1Page &#93;&#93;"
+		"[[&#35;wd Lookup Example2Page &#93;&#93;"
+		"[[&#35;wd Lookup ConfirmPagePage &#93;&#93;"
+		"[[&#35;wd Lookup ShowInputPagePage &#93;&#93;"
+	}
+}]]
+</pre>
+		If you want to give feedback about the page you are on, you have to
+		render the links conditionally depending on the page you are at. This
+		requires, that you have some sort of bookkeeping or use the page hierarchy
+		directly to determine the state of the navigation bar.<br>
+		Sample for conditional renderer:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {		
+		"/InfoLink {"
+		"	/ConditionalRenderer {"
+		"		/ContextCondition AtInfoPage"
+		"		/True {"
+		"			/Lookup {"
+		"				/LookupName Info.infoHome_L"
+		"			}"
+		"		}"
+		"		/False {"
+		"			/Link {"
+		"				/Action &#34;GoInfo&#34;"
+		"				/Label {"
+		"					/Lookup {"
+		"						/LookupName Info.infoHome_L"
+		"					}"
+		"				}"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		Sample for page hierarchy:<br>
+		<i>(e.g. you can just overwrite your link from page.any in the Confirmpage.any)</i>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {		
+		"/ConfirmPagePage {"
+		"	/String {"
+		"		/Default &#34;Confirmation Page&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<p>There is no predefined concept that supports the navigation bar directly.<br>
+You are of course free to define a customized renderer if you want to have another behaviour.
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>HTML-Templates, ConditionalRenderering
+<ul>
+	<li>[[#wd Lookup Recipe22 ]]: [[#wd Lookup TitleRecipe22 ]]</li>
+</ul>

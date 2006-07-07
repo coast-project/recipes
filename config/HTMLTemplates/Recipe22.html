@@ -1,0 +1,196 @@
+<center><h2>[[#wd Lookup TitleRecipe22 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>A ConditionalRenderer or a SwitchRenderer allows you to put a limited
+amount of logic directly into your configuration files. <br>
+(This may have advantages: In simple cases this may completely avoid having to write 
+C++ code. Anyhow configuration files are typically much easier 
+to change than C++ code.)
+<p>At runtime both Renderers look up some state in the Context - i.e. in 
+one of the different stores making up the Context - and based on what 
+they find decide which subsequent Renderers to use.			
+<p>The difference between ConditionalRenderer and SwitchRenderer is that
+ConditionalRenderer typically chooses among two alternatives - i.e. it 
+acts like a C++ if/else expression - whereas SwitchRenderer may choose
+from multiple alternatives - i.e. it corresponds to a C++ switch construct. 
+<h3>Preconditions</h3>
+<ol>
+	<li>You need the Page - i.e. the respective Page configuration file - where
+		you want to use the Renderer</li>
+	<li>If you want to use any Renderer by an alias name be sure to include 
+		that name in the Renderers section of Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Renderers {"
+		"	...."
+		"	/ConditionalRenderer	{	Condition	}"
+		"	/SwitchRenderer			{	Switch		}"
+		"	...."
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>ConditionalRenderer and SwitchRenderer both require as input a 
+		configuration Anything that specifies which condition to check and
+		what alternatives to choose from.<br>
+		Structure of a Renderer specification as expected by a ConditionalRenderer:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/ContextCondition &#34;name&#34;"
+		"	/True { Renderer descriptor for TestCondition == True }"
+		"	/False { Renderer descriptor for TestCondition == False }"
+		"	/Defined { Renderer descriptor for TestCondition == Defined }"
+		"	/Undefined { Renderer descriptor for TestCondition == Undefined }"
+		"	/Error { Renderer descriptor for TestCondition == Error }"
+		"}"
+	}
+}]]
+</pre>
+		Of this configuration Anything only the slot ContextCondition is mandatory.
+		It specifies what slot name to use for the lookup in the Context 
+		(ContextCondition should therefore usually contain a string).
+		<p>All the other slots then specify what to do - depending on the value that is
+		looked up - and may be omited entirely.
+		(If the value retrieved from the Context is a 'long', it is automatically 
+		interpreted as a Boolean - which is either 'True' or 'False'. Otherwise it 
+		is simply treated as either 'Defined' or 'Undefined'.)<br><br>
+		Structure of a Renderer specification as expected by a SwitchRenderer:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"{"
+		"	/ContextLookupName &#34;name&#34;"
+		"	/Case {"
+		"		/xxx { Renderer descriptor for TestCondition == xxx }"
+		"		/yyy { Renderer descriptor for TestCondition == yyy }"
+		"	}"
+		"	/Default { Renderer descriptor for default case }"
+		"}"
+	}
+}]]
+</pre>
+		The configuration Anything for SwitchRenderer is very similar to the one
+		used by ConditionalRenderer. Since SwitchRenderer does not treat the looked 
+		up value as either Boolean or as Defined/Undefined - but always as a String 
+		that is then directly used to decide what subsequent Renderer to use - in 
+		addition to the slot ContextCondition the configuration data must contain a 
+		Case slot that lists all the alternatives that are handled. (The slot
+		"_Empty" handles the special case where the looked up value is empty. If the 
+		looked up value does not match any case defined in the Case section, the 
+		Renderer specification defined as Default - if present - is used.)
+	</li>
+</ol>
+
+<h3>Steps to do:</h3>
+<ol>
+	<li>Identify the parts that you want to conditionally render and define
+		the respective Renderer specifications.<br>
+		Sample:<br>
+		To ease debugging of your application you want to render some
+		diagnostic output directly into each HTML page. However you want
+		to switch off the debug output once your application goes productive.<br>
+		You decide that while debugging you want to use the following Renderer 
+		specification in the footer of each page (This will render the Anything
+		that is found at slot 'myData'..  additional output might be created): 
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/DebugOutput {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;Diagnostic Output:&lt;br>&#34;"
+		"			&#34;[[&#35;wd Lookup myData&#93;&#93;&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		Furthermore you dicide that you dont want any debug output in the 
+		productive environment and you want to control whether debug output is created by a setting
+		in the main configuration file:<br>
+		Setting the slot 'ShowDebugOutput' (in Config.any) to '1' will show the debug
+		output, while setting it to '0' will switch it off.<br><br>
+	</li>
+	<li>Write a configuration Anything for the conditional Renderer and define the
+		condition to be checked by the conditional Renderer and embed the 
+		previously defined Renderers into the newly created configuration data.<br>
+		Sample:<br>
+		Setup the configuration for a ConditionalRenderer and put the 
+		data in the Page.any configuration file. (You might just
+		as well put it in the configuration file of a specific Page or 
+		the configuration file of a Role.):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ConditionalDebugOutput {"
+		"	/Condition {"
+		"		/ContextCondition	&#34;ShowDebugOutput&#34;"
+		"		/True {"
+		"			/Lookup {"
+		"				/LookupName &#34;DebugOutput&#34;"
+		"			}"
+		"		}"
+		"		/False {}		# do nothing.. this slot could be omitted.."
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		an aequivalent though more compact specification would be:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ConditionalDebugOutput {"
+		"	/Condition {"
+		"		/ContextCondition	&#34;ShowDebugOutput&#34;"
+		"		/True {"
+		"			/HTML {"
+		"				/Template {"
+		"				&#34;Diagnostic Output:&lt;br>&#34;"
+		"				&#34;[[&#35;wd Lookup myData&#93;&#93;&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Use the configuration you just created where you want the conditional
+		output to be rendered.<br>
+		Sample:<br>
+		The Renderer configuration data for this ConditionalRenderer is
+		now accessible in the Context under the name 'ConditionalDebugOutput'.
+		In whatever HTML file you want to include the debug output you can
+		therefore write:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"[[&#35;wd Lookup ConditionalDebugOutput&#93;&#93;"
+	}
+}]]
+</pre>
+	</li>
+	<li>Make sure the condition variable changes according to your needs. (
+		e.g. programmatically, by user input, etc.)<br>
+		Sample:<br>
+		Finally you create the condition variable in Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ShowDebugOutput	1"
+	}
+}]]
+</pre>
+		You are done.. now you can now enable/disable your debug output
+		simply by setting /ShowDebugOutput in Config.any!<br>
+		<i>(Any change in the configuration files will affect the output 
+		only after a restart of the application!)</i>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>Page, Role, Context, ContextLookupRenderer
+<ul>
+	<li>[[#wd Lookup Recipe11 ]]: [[#wd Lookup TitleRecipe11 ]]</li>
+	<li>[[#wd Lookup Recipe26 ]]: [[#wd Lookup TitleRecipe26 ]]</li>
+</ul>

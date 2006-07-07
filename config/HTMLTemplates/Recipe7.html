@@ -1,0 +1,149 @@
+<center><h2>[[#wd Lookup TitleRecipe7 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>To give the user the chance to review and confirm what he has entered
+into a form, show him the data on a confirmation page. Provide two buttons
+on this page either to accept or to cancel the final submission. 
+<h3>Preconditions</h3>
+<ul>
+	<li>The form page is already designed and running (check [[#wd Lookup Recipe6 ]])
+	</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define an Action that handles the form input and launches the confirmation page.<br>
+		Create a new subclass of the Action baseclass (check also Recipe 6).<br>
+		The only method you have to override is DoAction:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"bool MyCheckFormAction::DoAction(String &action, Context &c)"
+		"{"
+		"	Anything query = c.GetQuery();"
+		"	Anything fields = query[&#34;fields&#34;];"
+		" "
+		"	// code to handle the input"
+		"	// store the content of the fields in the role store for later use"
+		"	Anything rs = c.GetRoleStore();"
+		"	for(int i= 0; i < fields.GetSize(); i++) {"
+		"		// all the fields should be stored directly, because Context.Lookup cannot find"
+		"		// MyFormData.MyFirstField  --  May an idea to provide this behaviour"
+		"		rs[fields.SlotName(i)]= fields[i];"
+		"	}"
+		"	// launch confirmation page"
+		"	action = &#34;MyCheckFormAction&#34;;"
+		"	return true;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define the Layout of the confirmation page.
+		Please check recipe 1 or 4 about the basics on how to create new pages.
+		To present the data entered on the previous page, you should retrieve them 
+		from the role store using ContextLookupRenderers.
+		<P>Include as well a new FormRenderer that renders the two buttons. Check recipe 6 to learn 
+		more about using FormRenderer. Because the FormRenderer uses HTML-Templates you can
+		render the field values directly there.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ConfirmationForm {"
+		"	/Form {"
+		"		/Method &#34;GET&#34;"
+		"		/Action &#34;MyConfirmationAction&#34;"
+		"		/Template {"
+		"			&#34;You have entered:"
+		"			&#34;&lt;p>My first field :[[ &#35;wd Lookup { /ContextLookupName MyFirstField } &#93;&#93;"
+		"			&#34;&lt;p>My second field :[[ &#35;wd Lookup { /ContextLookupName MySecondField } &#93;&#93;"
+		"			...."
+		"			&#34;&lt;p>[[&#35;wd Lookup OkButtonRenderer &#93;&#93; [[&#35;wd Lookup CancelButtonRenderer &#93;&#93;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]			
+[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/OkButtonRenderer {"
+		"	/Button {"
+		"		/Name &#34;OkButton&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;I confirm&#34;"
+		"			}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/CancelButtonRenderer {"
+		"	/Button {"
+		"		/Name &#34;CancelButton&#34;"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Cancel&#34;"
+		"			}"
+		"		}"
+		"	}"		
+		"}"
+	}
+}
+]]
+</pre>
+	</li>
+	<li>Define an Action that handles the user input from the confirmation page.
+		Like in step 1. subclass from Action and overwrite the DoAction method.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"bool MyConfirmationAction::DoAction(String &action, Context &c)"
+		"{"
+		"	Anything query  = c.GetQuery();"
+		"	Anything fields = query[&#34;fields&#34;];"
+		" "
+		"	// check if Ok button was pressed"
+		"	if (fields.IsDefined(&#34;OkButton&#34;) {"
+		"		// Retrieve the fields from the Rolestore"
+		"		ROAnything rs = c.GetRoleStore();"
+		" "
+		"		// ... and perform what you like to do in the Ok case"
+		"		String firstFirst  = rs[&#34;MyFirstField&#34;].AsString(&#34;&#34;);  // just for fun"
+		"		String secondFirst = rs[&#34;MySecondField&#34;].AsString(&#34;&#34;); // just for fun"
+		" "
+		"		action = &#34;InputOk&#34;;"
+		"		return true;"
+		"	}"
+		"	// the else case could return another &#34;action&#34;."
+		"}"
+	}
+}
+]]
+</pre>
+	</li>
+	<li>Update Config.any and Role.any to properly incorporate the new page and actions.
+		Make sure the pages are setup correctly in the Config.any's /Pages tag and the /Map tags
+		of the role.any file(s) (Check Recipe 1).<br>
+		Define also the new Actions you have written:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Actions {"
+		"	/MyFormAction {"
+		"		&#34;MyForm&#34;"
+		"	}"
+		"	/MyConfirmationAction {"
+		"		&#34;ConfirmationForm&#34;"
+		"	}"
+		" "
+		"	... other Actions"
+		"}"
+	}
+}]]
+</pre>		
+	</li>
+</ol>
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe6 ]]: [[#wd Lookup TitleRecipe6 ]]</li>
+</ul>

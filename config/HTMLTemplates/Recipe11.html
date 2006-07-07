@@ -1,0 +1,60 @@
+<center><h2>[[#wd Lookup TitleRecipe11 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>This recipe describes how you deliver personalized information
+on webpages with WebDisplay. It is assumed that you are familiar 
+with the basic elements of the WebDisplay environment (e.g. roles, pages,
+renderers etc.)
+<h3>Preconditions</h3>
+<ul>
+	<li>Define the identification mechanism. After all you must 'know' who
+		the recipient is, if you want to deliver personalized content.</li>
+	<li>Define the roles you want to support</li>
+	<li>Define the access mechanism for getting the personalized information</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Derive subclasses of role and implement the Init method.<br><br></li>
+	<li>Load the personalized information in MyRole::Init and make it available
+		in the role store. Use the same tags for the entry in the roleStore as
+		later in Lookup.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"bool MyRole::Init(Context &c)"
+		"{"
+		"	Anything fields = c.GetQuery()[&#34;fields&#34;];"
+		"	Anything roleStore= GetStore();"
+		"	"
+		"	// store the personel Information in the role store"
+		"	roleStore[&#34;UserName&#34;] = fields[&#34;resultLoginName&#34;].AsString(&#34;&#34;);"
+		"	..."
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define your page templates containing renderers that use information comming
+		from the roleStore Anything.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"..."
+		"Hello Dear [[&#35;wd Lookup UserName &#93;&#93;"
+		"..."
+	}
+}]]
+</pre>
+	</li>
+</ol>        
+<h3>Remarks</h3>
+<pre>
+Stores used: RoleStore.
+Renderers used: ContextLookupRenderer
+</pre>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe8 ]]: [[#wd Lookup TitleRecipe8 ]]</li>
+	<li>[[#wd Lookup Recipe9 ]]: [[#wd Lookup TitleRecipe9 ]]</li>
+</ul>

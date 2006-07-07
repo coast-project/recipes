@@ -1,0 +1,68 @@
+<center><h2>[[#wd Lookup TitleRecipe28 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>This recipe describes how to integrate Intra-Page-Links
+while using WebDisplay. (At the moment there isn't yet a special renderer available. 
+Therefore we describe here only the static way).
+<h3>Preconditions</h3>
+<ul>
+	<li>Understand that a link within a page starts with a '#' and should 
+		not perform a http request.
+	</li>
+	<li>The flag <tt>/UseBaseURL</tt> in the Server.any has to be set to <tt>0</tt>.
+		Otherwise you will always jump to the Homepage. If you like to work with the
+		<tt>/UseBaseURL</tt> set to <tt>1</tt> you has to define a Lookup as described
+		later.
+	</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define the coarse (static) structure of your page.<br><br>
+	</li>
+	<li>Integrate for example a jump to the top after each chapter.<br>
+		<ul><li>Sample (<tt>/UseBaseURL  0</tt>):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;p>&lt;a href=&#34;#top&#34;>Top of the page&lt;/a>"
+	}
+}]]
+</pre>
+		</li>
+		<li>Sample (<tt>/UseBaseURL  1</tt>):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;p>&lt;a href=&#34;[[&#35;wd Lookup PageURL &#93;&#93;#top&#34;>Top of the page&lt;/a>"
+	}
+}]]
+</pre>
+			Page.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/PageURL {"
+		"	&#34;http&#34;"
+		"	{ /Condition {"
+		"		/ContextCondition { header.HTTPS }"
+		"		/True 	&#34;s&#34;"
+		"	} }"
+		"	&#34;://&#34;"
+		"	{ /Lookup header.HOST }"
+		"	{ /Lookup REQUEST_URI }"
+		"}"
+	}
+}]]
+</pre>
+		</li>
+	</ul></li>
+	<li>Implement this anchor.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;a name=&#34;top&#34;>Top of the page&lt;/a>"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>

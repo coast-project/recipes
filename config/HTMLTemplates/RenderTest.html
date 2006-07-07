@@ -1,0 +1,45 @@
+<!--==================================================================
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # RenderTest.html: overall page layout
+ #
+ # $Id$
+ #==================================================================-->
+<center><h2>Renderer's Test page</h2></center>
+<p>This page give's you the possibility to test any render-function you like.
+Just enter the Anything you like to render and it will be evaluated by pressing
+the Evaluate button. You can also change or define your own TmpStore, page and
+Role definitions. The renderer specification which is actual in the field is for
+example and displays the itopia welcome section from the start page.
+
+<form method="post" action="[[#wd URL {/Action EvalExpression} ]]" name="EvalForm">
+<table border=0 width="100%">
+	<tr>
+		<td colspan=2><br><h4>Additional State in TmpStore</h4></td>
+	</tr><tr>
+		<td colspan=2><textarea name="fld_Environment" rows="5" cols="80">[[#wd Lookup { fields.Environment "{ #Environment \n}" } ]]</textarea></td>
+	</tr><tr>
+		<td><br><h4>Page:</h4>[[#wd Lookup PageBox ]]</td>
+		<td><br><h4>Role:</h4>[[#wd Lookup RoleBox ]]</td>
+	</tr><tr>
+		<td colspan=2><br><h4>Renderer Expression</h4></td>
+	</tr><tr>
+		<td colspan=2><textarea name="fld_Renderer" rows="5" cols="80">[[#wd Lookup { fields.Renderer
+			"{ #Renderer \n	/Lookup PageSpecificWelcomeSection\n}" } ]]</textarea></td>
+	</tr><tr>
+		<td colspan=2><br>&nbsp;&nbsp;&nbsp;&nbsp;[[#wd Lookup EvaluateButton ]]&nbsp;&nbsp;&nbsp;&nbsp;
+		[[#wd Lookup ClearButton ]]</td>
+	</tr><tr>
+		<td colspan=2><hr></td>
+	</tr><tr> 
+        <td colspan=2><br><h4>HTML Source Code</h4></td>
+	</tr><tr bgcolor="#CfFFFF">
+		<td colspan=2><textarea name="fld_Result" rows="3" cols="80">[[#wd HTMLEscapeRenderer { /Lookup { Result "<Result>" } } ]]</textarea></td>
+	</tr><tr> 
+		<td colspan=2><br><h4>Rendered HTML</h4></td>
+	</tr><tr bgcolor="#CCFFFF"> 
+        <td height=50>[[#wd Lookup Result1]]</td>
+	</tr>
+</table>
+</form>
