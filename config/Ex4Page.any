@@ -1,0 +1,213 @@
+ #--------------------------------------------------------------------
+ # Copyright (c) 2000 itopia
+ # All Rights Reserved
+ #
+ # Ex4Page: configuration file for the Ex4Page page
+ #
+ # $Id$
+ #--------------------------------------------------------------------
+
+{
+    /PageTitle "Example 4 Page of WebDisplay (text from Ex4Page.any)"
+	
+	/Body {
+		/HTML {
+			/TemplateName { Ex4Page }
+		}
+	}
+
+	#---- Parts --------------------------------------------------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>"
+						"This is the PageSpecificWelcomeSection <small><i>(text from Ex4Page.any)</i></small>"
+					"</td>"
+					"<td align=right width=33%>&#160;</td>"
+				"</tr>"
+				"<tr>"
+					"<td align=left>"
+						{/Lookup RecipesListPage }
+					"</td>"
+					"<td align=center>"
+						"<b>Example 4</b><br>Recipes 20 - 30<br>"
+					"</td>"
+					"<td align=right>&#160;</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+	
+	#----for recipe 20 -----------------------------------------------
+	/DataContents {
+		"<table border=1 cellpadding=3 cellspacing=0>"
+		"<tr bgcolor=#BEBEBE><th>"
+		"Konto</th><th>"
+		"Kontobezeichnung</th><th>"
+		"Währung</th></tr>"
+		{
+			 /ListRenderer {
+				 /ListName  AccountData
+				 /EntryStore ActualData
+				 /EntryHeaders {
+							"<tr bgcolor=#FFFAFA>"
+							"<tr bgcolor=#D3D3D3>"
+						}
+				 /EntryRenderer {
+					"<td>"
+					{/Lookup ActualData.KTOST}
+					"</td><td>"
+					{/Lookup ActualData.KTOBEZ}
+					"</td><td>"
+					{/Lookup ActualData.WHRC}
+					"</td></tr>"
+				 }
+			}
+		}
+		"</table>"
+	}
+
+	#----for recipe 21 -----------------------------------------------
+	/ShowImage1 {
+		/Image {
+			/ImageName somelogo_small.gif
+			/Options {
+				"Border=2" "alt='somelogo'"
+			}			
+		}
+	}
+	
+	/ShowImage2 {
+		/Image {
+			/ImageName somelogo_small.gif
+			/Options {
+				"Border=0" "HEIGHT=105" "WIDTH=365" "HSPACE=15" "alt='somelogo'"
+			}			
+		}
+	}
+	
+	#----for recipe 24 -----------------------------------------------
+	/UserInputForm {
+		/Form {
+			/Template {
+			"<CENTER><TABLE WIDTH=100%>"
+				"<TR><TD WIDTH=50% ALIGN=RIGHT>Input Field:&nbsp;</TD>\
+					<TD WIDTH=50%>[[#wd Lookup AnElementOfForm ]]</TD></TR>"
+				"<TR><TD ALIGN=RIGHT>TextArea:&nbsp;</TD>\
+					<TD>[[#wd Lookup TextArea ]]</TD></TR>"
+				"<TR><TD ALIGN=RIGHT>PasswordField:&nbsp;</TD>\
+					<TD>[[#wd Lookup PasswordField ]]</TD></TR>"
+				"<TR><TD ALIGN=RIGHT>CheckBox:&nbsp;</TD>\
+					<TD>[[#wd Lookup CheckBox ]]</TD></TR>"
+				"<TR><TD ALIGN=RIGHT>SubmitButton:&nbsp;</TD>\
+					<TD>[[#wd Lookup SubmitButton ]]</TD></TR>"
+				"<TR><TD ALIGN=RIGHT>ImageButton:&nbsp;</TD>\
+					<TD>[[#wd Lookup ImageButton ]]</TD></TR>"
+				"</TABLE></CENTER>"
+			}
+			/Method "GET"
+			/Action "DoSomething"
+		}
+	}
+	
+	/AnElementOfForm {
+		/Text {
+			/Name		username
+			/Value		UserNameField
+			/Size		32
+		}
+	}
+	
+	/TextArea {
+		/TextArea {
+			/Name	textarea
+			/Value 	TextAreaField
+		}
+	}
+	
+	/PasswordField {
+		/Text {
+			/Name	resultPassword
+			/Value	lookupPasswdDefault
+			/Unreadable	1
+			/Size	16
+		}
+	}
+	
+	/CheckBox {
+		/CheckBox {
+			/Name 	BoxField
+			/Value	"on"
+		}
+	}
+	
+	/SubmitButton {
+		/Button {
+			/Name	submit
+			/Label {
+				/String {
+					/Default "This Page"
+				}
+			}
+		}
+	}
+
+	/ImageButton {
+		/ImageButton {
+			/Name	"myName"
+			/Value	"myValue"
+			/Src 	{
+				/ImageLocation {
+					 "somelogo_small.gif"
+				}
+			}
+			/Options {
+				"ALT=Image ???" "WIDTH=100" "HIGHT=50"
+			}
+		}
+	}
+	
+	#----for recipe 26 -----------------------------------------------
+	/MyBuildingBlock {
+		/String {
+			/Default "Hello World"
+		}
+	}
+	/LinkToEx3 {
+		/Link {
+			/Label {
+				/String {
+					/Default "Example 3"
+				}
+			}
+			/Action "GoExample3"
+		}
+	}
+	
+	#----for recipe 27 -----------------------------------------------
+	/ButtAppl {
+		/Applet {
+			/Options "width=380 height=90"	# size of the whole applet
+			/CodeBase 			{ /Lookup AppletPath }
+			/Applet		 		"AppletButton.class"
+			/Params {
+				/WINDOWCLASS	{ "TestWindow" }
+				/BUTTONTEXT		{ "Creates a new window ..."}
+				/WINDOWTITLE	{ "my Window" }
+				/WINDOWWIDTH	{ "500"	}
+				/WINDOWHEIGHT	{ "300"	}
+				/FONT			{ "SansSerif"	}
+			}
+		}
+	}	
+}
+

@@ -1,0 +1,125 @@
+<center><h2>[[#wd Lookup TitleRecipe20 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Most of the pages shown on the WWW contain tables. Since this is a 
+very practical and well known format, we support it with WebDisplay. 
+We differ two kind of tables.  Fixed size tables
+when you know the layout in advance and dynamically sized tables.
+The second case is the more interesting and we will concentrate on
+this one in the next steps.
+<h3>Preconditions</h3>
+<ul>
+	<li>We know what HTML-Tables are and what kind of options they support</li>
+	<li>We know our data sources and the record structures representation</li>
+	<li>We want to render a fixed record structure with a data dependent
+		number of entries into an HTML-Table</li>
+	<li>The ListRenderer is defined in Config.any.
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define a static HTML-Table with some sample data. Try out formatting
+		and layout options.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {				
+		"&lt;table border=0>"
+		"&lt;tr>"
+		"	&lt;th>Account-No&lt;/th>&lt;th>Name&lt;/th>&lt;th>Currency&lt;/th>"
+		"&lt;/tr>"
+		"&lt;tr valign=top>"
+		"	&lt;td>123456&lt;/td>&lt;td align=right>Tax&lt;/td>&lt;td>CHF&lt;/td>"
+		"&lt;/tr>"
+		"&lt;tr valign=top>"
+		"	&lt;td>546123&lt;/td>&lt;td align=right>Savings&lt;/td>&lt;td>CHF&lt;/td>"
+		"&lt;/tr>"
+		"&lt;tr valign=top>"
+		"	&lt;td>987456&lt;/td>&lt;td align=right>Loan&lt;/td>&lt;td>USD&lt;/td>"
+		"&lt;/tr>"
+		"&lt;/table>"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define the needed layout and variable formatting options. With this 
+		information you can fill in a first version of a list renderer
+		specification into the Ex4Page.any file where you want to show the table.<br>
+		Assume you have account records to display with n-fields. You want to display
+		three of them KTOST, KTOBEZ, WHRC, which are the field identifier in the record.
+		The specification has the following structure shown by the example:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/DataContents {"
+		"	&#34;&lt;table border=1 cellpadding=3 cellspacing=0>&#34;   # HTML definitions for table with"
+		"	&#34;&lt;tr bgcolor=#BEBEBE>&lt;th>&#34;                       # specific options"
+		"	&#34;Konto&lt;/th>&lt;th>&#34;                                 # Headers of the table"
+		"	&#34;Kontobezeichnung&lt;/th>&lt;th>&#34;"
+		"	&#34;Währung&lt;/th>&lt;/tr>&#34;"
+		"	{"
+		"		 /List { "
+		"			 /ListName  AccountData					# data source"
+		"			 /EntryStore ActualData					# temporary stored at"
+		"			 /EntryHeaders {"
+		"						&#34;&lt;tr bgcolor=#FFFAFA>&#34;"
+		"						&#34;&lt;tr bgcolor=#D3D3D3>&#34;"
+		"					}"
+		"			 /EntryRenderer {						# renderer for the columns"
+		"				&#34;&lt;td>&#34;"
+		"				{/Lookup ActualData.KTOST}"
+		"				&#34;&lt;/td>&lt;td>&#34;"
+		"				{/Lookup ActualData.KTOBEZ}"
+		"				&#34;&lt;/td>&lt;td>&#34;"
+		"				{/Lookup ActualData.WHRC}"
+		"				&#34;&lt;/td>&lt;/tr>&#34;"
+		"			 }"
+		"		}"
+		"	}"
+		"	&#34;&lt;/table>&#34;"
+		"}"
+	}
+}]]
+</pre>
+		Be aware, that this is a complex specification and allows for a lot of
+		customization through self made renderers in the body of the cell
+		specifications.<br><br>
+	</li>
+	<li>Define the source of your data. It might be the case that you have
+		some sort of data access to a transaction system (e.g. a data base).
+		In the preprocessing of the page you have to access this data and put
+		all the needed records into the TmpStore of the Context.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"void Ex4Page::Preprocess(Context &c)"
+		"{"	
+		"	Anything tmpStore=	c.GetTmpStore();"
+		" "
+		"	// get some data probably from a Host Transaction"
+		"	// Transaction::ExecTransaction(c,  &#34;AccountAccess &#34;, input, output);"
+		"	"
+		"	// get for recipe 20 some data from a file in Anything-format"
+		"	Anything input;"
+		"	iostream *is = System::OpenStream(  &#34;AccountData.any &#34;, 0 );"
+		"	if ( is != 0 ) {"
+		"		// opened ok; now read the content, close the file and store the data in tmpStore"
+		"		input.Import(*is);"
+		"		delete is; is = 0;"
+		"		"
+		"		tmpStore[ &#34;AccountData &#34;] = input;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+        
+<h3>Remarks</h3>
+<p>See renderer specifications<br>
+See page preprocess
+<p>This renderer is supposed to be changed and adapted to your needs!!
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>See more renderers and especially the list renderer.
+<ul>
+	<li>[[#wd Lookup Recipe26 ]]: [[#wd Lookup TitleRecipe26 ]]</li>
+</ul>

@@ -1,0 +1,584 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2000 itopia
+# All Rights Reserved
+#
+# Page: configuration file for the Page
+#--------------------------------------------------------------------
+{
+	/Version    "$Id$"
+
+	#---- Overall Page Layout --------------------------------------------------
+	/PageLayout {
+		/HTML {
+			/TemplateName { SharedPageLayout }
+		}
+	}
+
+	/WebDisplay2DocuIndex	"/WebDisplayDoc/index.html"					# DevTest
+#	/WebDisplay2DocuIndex	"http://hexa/WebDisplayDoc/index.html"
+#	/WebDisplay2DocuIndex	"http://feadntsrv1.telekurs.com/WebDisplayDoc/index.html"
+
+	#---- Header stuff ---------------------------------------------------------
+	/NewHeader {
+		{
+			"<table width=100%>"
+				"<tr>"
+					"<td width=80% align=center>"
+						"<h1>Cookbook WebDisplay</h1>"
+						"<h3>"{/Lookup PageTitle }"</h3>"
+						"<p>"{/Lookup RecipesListPage }"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+# no actual docu available, link is set to class doc
+#						{/Lookup Doku }"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+						"<a href='"
+							{ /Lookup WebDisplay2DocuIndex }
+						"' target=_blank>WebDisplay2 Class-Index</a>"
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+						{/Lookup TipsAndHints }
+						"<br><br>"
+						{/Lookup RenderTestPage }
+						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+						{/Lookup ActionTestPage }
+					"</td>"
+					"<td width=20%><a name=top>"
+						{/Image  {
+							/ImageName somelogo_small.gif
+							/Options {
+								"alt='somelogo'"
+							}
+						}}
+					"</a></td>"
+				"</tr>"
+			"</table>"
+			"<hr>"
+		}
+	}
+
+	/Header {
+		"<center><h4>This is the Header <small><i>(text from page.any)</i></small></h4></center><hr>"
+	}
+
+	#---- Parts ----------------------------------------------------------------
+	#---- for all Examples (but maybe overwritten sometimes) -------------------
+	/PageSpecificWelcomeSection {
+		{
+			"<table>"
+				"<tr>"
+					"<td align=left width=10%>"
+						{/Image  {
+							/ImageName somelogo_big.gif
+							/Options {
+								"width=270" "alt='somelogo'"
+							}
+						}}
+					"</td>"
+					"<td align=center width=33%>This is the PageSpecificWelcomeSection <small><i>(text from Page.any)</i></small></td>"
+					"<td align=right width=33%>"
+						{/Lookup Photo }
+					"</td>"
+				"</tr>"
+				"<tr>"
+					"<td align=left>"
+						{/Lookup RecipesListPage }
+					"</td>"
+					"<td align=center>"
+						"<b>Example 1</b><br>Recipes 1 to 4<br>"
+					"</td>"
+					"<td align=right>"
+						{/Lookup Text1 }
+					"</td>"
+				"</tr>"
+			"</table>"
+		}
+	}
+
+	/PageBox {
+		/Select {
+			/Name Page
+			/ListData {
+				HomePage
+				RecipeListPage
+				RecipesPage
+				DokuPage
+				TipsPage
+				RenderTest
+				ActionTest
+				FirstPage
+				SecondPage
+				ThirdPage
+				AnotherPage
+				InfoPage
+				Ex2Page
+				ConfirmPage
+				ShowInputPage
+				Ex3Page
+				ShowWhichUsersPage
+				Ex4Page
+			}
+			/TextRenderer {
+				/Lookup SelectBoxOption
+			}
+			/ValueRenderer {
+				/Lookup SelectBoxOption
+			}
+		}
+	}
+
+	/RoleBox {
+		/Select {
+			/Name Role
+			/ListData {
+				Default
+				GuestRole
+				CustomerRole
+				AdminRole
+			}
+			/TextRenderer {
+				/Lookup SelectBoxOption
+			}
+			/ValueRenderer {
+				/Lookup SelectBoxOption
+			}
+		}
+	}
+
+	#---- for Example 1 only  (maybe overwritten sometimes) ---------------
+	/Text1 {
+		{/Lookup Question1 }
+		"<br>"
+		"<small><i>(picture from SharedPageLayout/page.any <br>see "
+		{/Lookup Recipe4 }
+		"<br> and use Next Page Button)</i></small>"
+	}
+
+	/Question1 {
+		/String {
+			/Default "Do you know this very famous sight on this picture above?"
+		}
+	}
+
+	/Photo {
+		{/Image {
+			/ImageName zermatt.jpeg
+			/Options {
+				"alt='zermatt'"
+			}
+		}}
+	}
+
+	#---- for Example 2 only  (maybe overwritten sometimes) ---------------
+	/NavigationBar {
+		/HTML {
+			/TemplateName { NavigationBar }
+		}
+	}
+
+	/StartPagePage {
+		/Link {
+			/Label { "Start Page" }
+			/Action "Home"
+		}
+	}
+	/Example1Page {
+		/Link {
+			/Label { "Example 1" }
+			/Action "GoFirstPage"
+		}
+	}
+	/Example2Page {
+		/Link {
+			/Label { "Example 2" }
+			/Action "GoExample2"
+		}
+	}
+	/ConfirmPagePage {
+		/Link {
+			/Label { "Confirmation Page" }
+			/Action "GoConfirmPage"
+		}
+	}
+	/ShowInputPagePage {
+		/Link {
+			/Label { "Show Input" }
+			/Action "GoShowInputPage"
+		}
+	}
+
+	#---- for Example 3 only  (maybe overwritten sometimes) ---------------
+	/LogoutLink {
+		/Link {
+			/Label { "Logout" }
+			/Action "Logout"
+		}
+	}
+
+	#---- for mixing the application with the recipes  -------------------------
+	/RecipesListPage {
+		/Link {
+			/Label { "List of Recipes" }
+			/Action "GoRecipeListPage"
+		}
+	}
+
+	/Doku {
+		/Link {
+			/Label { "WebDisplay Documentation" }
+			/Action GoDoku
+		}
+	}
+
+	/TipsAndHints {
+		/Link {
+			/Label { "Tips and Hints" }
+			/Action GoTips
+		}
+	}
+
+	/RenderTestPage {
+		/Link {
+			/Label { "Renderer Test" }
+			/Action GoRenderTest
+		}
+	}
+
+	/ActionTestPage {
+		/Link {
+			/Label { "Action Test" }
+			/Action GoActionTest
+		}
+	}
+
+	/Recipe1 {
+		/Link {
+			/Label { "Recipe1.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe1"
+			}
+		}
+	}
+	/Recipe2 {
+		/Link {
+			/Label { "Recipe2.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe2"
+			}
+		}
+	}
+	/Recipe3 {
+		/Link {
+			/Label { "Recipe3.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe3"
+			}
+		}
+	}
+	/Recipe4 {
+		/Link {
+			/Label { "Recipe4.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe4"
+			}
+		}
+	}
+	/Recipe5 {
+		/Link {
+			/Label { "Recipe5.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe5"
+			}
+		}
+	}
+	/Recipe6 {
+		/Link {
+			/Label { "Recipe6.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe6"
+			}
+		}
+	}
+	/Recipe7 {
+		/Link {
+			/Label { "Recipe7.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe7"
+			}
+		}
+	}
+	/Recipe8 {
+		/Link {
+			/Label { "Recipe8.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe8"
+			}
+		}
+	}
+	/Recipe9 {
+		/Link {
+			/Label { "Recipe9.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe9"
+			}
+		}
+	}
+	/Recipe10 {
+		/Link {
+			/Label { "Recipe10.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe10"
+			}
+		}
+	}
+	/Recipe11 {
+		/Link {
+			/Label { "Recipe11.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe11"
+			}
+		}
+	}
+	/Recipe12 {
+		/Link {
+			/Label { "Recipe12.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe12"
+			}
+		}
+	}
+	/Recipe13 {
+		/Link {
+			/Label { "Recipe13.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe13"
+			}
+		}
+	}
+	/Recipe14 {
+		/Link {
+			/Label { "Recipe14.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe14"
+			}
+		}
+	}
+	/Recipe20 {
+		/Link {
+			/Label { "Recipe20.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe20"
+			}
+		}
+	}
+	/Recipe21 {
+		/Link {
+			/Label { "Recipe21.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe21"
+			}
+		}
+	}
+	/Recipe22 {
+		/Link {
+			/Label { "Recipe22.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe22"
+			}
+		}
+	}
+	/Recipe23 {
+		/Link {
+			/Label { "Recipe23.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe23"
+			}
+		}
+	}
+	/Recipe24 {
+		/Link {
+			/Label { "Recipe24.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe24"
+			}
+		}
+	}
+	/Recipe25 {
+		/Link {
+			/Label { "Recipe25.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe25"
+			}
+		}
+	}
+	/Recipe26 {
+		/Link {
+			/Label { "Recipe26.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe26"
+			}
+		}
+	}
+	/Recipe27 {
+		/Link {
+			/Label { "Recipe27.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe27"
+			}
+		}
+	}
+	/Recipe28 {
+		/Link {
+			/Label { "Recipe28.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe28"
+			}
+		}
+	}
+	/Recipe29 {
+		/Link {
+			/Label { "Recipe29.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe29"
+			}
+		}
+	}
+	/Recipe30 {
+		/Link {
+			/Label { "Recipe30.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe30"
+			}
+		}
+	}
+	/Recipe40 {
+		/Link {
+			/Label { "Recipe40.html" }
+			/Action RecipeAction
+			/Params {
+				/WhichRecipe "Recipe40"
+			}
+		}
+	}
+	/TitleRecipe1 { "How do I create a 'static' HTML page?" }
+	/TitleRecipe2 { "I want to link 2 (static) pages forth and back" }
+	/TitleRecipe3 { "I've already got these (static) HTML pages. How can I get\
+					WebDisplay to display them for me?" }
+	/TitleRecipe4 { "You've got these predefined building blocks for HTML pages.\
+					How do I compose my page using these nice components?" }
+	/TitleRecipe5 { "Hey, my website should look consistent without too much work.\
+					How can I define my layout rules only once and reuse them?" }
+	/TitleRecipe6 { "How can I gather user input?" }
+	/TitleRecipe7 { "I want to behave user friendly and allow the user to check	\
+					what he entered before sending it finally"}
+	/TitleRecipe8 { "Different users should see different parts of my Web-Site.\
+					How can I use roles?" }
+	/TitleRecipe9 { "I need to control access to my Web-Site. How can I create	\
+					a login-page?" }
+	/TitleRecipe10 { "My 'corporate communication' department wants to have the internet bar's menu on every page" }
+	/TitleRecipe11 { "How Do I personalize the information on a page?" }
+	/TitleRecipe12 { "How can I implement a shopping cart application with WebDisplay?" }
+	/TitleRecipe13 { "How do I establish a page hierarchy?" }
+	/TitleRecipe14 { "How can I use Style Sheets with WebDisplay?" }
+	/TitleRecipe20 { "How do you get these nice-looking tables on a page? - or how I use the list renderer." }
+	/TitleRecipe21 { "I need to show my company logo on each page" }
+	/TitleRecipe22 { "When and how should I use this strange thing \
+					'ConditionalRenderer' or a 'SwitchRenderer'?" }
+	/TitleRecipe23 { "This nice country switzerland has at least 3 languages. \
+					How can I render my pages language specific?" }
+	/TitleRecipe24 { "I need customer responses. \
+					How can I provide input forms to gather information?" }
+	/TitleRecipe25 { "The content of my pages depends on a database (or a file etc.). \
+					How do I create pages that are filled dynamically?" }
+	/TitleRecipe26 { "When and how should I use a ContextLookupRenderer?" }
+	/TitleRecipe27 { "Hey, Java-Applets are cute. How can I get one to work on my page?" }
+	/TitleRecipe28 { "I do not like to scroll that much. How can I give my users the option to \
+					zap through a lengthy page forth and back?" }
+	/TitleRecipe29 { "When and how should I create a new Renderer subclass?" }
+	/TitleRecipe30 { "When and how should I create a new Page C++ subclass?" }
+	/TitleRecipe40 { "How do I configure a http-server with WebDisplay?" }
+
+    #---- Footer stuff ---------------------------------------------------------
+    /Footer {
+		"<hr>"
+		"<table width=100%>"
+			"<tr>"
+				"<td width=35% align=left>"
+					"Today is: "
+					{/Date { /Format "%A the %#d. %B %Y, %X" }}
+				"</td>"
+				"<td width=30% align=center>"
+					"Powered by WebDisplay2"
+				"</td>"
+				"<td width=35% align=right>"
+					"<a href='mailto:marcel.huber@telekurs.com'>Changes are welcome: marcel.huber@telekurs.com</a>"
+				"</td>"
+			"</tr>"
+		"</table>"
+		"<hr><a href='"
+		{ /Lookup PageURL }
+		"#top'>Top of the page</a><p>"
+		{/Lookup ConditionalDebugOutput }
+	}
+	/ConditionalDebugOutput {
+		/Condition {
+			/ContextCondition { ShowDebugOutput }
+			/True {
+				"Diagnostic Output: &nbsp;&nbsp;&nbsp;&nbsp; <i><small>( "
+				{/Lookup DebugLink }
+				" )</small></i>"
+				{/MyDataRenderer { } }
+				"<pre>Data from Page.any:<br>"
+				"Last Page      : "{/Lookup page}"<br>"
+				"Last Role      : "{/Lookup role}"<br>"
+				"Last Action    : "{/Lookup action}"</pre>"
+			}
+			/False {
+				"No Diagnostic Output selected (if required change ShowDebugOutput to 1)."
+			}
+		}
+	}
+	/DebugLink {
+		/Link {
+			/Label { "Explain Debug Output" }
+			/Action GoTips
+		}
+	}
+
+	/PageURL {
+		"http"
+		{ /Condition {
+			/ContextCondition { header.HTTPS }
+			/True 	"s"
+		} }
+		"://"
+		{ /Lookup header.HOST }
+		{ /Lookup REQUEST_URI }
+	}
+	/PostRender {
+		/LoggingAction {
+			/Channel	AccessLog
+		}
+	}
+}
