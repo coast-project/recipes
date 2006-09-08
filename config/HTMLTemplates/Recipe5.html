@@ -1,0 +1,197 @@
+<center><h2>[[#wd Lookup TitleRecipe5 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Many elements of a HTML page are shared between most, if not all,
+pages of a website. This recipe shows how you can use WebDisplay
+to define common stuff just once and use it on every page.
+
+<h3>Preconditions</h3>
+<p>-
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define the general page hierarchie. This has to be done in the config.any files
+		/Pages item.<br>
+		For example :
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Pages {"
+		"	# Subpages of &#34;Page&#34;"
+		"	/Page {"
+		"		&#34;HomePage&#34; &#34;LoginPage&#34;"
+		"		/AccountPage {"
+		"			&#34;BookingsPage&#34; &#34;BalancePage&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		This defines the page hierarchie:
+<pre>
+Page
+|_HomePage
+|_LoginPage
+|_AccountPage
+   |_BuchungsPage
+   |_BalancePage
+</pre>
+		<i><font size=-1><b>Remarkable:</b> mixed mode Anything - Slotnames and Values are defining pages !</font></i><br><br>
+	</li>
+	<li>Specify the different parts, that should be shared amongst the pages 
+		(e.g. Header, Footer, NavBar etc). This is only a mental process.<br><br>
+	</li>
+	<li>Specify a tag /PageLayout in the configuration file for the 
+		topmost page (normally Page.any), that declares a shared layout 
+		html-file.<br>
+		For Example like this:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/PageLayout {"
+		"	/HTML {"
+		"		/TemplateName &#34;SharedPageLayout&#34;    #uses the file SharedPageLayout.html"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		The file must be located in one of the directories that are specified
+		in the /TemplateDir item below 'HTMLTemplateConfig' in Config.any.<br><br>
+	</li>
+	<li>Create the shared layout html-file in the HTMLTemplates directory.
+		Write the common overall Layout for all pages into this file, using
+		Standard HTML and WebDisplay Renderer tags.
+		<p><b>Important:</b> Use ContextLookupsRenderers for the shared parts identified in step 2.
+		<br>The following example will give you a good start:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;html>"
+		"	&lt;head>"
+		"		&lt;title>"
+		"			[[&#35;wd Lookup PageTitle &#93;&#93;"
+		"		&lt;/title>"
+		"	&lt;/head>"
+		"	&lt;body background= [[&#35;wd Image { /ImageName &#34;backgrnd.gif&#34; } &#93;&#93; >"
+		"		[[&#35;wd Lookup Header &#93;&#93;"
+		"		[[&#35;wd Lookup Body &#93;&#93;"
+		"		[[&#35;wd Lookup Footer &#93;&#93;"
+		"	&lt;/body>"
+		"&lt;/html>"
+	}
+}]]
+</pre>
+	</li>
+	<li>Now you can easily define different renderers for the elements in Page.any. 
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Header {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;[[&#35;wd Image { /ImageName &#34;MyLogo.gif&#34; } &#93;&#93;&#34;"
+		"			&#34;&lt;center>[[&#35;wd Lookup Menu &#93;&#93;&lt;/center>&lt;p>&#34;"
+		"			&#34;&lt;hr>&#34;"
+		"		}"
+		"	}"
+		"}"	
+		" "
+		"/Footer {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;&lt;hr>&lt;center>powered by WebDisplay&lt;/center>&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		As you can see, the Renderer specifications
+		may also refer to more ContextLookupRenderer, which of course may be specified 
+		differently within subpages (e.g. Menu in Header).
+		Only Renderer specifications that are shared have to be defined in the 
+		superpages configuration files. 
+		If you specify any of the renderers again in the configuration file
+		of a subpage the definition of its superpage is overwritten on 
+		this page and all its subpages.<br>
+		AccountPage.any could look like this:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Menu {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;&lt;center>&#34;"
+		"			&#34;[[&#35;wd Lookup LinkBuchung &#93;&#93;&#34;"
+		"			&#34;[[&#35;wd Lookup LinkBalance &#93;&#93;&#34;"
+		"			&#34;&lt;/center>&#34;"
+		"		}"
+		"	}"			
+		"}"
+		" "
+		"/LinkBookings {"
+		"	/Link {"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Bookings&#34;"
+		"			}"
+		"		}"
+		"		/Action &#34;GoBookings&#34;"
+		"	}"
+		"}"
+		" "
+		"/LinkBalance {"
+		"	/Link {"
+		"		/Label {"
+		"			/String {"
+		"				/Default &#34;Balance&#34;"
+		"			}"
+		"		}"
+		"		/Action &#34;GoBalance&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		Any finally BalancePage.any just defines PageTitle and Body:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/PageTitle	Balance"
+		" "
+		"/Body {"
+		"	/HTML {"
+		"		/Template {"
+		"			&#34;You have &#34;"
+		"			&#34;[[&#35;wd BalanceRenderer AccountKey &#93;&#93;&#34;"
+		"			&#34; on your account.&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]		
+</pre>
+		Assume there is a BalanceRenderer that maybe fetch the Balance from a Database.
+		<p>The Balance page will look like this
+<pre>
+-------------------------------------------------------------------
+| Balance                                                         | BalancePage.any
+-------------------------------------------------------------------
+| ------                                                          | Page.any
+| |Logo|                  Bookings Balance                        | AccountPage.any
+| ------                  -------- -------                        |
+| --------------------------------------------------------------- |
+|                                                                 |
+| You have $1'000'000 bilion on your account                      | BalancePage.any
+|                                                                 |
+| --------------------------------------------------------------- |
+|                      powered by WebDisplay                      | Page.any
+|                                                                 |
+-------------------------------------------------------------------
+</pre>
+	</li>
+</ol>
+<h3>Remarks</h3>
+<p>This recipe has not been implemented in the example application. Please see recipe 4.
+<h3>Glossary</h3>
+<p>-
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe4 ]]: [[#wd Lookup TitleRecipe4 ]]</li>
+	<li>[[#wd Lookup Recipe14 ]]: [[#wd Lookup TitleRecipe14 ]]</li>
+</ul>

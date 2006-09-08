@@ -1,0 +1,221 @@
+<center><h2>[[#wd Lookup TitleRecipe23 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>WebDisplay supports two mechanisms for localization:
+<ol>
+	<li>Localization of individual strings may be achieved by using a StringRenderer.
+		By localizing individual strings StringRenderer offers a very fine level of
+		granularity. The approach is generally taken if there is not too much text to be
+		localized and the overall layout of the page stays the same no matter what the current
+		language might be. (Examples of short strings that might be localized this way might
+		be titles, labels, headings, etc.)<br><br>
+	</li>
+	<li>Whole Pages may be rendered language specific by using different HTML templates
+		with the HTMLTemplateRenderer. This approach offers a more coarse level of
+		granularity. It is usually used were the structure of a page depends very much
+		on the chosen language. In those cases there is generally not enough common page
+		structure that might be shared among different localized pages.<br><br>
+	</li>
+</ol>
+<p>There are several language related settings in the Config.any configuration file.
+These define if and what localized versions are supported by the WebDisplay server. 
+<h3>Preconditions</h3>
+<p>It is assumed that the un-localized application already exists, i.e. all the
+necessary configuration files for roles, pages etc. are completed.
+<h3>Steps to do:</h3>
+<ol>
+	<li>The first step to get language specific pages is to setup the localization
+		related entries (Language, UseBrowserLang and LanguageKeyMap) in Config.any.<br>
+		Example: Localization related settings in Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"# set the default language to &#34;E&#34; (English)"
+		"/Language		E"
+		" "
+		"# enable the language settings of the clients browser"
+		"/UseBrowserLang	1"
+		" "
+		"# mapping of browser settings to abbreviations of the supported languages"
+		"# this server supports four languages: D, E, F, I (e.g. German, English, "
+		"# French and Italien)"
+		"/LanguageKeyMap {"
+		"	/D	{ &#34;de&#34; &#34;de-CH&#34; &#34;de-DE&#34; &#34;de-AU&#34; }"
+		"	/E	{ &#34;en&#34; &#34;en-GB&#34; &#34;en-US&#34; }"
+		"	/F	{ &#34;fr&#34; &#34;fr-BE&#34; &#34;fr-CA&#34; &#34;fr-FR&#34; &#34;fr-CH&#34; }"
+		"	/I	{ &#34;it&#34; }"
+		"}"
+	}
+}]]
+</pre>
+		Notice: In WebDisplay a language is typically identified by a short string. (In the
+		above example the strings "D", "E", "F" and "I" were used as identifiers for
+		German, English, French and Italian.) This identifier is used by WebDisplay to
+		retrieve localized versions of strings and HTML templates.
+		<p>All the localization related settings in Config.any are optional: 
+		<ul>
+			<li>The entry 'Language' statically defines the default language setting for the server. 
+				If 'Language' is not defined in Config.any, "D" is assumed to be the default
+				language.
+			</li>
+			<li>The entry 'UseBrowserLang' decides if the language may be chosen at runtime. If
+				'UseBrowserLang' is set to 1 (TRUE) WebDisplay decides at runtime what language
+				to use by evaluating the users browser settings. (The user may choose his
+				preferred language in the WWW browser.)
+			</li>
+			<li>The settings in 'LanguageKeyMap' are then
+				used to map browser language settings to the identifiers used by WebDisplay.
+			</li>
+		</ul>
+		<br>Example:	
+		<br>In the above example the default language was set to "E" (English).
+		Evaluation of browser settings was enabled and a map for various
+		browser settings was defined. (If a user has defined French to
+		be the language of his choice, each of his requests will contain
+		the browser setting "fr". Because of above 'LanguageKeyMap' each
+		such request will cause WebDisplay to use its "F" localized version.<br><br>
+	</li>
+	<li>Localizing strings:<br><br>
+		A given string may be localized by replacing the respective text with a call to
+		a StringRenderer. (This indirection allows WebDisplay to render a language
+		specific string.)<br>
+		Example: The static text "Good day" is replaced by a call to a StringRenderer:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&lt;td>Good day&lt;/td>"
+		" "
+		"becomes:"
+		" "
+		"  &lt;td>[[&#35;wd Lookup myString &#93;&#93;&lt;/td>"
+	}
+}]]
+</pre>
+		All that remains to be done is to define a respective renderer 
+		specification for 'myString':
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/myString {"
+		"	/String {"
+		"		/F          &#34;Bonjour&#34;"
+		"		/E          &#34;Good day&#34;"
+		"		/CH         &#34;Gr&uuml;ezi&#34;"
+		"		/Default    &#34;Guten Tag&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		<i><font size=-1>(<b>Notice:</b> The slot names for the different localized versions of a 
+		text directly correspond to the language identifier used by WebDisplay.
+		If the StringRenderer specification does not contain an entry for the
+		current language identifier then the 'Default' entry is used. 
+		A minimal specification for a String Renderer must always contain the 
+		'Type' and the 'Default' slot.)</font></i>
+		<p>Although the renderer specification of an individual StringRenderer may be placed
+		in any configuration file, it is usually put in a separate file. (So as to collect
+		all translated strings in one place.) In Config.any the entry 'StringFile' may 
+		name a file where you want to keep your localized strings:<br>
+		Example:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/StringFile		&#34;MyLocalizedStrings&#34;"
+	}
+}]]
+</pre>
+		You might now put the Renderer specification for 'myString' in the
+		file 'MyLocalizedStrings.any':
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"# content of: MyLocalizedStrings.any"
+		"{"
+		"	/myString {"
+		"		/String {"
+		"			/F          &#34;Bonjour&#34;"
+		"			/E          &#34;Good day&#34;"
+		"			/CH         &#34;Gr&uuml;ezi&#34;"
+		"			/Default    &#34;Guten Tag&#34;"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Localizing HTML template files:<br><br>
+		The same language identifiers that are used to localize individual strings may also be 
+		used to localize whole HTML templates.<br>
+		Usually HTML templates are retrieved using the path defined by the Config.any 
+		entry 'TemplateDir' below 'HTMLTemplateConfig'.<br>
+		Example: All HTML templates are retrieved from config/HTMLTemplates:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/HTMLTemplateConfig {"
+		"	/TemplateDir	&#34;config/HTMLTemplates&#34;"
+		"}"
+	}
+}]]
+</pre>
+		It is now possible to setup different sub-directories for localized versions
+		of individual HTML templates. All the template files for one language go 
+		into one directory.
+		<p>To setup the different sub-directories add the 'LanguageDirMap' entry to
+		Config.any below 'HTMLTemplateConfig'. The entry defines the mapping from different language identifiers
+		to respective sub-directories in the 'TemplateDir'.<br>
+		Example:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/HTMLTemplateConfig {"
+		"	/LanguageDirMap {	# maps language key to localized template dir"
+		"		/D				&#34;German_Templates&#34;"
+		"		/E				&#34;English_Templates&#34;"
+		"		/F				&#34;French_Templates&#34;"
+		"		/I				&#34;Italian_Templates&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		The respective directory structure for the configuration files looks like this:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"config/"
+		"	HTMLTemplates/"
+		"		German_Templates/"
+		"		English_Templates/"
+		"		French_Templates/"
+		"		Italian_Templates/"
+	}
+}]]
+</pre>
+		Usually all default HTML templates are placed in the main 'TemplateDir'. Files
+		in the main 'TemplateDir' may be overridden for an individual language by placing
+		a file with the same name in the respective localized sub-directory.
+		<i><font size=-1>(<b>Notice:</b> Not all HTML templates need to be localized: If no localized version 
+		exists, the default version from the main TemplateDir is always used.)</font></i>
+		<p>Example: Page 'MyPage' is using the HTML template 'MyTemplate.html'. Due
+		to a different screen layout special versions of 'MyTemplate.html' need
+		to be used for the german and the english Version of 'MyPage'. All
+		other languages are to use the default version of the file.
+		<p>The directory structure for this application might look like this:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"config/"
+		"	MyPage.any"
+		"	HTMLTemplates/"
+		"		MyTemplate.html"
+		"		German_Templates/"
+		"			MyTemplate.html"
+		"		English_Templates/"
+		"			MyTemplate.html"
+		"		French_Templates/"
+		"		Italian_Templates/"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<p>This recipe has not been implemented in the example application.
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>StringRenderer, Renderer specifications, Settings in Config.any
