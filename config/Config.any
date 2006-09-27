@@ -1,0 +1,263 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2000 itopia
+# All Rights Reserved
+#--------------------------------------------------------------------
+{
+	/Version	"$Id$"
+	/DLL {								# names of dynamically loaded libraries
+		security
+		renderers
+		stddataaccess
+		actions
+		applog
+		Recipes
+	}
+
+	/Modules {							# module initialization order
+		CacheHandlerModule
+		PagesModule
+		DataAccessImplsModule
+		MappersModule
+		RolesModule
+		RenderersModule
+		ActionsModule
+		TemplatesCacheModule
+		SecurityModule
+		AcceptorFactoriesModule
+		SessionListManager
+		ServiceHandlersModule
+		ServiceDispatchersModule
+		ServersModule
+		AppLogModule
+	}
+
+#--------------------------------------------------------------------
+#---															  ---
+#---			Module configurations							  ---
+#---															  ---
+#--------------------------------------------------------------------
+
+#--- RolesModule configuration --------------------------------------
+
+	/Roles {
+		/Role {
+			"Default"
+			"GuestRole"
+			"CustomerRole"
+			"AdminRole"
+		}
+	}
+
+#--- HTML Templates configuration ------------------------------------
+	/HTMLTemplateConfig {
+		/LanguageDirMap {	# maps language key to localized templates dir
+			/D				"."
+			/E				"."
+			/F				"."
+			/I				"."
+		}
+	}
+
+#--- PagesModule configuration ---------------------------------------
+
+	/Pages {
+		# subclasses for "Page"
+		/Page {
+			/IntroPage { "HomePage" }
+			"RecipeListPage" "RecipesPage" "DokuPage" "TipsPage" "RenderTest"	#for all
+			"ActionTest"
+			"FirstPage" "SecondPage" "ThirdPage" "AnotherPage"  "InfoPage"		#for Example1
+			"Ex2Page"   "ConfirmPage" "ShowInputPage"                      	 	#for Example2
+			"Ex3Page"   "ShowWhichUsersPage"                                	#for Example3
+			/MyNewPage {
+			}
+			/MyAccountPage { 													#for Example4
+				"Ex4Page"
+			}
+			/ViewPage {
+				/PageTitle "Text of Shared..."
+			}
+		}
+	}
+
+#--- AcceptorFactoriesModule configuration ----------------------------
+
+	/AcceptorFactories {
+		/AcceptorFactory {
+			/HTTP {
+				/SSLAcceptorFactory {
+					/HTTPS { HTTPAdmin }
+				}
+			}
+		}
+	}
+
+	/HTTP {				# defines http listener
+#		/Port	80				# TestCases tkf foolabs itopia
+		/Port	51200			# DevTest
+	}
+	/HTTPS {			# defines https listener
+#		/Port	443				# TestCases tkf foolabs itopia
+		/Port	51201			# DevTest
+		#--- SSL configuration needs certificate and private key files
+		/CertFileServer	"recipes_cert.pem"
+		/KeyFileServer	"recipes_key.pem"
+	}
+
+	/Server {
+		Server						# the server that is in control
+	}
+
+	/Servers {
+		/Server		*
+	}
+
+	/SessionListManager {
+		/MaxSessionsAllowed	20
+		/CleanerTimeout		60
+	}
+
+	/ServiceDispatchers {}
+
+	/ContentGzipEncoding {
+		/"text/html"	1
+	}
+
+#--- SecurityModule configuration -------------------------------------
+
+	/SecurityModule {			# settings from URL encoding
+		/Scrambler		bs		# blowfish scrambler
+		/Encoder		b64		# base 64 encoder
+		/Signer			md5		# md 5
+	}
+
+#--- ServiceHandlersModule configuration ------------------------------------
+
+	/ServiceHandlers {
+		/SimpleDataAccessService	{ HttpFile WebDocuFile }
+		/WebAppService				{ wdsample }
+	}
+
+#--- DataAccessImpls configuration ------------------------------------
+
+	/DataAccessImpls {
+		/HTTPFileLoader {
+			HttpFile
+			WebDocuFile
+		}
+	}
+
+	/Mappers {
+		/Input {
+			/URI2FileNameMapper {
+				HttpFile
+				WebDocuFile
+			}
+		}
+		/Output {
+			/ResultMapper {
+				# local file service output
+				HttpFile	# simple output mapper for different static files
+							# it needs http body mapper because of the binary image
+				WebDocuFile
+			}
+		}
+	}
+
+#--- RendererModule configuration -------------------------------------
+
+	/Renderers {				# aliases for Renderers
+		/TableRenderer 			{	Table			}
+		/AppletRenderer 		{	Applet			}
+		/FormRenderer			{	Form			}
+		/ItemRenderer			{	Item			}
+		/ButtonRenderer			{	Button			}
+		/TextFieldRenderer 		{	Text			}
+		/TextAreaRenderer		{	TextArea		}
+		/CheckBoxRenderer		{	CheckBox		}
+		/HTMLTemplateRenderer	{	HTML			}
+		/ContextLookupRenderer	{	ContextLookup	Lookup	Render	}
+		/LinkRenderer			{	Link			}
+		/ImageRenderer			{	Image			}
+		/ImageButtonRenderer	{	ImageButton		}
+		/StringRenderer			{	String			}
+		/URLRenderer			{	URL				}
+		/ImageLocationRenderer	{	ImageLocation	}
+		/DateRenderer			{	Date			}
+		/ConditionalRenderer	{	Condition		}
+		/SwitchRenderer			{	Switch			}
+		/ListRenderer			{	List			}
+		/SelectBoxRenderer		{	Select			}
+	}
+
+#--- ActionsModule configuration --------------------------------------
+
+	/Actions {					# aliases for Actions
+		/MyFormAction			{	MyForm			}
+		/MyCheckFormAction		{					}
+		/MyConfirmationAction	{	ConfirmationForm	}
+		/DoSomething			{	MyDoSomething	}
+		/WriteAction			{	Write			}
+		/ReadAction				{	Read			}
+
+	}
+
+#--- AppLogModule configuration --------------------------------------
+
+	/AppLogModule {
+		/LogDir		"log"
+		/RotateTime	"23:59"
+		/Servers {
+			/Server	{
+				/AccessLog {
+					/FileName	"Access.log"
+					/Format		{ /Lookup AccessLogFormat }
+					/Header {
+						"client "
+						"- "
+						"date "
+						"protocol "
+						"\"req-method "
+						"request\" "
+						"protocolstring "
+						"role"
+					}
+				}
+#				/ErrorLog {
+#					/FileName	"Error.log"
+#					/Format		{ /Lookup AccessLogFormat }
+#					/Header {
+#						"client "
+#						"- "
+#						"date "
+#						"req-method "
+#						"\"request\" "
+#						"server-protocol "
+#						"role"
+#					}
+#				}
+			}
+		}
+	}
+
+	/AccessLogFormat {
+		{ /Lookup	{ REMOTE_ADDR "-" } }
+		" - "
+		"["
+		{ /DateRenderer { /Format "%a, %m-%d-%Y %T" /DeltaGMT 1 }  }
+		"] "
+		"http"
+		{ /Condition {
+			/ContextCondition { header.HTTPS }
+			/True 	"s"
+		} }
+		" \""
+		{ /Lookup REQUEST_METHOD }
+		" "
+		{ /Lookup REQUEST_URI }
+		"\" "
+		{ /Lookup SERVER_PROTOCOL }
+		" "
+		{ /Lookup { RoleName "-" } }
+	}
+}
