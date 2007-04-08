@@ -1,0 +1,111 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2000 itopia
+# All Rights Reserved
+#--------------------------------------------------------------------
+{
+	/Version		"$Id$"
+
+	/ServerModules {
+		{
+			/ServerName		Server
+		}
+	}
+
+	/UsePIDFile		1				# generate a file with the servers pid;
+									# useful to send kill -HUP pid
+	/PIDFileName	"log/recipes.PID"		# location and name of the pid file
+
+# --- ServerThreadPool configuration --------------------------------
+	/UsePoolStorage			1					# optional, [0|1], default 0, use preallocated memory pool for storage of Queue elements
+	/PoolStorageSize		5001				# optional, [kB], default 10240, pool storage size in kbytes
+	/NumOfPoolBucketSizes	20					# optional, default 10, number of different allocation units within PoolStorage, starts at 16 bytes and always doubles the size so 16 << 10 will give a max usable size of 8192 bytes
+	/ThreadPoolSize			10					# number of parallel pending requests
+	/AwaitResetEmpty		10
+
+	/RequestProcessor		HTTPProcessor		# processor for accepted requests
+	/URISizeLimit 			1024
+
+	/ListenerPool {					# this server listens on 2 ports
+		HTTP HTTPS
+	}
+
+	/DocumentRoot		"config/HTMLTemplates"
+
+#--- default settings for session creation --------------------------
+
+	/RoleChanges {
+		/GoExample3			"GuestRole"
+		/LoginOk			"CustomerRole"
+		/AdminOk			"AdminRole"
+		/Logout				"GuestRole"
+		/Home				"Default"
+		/GoRecipeListPage 	"Default"
+		/GoRecipesPage 		"Default"
+		/GoExample4 		"Default"
+		/GoTips			 	"Default"
+	}
+	#/StartPage	"HelloWorldPage"
+	#/DefaultRole	"NobodyRole"
+	#/DefaultAction	"GoRefresh"
+
+#--- settings specific to built-in HTTP server/HTTPProcessor --------
+
+ 	/ImagePath		    "/static/images/"
+ 	/StylePath		    "/static/styles/"
+ 	/AppletPath			"/static/applets/"
+
+	/Dispatcher	RendererDispatcher
+
+ 	/URIPrefix2ServiceMap {			# map to define service handler
+		/"/WebDisplayDoc"	WebDocuFile
+		/"/favicon.ico"		HttpFile
+		/"/static"			HttpFile
+		/"/recipes"			wdsample
+		/"/"				wdsample
+	}
+
+	/ServicePrefix		recipes
+
+	/Ext2MIMETypeMap {
+		/gif	"image/gif"
+		/jpg	"image/jpeg"
+		/css	"text/css"
+		/class	"text/plain"
+		/html	"text/html"
+		/png	"image/png"
+	}
+
+#--- BaseURL support ------------------------------------------------
+
+	/UseBaseURL		0	 				# switches use of base URL on/off
+	/HostName		{ /Lookup header.HOST }
+	/BaseAddress {
+		/Lookup  BaseWithoutSlash
+		"/"
+	}
+
+	/BaseWithoutSlash {
+		/Condition {
+			/ContextCondition { header.HTTPS }
+			/True 	{ "https://" {/Lookup HostName} }
+			/False 	{ "http://" {/Lookup HostName} }
+		}
+	}
+
+	/URLFilterSpec {
+		/Tags2Unscramble { X1 X2 X }
+	}
+
+#--- Localization and language issues -----------------------------------------
+
+	/ShowDebugOutput    1					# shows debug output in the footer
+#	/StringFile			"LocalizedStrings"  # string ressource file for different languages
+	/Language 			D					# default language (overriden per user)
+	/UseBrowserLang		0					# set to 1 if you want to use browsers prefs
+	/LanguageKeyMap {
+		/D				{ "de" "de-CH" "de-DE" "de-AU" }
+		/E				{ "en" "en-GB" "en-US" }
+		/F				{ "fr" "fr-BE" "fr-CA" "fr-FR" "fr-CH" }
+		/I				{ "it" }
+	}
+}
