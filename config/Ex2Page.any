@@ -38,7 +38,7 @@
 				"<tr>"
 					"<td align=left width=10%>"
 						{/Image  {
-							/ImageName somelogo_big.gif
+							/ImageName { /Lookup ImageNameBig }
 							/Options {
 								"width=270" "alt='somelogo'"
 							}

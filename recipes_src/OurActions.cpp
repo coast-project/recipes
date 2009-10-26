@@ -16,13 +16,6 @@
 #include "Dbg.h"
 #include "System.h"
 
-#if defined(__GNUG__) || defined(__SUNPRO_CC)
-	#ident "@(#) $Id$ (c) itopia"
-#else
-	static char static_c_rcs_id[] = "@(#) $Id$ (c) itopia";
-	static char static_h_rcs_id[] = OurActions_H_ID;
-#endif
-
 //---- RecipeAction -------------------------------------------------------------------
 RegisterAction(RecipeAction);
 

@@ -18,6 +18,9 @@
 #	/WebDisplay2DocuIndex	"http://hexa/WebDisplayDoc/index.html"
 #	/WebDisplay2DocuIndex	"http://feadntsrv1.telekurs.com/WebDisplayDoc/index.html"
 
+	/ImageNameSmall	coast_200x100.png
+	/ImageNameBig	coast_500x250.png
+
 	#---- Header stuff ---------------------------------------------------------
 	/NewHeader {
 		{
@@ -41,7 +44,7 @@
 					"</td>"
 					"<td width=20%><a name=top>"
 						{/Image  {
-							/ImageName somelogo_small.gif
+							/ImageName { /Lookup ImageNameSmall }
 							/Options {
 								"alt='somelogo'"
 							}
@@ -65,7 +68,7 @@
 				"<tr>"
 					"<td align=left width=10%>"
 						{/Image  {
-							/ImageName somelogo_big.gif
+							/ImageName { /Lookup ImageNameBig }
 							/Options {
 								"width=270" "alt='somelogo'"
 							}

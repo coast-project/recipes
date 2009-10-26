@@ -14,12 +14,6 @@
 	#pragma interface
 #endif
 
-#if defined(__GNUG__) || defined(__SUNPRO_CC)
-	#ident "@(#) $Id$ (c) itopia"
-#else
-	#define OurPages_H_ID "@(#) $Id$ (c) itopia"
-#endif
-
 //---- OurPages include -------------------------------------------------
 #include "Page.h"
 #include "config_recipes.h"

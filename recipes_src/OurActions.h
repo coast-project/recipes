@@ -15,12 +15,6 @@
 	#pragma interface
 #endif
 
-#if defined(__GNUG__) || defined(__SUNPRO_CC)
-	#ident "@(#) $Id$ (c) itopia"
-#else
-	#define OurActions_H_ID "@(#) $Id$ (c) itopia"
-#endif
-
 //---- OurActions include -------------------------------------------------
 #include "Action.h"
 #include "config_recipes.h"

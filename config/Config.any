@@ -4,13 +4,13 @@
 #--------------------------------------------------------------------
 {
 	/Version	"$Id$"
-	/DLL {								# names of dynamically loaded libraries
-		security
-		renderers
-		stddataaccess
-		actions
-		applog
-		Recipes
+	/DLL {
+		CoastSecurity
+		CoastRenderers
+		CoastStdDataAccess
+		CoastActions
+		CoastAppLog
+		CoastRecipes
 	}
 
 	/Modules {							# module initialization order

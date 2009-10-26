@@ -16,13 +16,6 @@
 #include "System.h"
 #include "Renderer.h"
 
-#if defined(__GNUG__) || defined(__SUNPRO_CC)
-	#ident "@(#) $Id$ (c) itopia"
-#else
-	static char static_c_rcs_id[] = "@(#) $Id$ (c) itopia";
-	static char static_h_rcs_id[] = ReadWriteAction_H_ID;
-#endif
-
 //---- ReadAction ---------------------------------------------------------------
 
 RegisterAction(ReadAction);
