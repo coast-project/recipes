@@ -3,7 +3,6 @@
 # All Rights Reserved
 #--------------------------------------------------------------------
 {
-	/Version		"$Id$"
 	/LowerBound		0 		# debugging on or off
 	/UpperBound		40		# override switch: turns everything on
 	/DumpAnythings  1		# print full Anythings
@@ -107,24 +106,24 @@
 	/Action {
 		/MainSwitch						500
 		/EnableAll						510
- 
+
 		/Register						60
 		/Find							60
 		/DoAction						60
 	}
- 
+
 	/EvalExpression {
 		/MainSwitch						100
 		/EnableAll						110
 	}
- 
+
 	/EvalAction {
 		/MainSwitch						500
 		/EnableAll						510
 	}
- 
+
 #--- Renderers -------------------------------------
- 
+
 	/Renderer {
 		/MainSwitch						0
 		/EnableAll						0
@@ -155,11 +154,11 @@
 		/Parse							40
 		/Get							-1
 	}
- 
+
 	/TableRenderer {
 		/MainSwitch						50
 		/EnableAll						60
- 
+
 		/RenderAll						50
 		/DoRender						50
 		/DoRenderOpen {
@@ -172,7 +171,7 @@
 		}
 		/RenderList						50
 	}
- 
+
 	/ListRenderer {
 		/MainSwitch						500
 		/EnableAll						502
@@ -181,72 +180,72 @@
 	/ItemRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		/RenderItem						60
 		/PrintURL						60
 	}
- 
+
 	/DateRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		#/Render							0
 	}
- 
+
 	/ConditionalRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		#/Render							0
 	}
- 
+
 	/ContextLookupRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		#/Render							0
 	}
- 
+
 	/LinkRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		/RenderAll						60
 	}
- 
+
 	/ImageButtonRenderer {
 		/MainSwitch						60
 		/EnableAll						70
- 
+
 		/RenderAll						60
 	}
- 
+
 	/URLPrinter {
 		/MainSwitch						10
 		/EnableAll						20
- 
+
 		/RenderAll						10
 		/BuildPrivateState				10
 	}
- 
+
 	/FullURLPrinter {
 		/MainSwitch						10
 		/EnableAll						20
- 
+
 		/RenderAll						10
 	}
- 
+
 	/BaseURLPrinter {
 		/MainSwitch						10
 		/EnableAll						20
- 
+
 		/RenderAll						10
 	}
- 
+
 	/URLRenderer {
 		/MainSwitch						10
 		/EnableAll						20
- 
+
 		/RenderAll						10
 	}
 	/URLFilter {
@@ -256,17 +255,17 @@
 	/StringRenderer {
 		/MainSwitch						40
 		/EnableAll						50
- 
+
 		/RenderAll						40
 	}
- 
- 
+
+
 	/Registry {
 		/MainSwitch						10
 		/EnableAll						20
- 
+
 	}
- 
+
 	/AppletRenderer {
 		/MainSwitch						100
 		/EnableAll						110
@@ -335,28 +334,28 @@
 			/EnableAll					530
 		}
 	}
- 
+
 #--- Hello specific stuff -------------------------------------
- 
+
 	/HelloAction {
 		/MainSwitch						50
 		/EnableAll						60
- 
+
 		/Register						50
 		/Find							50
 		/DoAction						50
 	}
- 
+
 	/ReadAction {
 		/MainSwitch						500
 		/EnableAll						510
 	}
- 
+
 	/WriteAction {
 		/MainSwitch						500
 		/EnableAll						510
 	}
- 
+
 	/AppBooter {
 		/MainSwitch						600
 		/EnableAll						610

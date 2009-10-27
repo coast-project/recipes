@@ -1,24 +1,27 @@
 #--------------------------------------------------------------------
-# Copyright (c) 2000 itopia
-# All Rights Reserved
+# Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+# All rights reserved.
+#
+# This library/application is free software; you can redistribute and/or modify it under the terms of
+# the BSD-style license that is included with this library/application in the file license.txt.
 #--------------------------------------------------------------------
 {
-	/Version		"$Id$"
-
 	/ServerModules {
 		{
 			/ServerName		Server
 		}
 	}
-
-	/UsePIDFile		1				# generate a file with the servers pid;
-									# useful to send kill -HUP pid
-	/PIDFileName	"log/recipes.PID"		# location and name of the pid file
+	# generate a file with the servers pid; useful to send kill -HUP pid
+	/UsePIDFile		1
+	# location and name of the pid file
+	/PIDFileName	!Defaults.any?PIDFileName
+	# user to run server as
+	/UserName		!Defaults.any?UserName
 
 # --- ServerThreadPool configuration --------------------------------
 	/UsePoolStorage			1					# optional, [0|1], default 0, use preallocated memory pool for storage of Queue elements
-	/PoolStorageSize		5001				# optional, [kB], default 10240, pool storage size in kbytes
-	/NumOfPoolBucketSizes	20					# optional, default 10, number of different allocation units within PoolStorage, starts at 16 bytes and always doubles the size so 16 << 10 will give a max usable size of 8192 bytes
+	/PoolStorageSize		8001				# optional, [kB], default 10240, pool storage size in kbytes
+	/NumOfPoolBucketSizes	26					# optional, default 10, number of different allocation units within PoolStorage, starts at 16 bytes and always doubles the size so 16 << 10 will give a max usable size of 8192 bytes
 	/ThreadPoolSize			10					# number of parallel pending requests
 	/AwaitResetEmpty		10
 
@@ -26,7 +29,8 @@
 	/URISizeLimit 			1024
 
 	/ListenerPool {					# this server listens on 2 ports
-		HTTP HTTPS
+		HTTP
+		HTTPS
 	}
 
 	/DocumentRoot		"config/HTMLTemplates"
@@ -69,10 +73,11 @@
 	/Ext2MIMETypeMap {
 		/gif	"image/gif"
 		/jpg	"image/jpeg"
+		/png	"image/png"
+		/html   "text/html"
 		/css	"text/css"
 		/class	"text/plain"
-		/html	"text/html"
-		/png	"image/png"
+		/js		"text/javascript"
 	}
 
 #--- BaseURL support ------------------------------------------------

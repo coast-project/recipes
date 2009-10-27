@@ -5,7 +5,7 @@ from stat import *
 packagename = StanfordUtils.getPackageName(__name__)
 
 def setUp(target, source, env):
-    logpath = env['BASEOUTDIR'].Dir(os.path.join('tests', packagename, 'log', 'rotate'))
+    logpath = env['BASEOUTDIR'].Dir(os.path.join('tests', packagename, 'logs', 'rotate'))
     path = env['BASEOUTDIR'].Dir(os.path.join('tests', packagename)).Dir('config')
     if not os.path.isdir(logpath.abspath):
         os.makedirs(logpath.abspath)

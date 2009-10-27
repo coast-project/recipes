@@ -1,9 +1,11 @@
 #--------------------------------------------------------------------
-# Copyright (c) 2000 itopia
-# All Rights Reserved
+# Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+# All rights reserved.
+#
+# This library/application is free software; you can redistribute and/or modify it under the terms of
+# the BSD-style license that is included with this library/application in the file license.txt.
 #--------------------------------------------------------------------
 {
-	/Version	"$Id$"
 	/DLL {
 		CoastSecurity
 		CoastRenderers
@@ -13,16 +15,24 @@
 		CoastRecipes
 	}
 
-	/Modules {							# module initialization order
+#################################################################################
+#
+#	Module List definition
+#	List of modules that are getting configured during GlobalInit and ReInit
+#
+#################################################################################
+
+	/Modules {
 		CacheHandlerModule
-		PagesModule
+		LocalizationModule
+		SecurityModule
 		DataAccessImplsModule
 		MappersModule
-		RolesModule
 		RenderersModule
+		RolesModule
 		ActionsModule
+		PagesModule
 		TemplatesCacheModule
-		SecurityModule
 		AcceptorFactoriesModule
 		SessionListManager
 		ServiceHandlersModule
@@ -37,6 +47,41 @@
 #---															  ---
 #--------------------------------------------------------------------
 
+#--- AcceptorFactoriesModule configuration ----------------------------
+
+	/AcceptorFactories {
+		/AcceptorFactory {
+			HTTP
+		}
+		/SSLAcceptorFactory {
+			/HTTPS { HTTPAdmin }
+		}
+	}
+
+	# defines http listener
+	/HTTP	!Defaults.any?HTTP
+	# defines https listener
+	/HTTPS	!Defaults.any?HTTPS
+
+	/Server {
+		Server						# the server that is in control
+	}
+
+	/Servers {
+		/Server		*
+	}
+
+	/SessionListManager {
+		/MaxSessionsAllowed	20
+		/CleanerTimeout		60
+	}
+
+	/ServiceDispatchers {}
+
+	/ContentGzipEncoding {
+		/"text/html"	1
+	}
+
 #--- RolesModule configuration --------------------------------------
 
 	/Roles {
@@ -49,8 +94,14 @@
 	}
 
 #--- HTML Templates configuration ------------------------------------
+
 	/HTMLTemplateConfig {
+		/TemplateDir		"config/HTMLTemplates"
 		/LanguageDirMap {	# maps language key to localized templates dir
+	#		/D				"Localized_D"
+	#		/E				"Localized_E"
+	#		/F				"Localized_F"
+	#		/I				"Localized_I"
 			/D				"."
 			/E				"."
 			/F				"."
@@ -80,62 +131,31 @@
 		}
 	}
 
-#--- AcceptorFactoriesModule configuration ----------------------------
-
-	/AcceptorFactories {
-		/AcceptorFactory {
-			/HTTP {
-				/SSLAcceptorFactory {
-					/HTTPS { HTTPAdmin }
-				}
-			}
-		}
-	}
-
-	/HTTP {				# defines http listener
-#		/Port	80				# TestCases tkf foolabs itopia
-		/Port	51200			# DevTest
-	}
-	/HTTPS {			# defines https listener
-#		/Port	443				# TestCases tkf foolabs itopia
-		/Port	51201			# DevTest
-		#--- SSL configuration needs certificate and private key files
-		/CertFileServer	"recipes_cert.pem"
-		/KeyFileServer	"recipes_key.pem"
-	}
-
-	/Server {
-		Server						# the server that is in control
-	}
-
-	/Servers {
-		/Server		*
-	}
-
-	/SessionListManager {
-		/MaxSessionsAllowed	20
-		/CleanerTimeout		60
-	}
-
-	/ServiceDispatchers {}
-
-	/ContentGzipEncoding {
-		/"text/html"	1
-	}
-
-#--- SecurityModule configuration -------------------------------------
-
-	/SecurityModule {			# settings from URL encoding
-		/Scrambler		bs		# blowfish scrambler
-		/Encoder		b64		# base 64 encoder
-		/Signer			md5		# md 5
-	}
-
 #--- ServiceHandlersModule configuration ------------------------------------
 
 	/ServiceHandlers {
 		/SimpleDataAccessService	{ HttpFile WebDocuFile }
 		/WebAppService				{ wdsample }
+	}
+
+#--- SecurityModule configuration -------------------------------------
+
+	/SecurityModule {			# settings from URL encoding
+		/SecurityItems {
+			/Base64	{ b64 }
+			/Scrambler {
+				/BlowfishCBCScrambler {
+					ServerBlowfishScrambler
+				}
+			}
+			/MD5Signer { ServerMD5Signer }
+			/TableCompressor { tc }
+		}
+
+		/Scrambler 		ServerBlowfishScrambler
+		/Encoder 		b64
+		/Signer	 		ServerMD5Signer
+		/Compressor		tc
 	}
 
 #--- DataAccessImpls configuration ------------------------------------
@@ -146,6 +166,8 @@
 			WebDocuFile
 		}
 	}
+
+#--- Mappers configuration -------------------------------------
 
 	/Mappers {
 		/Input {
@@ -191,7 +213,6 @@
 	}
 
 #--- ActionsModule configuration --------------------------------------
-
 	/Actions {					# aliases for Actions
 		/MyFormAction			{	MyForm			}
 		/MyCheckFormAction		{					}
@@ -205,7 +226,9 @@
 #--- AppLogModule configuration --------------------------------------
 
 	/AppLogModule {
-		/LogDir		"log"
+		#! Where the logfiles are kept
+		/LogDir		!Defaults.any?LogDir
+		#! When to rotate the logifles in hour:minute
 		/RotateTime	"23:59"
 		/Servers {
 			/Server	{

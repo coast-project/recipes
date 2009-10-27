@@ -1,0 +1,16 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2004 SYNLOGIC
+# All Rights Reserved
+#--------------------------------------------------------------------
+{
+	/ServerBlowfishScrambler {
+		#! Maximum length of key is 72 Bytes.
+		/Key			!Defaults.any?BFKey
+		# Initialization vector of 2 x 32 bits,  extends the key of a BlowfishCBCScrambler
+		/InitVec0 		!Defaults.any?BFInitVec0
+		/InitVec1		!Defaults.any?BFInitVec1
+	}
+	/ServerMD5Signer {
+		/Key			!Defaults.any?MDKey
+	}
+}

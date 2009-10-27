@@ -3,21 +3,21 @@
 <h3>Overview</h3>
 <p>A ConditionalRenderer or a SwitchRenderer allows you to put a limited
 amount of logic directly into your configuration files. <br>
-(This may have advantages: In simple cases this may completely avoid having to write 
-C++ code. Anyhow configuration files are typically much easier 
+(This may have advantages: In simple cases this may completely avoid having to write
+C++ code. Anyhow configuration files are typically much easier
 to change than C++ code.)
-<p>At runtime both Renderers look up some state in the Context - i.e. in 
-one of the different stores making up the Context - and based on what 
-they find decide which subsequent Renderers to use.			
+<p>At runtime both Renderers look up some state in the Context - i.e. in
+one of the different stores making up the Context - and based on what
+they find decide which subsequent Renderers to use.
 <p>The difference between ConditionalRenderer and SwitchRenderer is that
-ConditionalRenderer typically chooses among two alternatives - i.e. it 
+ConditionalRenderer typically chooses among two alternatives - i.e. it
 acts like a C++ if/else expression - whereas SwitchRenderer may choose
-from multiple alternatives - i.e. it corresponds to a C++ switch construct. 
+from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 <h3>Preconditions</h3>
 <ol>
 	<li>You need the Page - i.e. the respective Page configuration file - where
 		you want to use the Renderer</li>
-	<li>If you want to use any Renderer by an alias name be sure to include 
+	<li>If you want to use any Renderer by an alias name be sure to include
 		that name in the Renderers section of Config.any:
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
@@ -31,7 +31,7 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 }]]
 </pre>
 	</li>
-	<li>ConditionalRenderer and SwitchRenderer both require as input a 
+	<li>ConditionalRenderer and SwitchRenderer both require as input a
 		configuration Anything that specifies which condition to check and
 		what alternatives to choose from.<br>
 		Structure of a Renderer specification as expected by a ConditionalRenderer:
@@ -49,12 +49,12 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 }]]
 </pre>
 		Of this configuration Anything only the slot ContextCondition is mandatory.
-		It specifies what slot name to use for the lookup in the Context 
+		It specifies what slot name to use for the lookup in the Context
 		(ContextCondition should therefore usually contain a string).
 		<p>All the other slots then specify what to do - depending on the value that is
 		looked up - and may be omited entirely.
-		(If the value retrieved from the Context is a 'long', it is automatically 
-		interpreted as a Boolean - which is either 'True' or 'False'. Otherwise it 
+		(If the value retrieved from the Context is a 'long', it is automatically
+		interpreted as a Boolean - which is either 'True' or 'False'. Otherwise it
 		is simply treated as either 'Defined' or 'Undefined'.)<br><br>
 		Structure of a Renderer specification as expected by a SwitchRenderer:
 <pre>[[#wd DisplayAnythingRenderer {
@@ -71,13 +71,13 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 }]]
 </pre>
 		The configuration Anything for SwitchRenderer is very similar to the one
-		used by ConditionalRenderer. Since SwitchRenderer does not treat the looked 
-		up value as either Boolean or as Defined/Undefined - but always as a String 
-		that is then directly used to decide what subsequent Renderer to use - in 
-		addition to the slot ContextCondition the configuration data must contain a 
+		used by ConditionalRenderer. Since SwitchRenderer does not treat the looked
+		up value as either Boolean or as Defined/Undefined - but always as a String
+		that is then directly used to decide what subsequent Renderer to use - in
+		addition to the slot ContextCondition the configuration data must contain a
 		Case slot that lists all the alternatives that are handled. (The slot
-		"_Empty" handles the special case where the looked up value is empty. If the 
-		looked up value does not match any case defined in the Case section, the 
+		"_Empty" handles the special case where the looked up value is empty. If the
+		looked up value does not match any case defined in the Case section, the
 		Renderer specification defined as Default - if present - is used.)
 	</li>
 </ol>
@@ -90,9 +90,9 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 		To ease debugging of your application you want to render some
 		diagnostic output directly into each HTML page. However you want
 		to switch off the debug output once your application goes productive.<br>
-		You decide that while debugging you want to use the following Renderer 
+		You decide that while debugging you want to use the following Renderer
 		specification in the footer of each page (This will render the Anything
-		that is found at slot 'myData'..  additional output might be created): 
+		that is found at slot 'myData'..  additional output might be created):
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
 		"/DebugOutput {"
@@ -106,19 +106,19 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 	}
 }]]
 </pre>
-		Furthermore you dicide that you dont want any debug output in the 
+		Furthermore you decide that you do not want any debug output in the
 		productive environment and you want to control whether debug output is created by a setting
 		in the main configuration file:<br>
 		Setting the slot 'ShowDebugOutput' (in Config.any) to '1' will show the debug
 		output, while setting it to '0' will switch it off.<br><br>
 	</li>
 	<li>Write a configuration Anything for the conditional Renderer and define the
-		condition to be checked by the conditional Renderer and embed the 
+		condition to be checked by the conditional Renderer and embed the
 		previously defined Renderers into the newly created configuration data.<br>
 		Sample:<br>
-		Setup the configuration for a ConditionalRenderer and put the 
+		Setup the configuration for a ConditionalRenderer and put the
 		data in the Page.any configuration file. (You might just
-		as well put it in the configuration file of a specific Page or 
+		as well put it in the configuration file of a specific Page or
 		the configuration file of a Role.):
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
@@ -181,7 +181,7 @@ from multiple alternatives - i.e. it corresponds to a C++ switch construct.
 </pre>
 		You are done.. now you can now enable/disable your debug output
 		simply by setting /ShowDebugOutput in Config.any!<br>
-		<i>(Any change in the configuration files will affect the output 
+		<i>(Any change in the configuration files will affect the output
 		only after a restart of the application!)</i>
 	</li>
 </ol>

@@ -1,0 +1,33 @@
+#--------------------------------------------------------------------
+# Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+# All rights reserved.
+#
+# This library/application is free software; you can redistribute and/or modify it under the terms of
+# the BSD-style license that is included with this library/application in the file license.txt.
+#--------------------------------------------------------------------
+{
+	# defines http listener
+	/HTTP {
+		/Port 51200
+	}
+	# defines https listener
+	/HTTPS {
+		/Port 51201
+		#--- SSL configuration needs certificate and private key files
+		/CertFileServer	"recipes_cert.pem"
+		/KeyFileServer	"recipes_key.pem"
+	}
+
+	# directory to place logfiles into
+	/LogDir			"logs"
+
+	# location and name of the pid file
+	/PIDFileName	"logs/recipes.PID"
+
+	/UserName		""
+
+	/BFKey			!bf_key.any?Key
+	/BFInitVec0 	!bf_key.any?InitVec0
+	/BFInitVec1		!bf_key.any?InitVec1
+	/MDKey			!sign_key.any?Key
+}
