@@ -1,0 +1,176 @@
+<center><h2>[[#wd Lookup TitleRecipe30 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Usually new Pages are derived from existing ones by configuration -
+i.e. without writing any C++ code. However simple configuration may
+not work for all cases. Therefore you can always add code for any Page by 
+writing a respective C++ class (as a subclass of Page). 
+<p>And there are several sound reasons why to write code for a new Page...
+<h3>Preconditions</h3>
+<p>All the usual configuration settings are needed whether C++ code for a
+Page is added or not, i.e. C++ code for a Page may be easily added after
+the general application structure (Roles, Pages, etc) has been setup.
+<p><i><font size=-1><b>Reminders:</b> You need to register any Page that you want to use in the UI 
+of your application in the Pages section of Config.any.</font></i>
+<p>If the Page is to be used directly, there must be a respective 
+configuration file 'ExamplePage.any' (unless your page does without any configuration):
+<h3>Steps to do:</h3>
+<ol>
+	<li>Create the necessary configuration files (see as well other recipes):<br><br>
+		<ul>
+			<li>Entry in Config.any</li>
+			<li>Entries in state transition tables of affected Roles (Map)</li>
+			<li>Respective Page configuration file</li><br><br>
+		</ul>
+	</li>
+	<li>Create a new class by subclassing Page (or one of its descendants):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"class MyNewPage : public Page {"
+		"public:"
+		"	MyNewPage();"
+		"	IFAObject *Clone() const;"
+		"};"
+		" "
+		" "
+		"RegisterPage(MyNewPage);"
+		" "
+		"MyNewPage::MyNewPage() : Page(&#34;MyNewPage&#34;)"
+		"{"
+		"}"
+		" "
+		"IFAObject *MyNewPage::Clone() const"
+		"{"
+		"	// The New() method needs to be overridden so that other"
+		"	// Pages - that might be derived from MyNewPage purely by"
+		"	// configuration - can share the code of MyNewPage"
+		" "
+		"	return new MyNewPage;"
+		"}"
+	}
+}]]
+</pre>
+		<i><font size=-1><b>Caution:</b> The C++ code for a Page is always registered with the name of 
+		the class (using the RegisterPage macro in the *.cpp file):</font></i>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"RegisterPage(MyNewPage);"
+	}
+}]]
+</pre>
+		Whereas the name defined in the Page's C++ class default constructor defines 
+		the name that is used for identifying the Page at runtime and for retrieving 
+		the Page's configuration file. To work properly, the name used in the default 
+		constructor MUST match the name of the Page class:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"MyNewPage::MyNewPage() : Page(&#34;MyNewPage&#34;)"
+		"{"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Add the methods that you want to override:<br><br>
+		<ul>
+			<li>The single most important reason for writing code for a new Page is
+				the desire to do some processing before a Page is actually rendered, i.e.
+				the context for the rendering process needs first to be setup properly
+				by some C++ code. (For example the data that you want to display on the 
+				page might reside in a database and needs first to be retrieved etc.) 
+				<p>You place all the code that you need to have executed - before a Page
+				is rendered - in the method Preprocess() of the derived Page C++ class.<br>
+				Example:<br>
+				You want to prepare some data first (see [[#wd Lookup Recipe25 ]]).
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"void MyNewPage::Preprocess(Context &c)"
+		"{"
+		"	Anything tmpStore   = c.GetTmpStore();"
+		" "
+		"	// put the necessary data in TmpStore"
+		"	// e.g. :	tmpStore[&#34;MyData&#34;]= ...."
+		" "
+		"	Page::Preprocess(c);"
+		"}"
+	}
+}]]
+</pre>
+			</li>
+			<li>A second reason to write some C++ code is that you might need to have 
+				some code executed whenever the user leaves a Page (you might want to 
+				evaluate the state of the UI settings, etc.), i.e. the user requests the 
+				next Page and thereby implicitely leaves the previous one. Due to the 
+				possibility that the user has been using the 'Back' button of his browser, 
+				any Page may be re-posted. 
+				<p>Code that is executed whenever a Page is left is placed in the method 
+				Postprocess().<br>
+				Example:<br>
+				HTML toggle buttons are a bit tricky, in that unset fields
+				are never reported by the browser.. this may be remedied<br>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"bool MyNewPage::Postprocess(String &action, Context &c)"
+		"{"
+		"	// whenever the user leaves MyPage - by following some"
+		"	// link/button - this code is executed:"
+		" "
+		"	// ...this might be used to synchronize UI settings etc."
+		" "
+		"	Anything query= c.GetQuery();"
+		" "
+		"	if (query.IsDefined(&#34;fields&#34;)) {"
+		"		Anything fields= query[&#34;fields&#34;];"
+		" "
+		"		if (!fields.IsDefined(&#34;myToggle&#34;))"
+		"			fields[&#34;myToggle&#34;]= &#34;off&#34;;"
+		"	}"
+		"	return Page::Postprocess(action, c); "
+		"}"
+	}
+}]]
+</pre>
+			</li>
+			<li>Per default Page assumes that HTML code is created as output and therefore 
+				automatically sets the content mime type to "text/html". However Pages with 
+				contents other than HTML may be created by overriding the method Mime().<br>
+				(For example PDF documents might be generated by setting the mime type 
+				of the respective Pages to "application/pdf".)<br>
+				Example:<br>
+				You want a page that creates PDF files (you'll probably need some Renderers too)<br>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"void MyNewPage::Mime(Reply &reply, Context&)"
+		"{"
+		"	reply.AppendHeader(&#34;Content-type: application/pdf\n&#34;);"
+		"}"
+	}
+}]]
+</pre>
+			</li>
+			<li>The default implementation of Page supports two strategies for 
+				defining the content of a Page:<br><br>
+				<ul>
+					<li>One global "PageLayout" - that needs to be defined in the respective 
+						Page configuration file - is used. Using this strategy any combination
+						of Renderers may be used to render the Page.<br><br>
+					</li>
+					<li>The stucture of the Page is devided into different sections that may
+						then be defined separately: Header, Title, Body, Footer. Clearly this
+						strategy only works if your Page also fits this given structure.<br><br>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		By overriding either Render() or one of the minor methods Header(), Title(), 
+		Body(), Footer() the general rendering strategy of a Page may be modified.
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe25 ]]: [[#wd Lookup TitleRecipe25 ]]</li>
+	<li>[[#wd Lookup Recipe1 ]]: [[#wd Lookup TitleRecipe1 ]]</li>
+</ul>

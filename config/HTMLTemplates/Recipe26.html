@@ -1,0 +1,182 @@
+<center><h2>[[#wd Lookup TitleRecipe26 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>ContextLookupRenderer (alias name 'Lookup') is one of the Renderers 
+predefined by the Coast framework. This recipe explains when
+a ContextLookupRenderer might be handy and how it is used.
+<h3>Preface</h3>
+<p>It is possible to call different sorts of Renderers directly from any 
+HTML-template, and thereby to dynamically create some page content. 
+Such direct calls typically contain the name of the Renderer to 
+be used as well as the parameters required for that Renderer. 
+<p>Unfortunately a direct call basically hard codes the Renderer to be 
+used into the HTML-template. There are two flaws with this approach:
+<ol>
+	<li>You might be in a situation where your HTML-template could be readily
+		used for different pages if only that part created by the Renderer
+		changed depending on the context. However since it is hard coded into
+		the HTML-template the Renderer cannot be easily exchanged.  
+	</li>
+	<li>The same Renderer used for one page might be useful on different 
+		other pages as well. Now instead of copying the same code to all 
+		those pages, would it not be much better to define a building
+		block that could then be used on all those occasions?
+	</li>
+</ol>
+<h3>Purpose</h3>
+<p>As its name suggests a ContextLookupRenderer adds a level of indirection
+to the rendering process: The ContextLookupRenderer uses a symbolic name
+to dynamically locate a Renderer specification (including a Renderer name
+and respective parameters) in the current context. It then triggers 
+execution of that Renderer. (When searching a Renderer specification in
+the current Context different stores contained in the Context are
+considered: 1.TmpStore, 2.RoleStore, 3.SessionStore, 4. configuration data
+of the current Page, 5. configuration data of the current Role.) 
+<p>A ContextLookupRenderer thereby solves the two problems mentioned initially:
+<ol>
+	<li>The Renderer that is actually found and used may now depend on the 
+		current Context: Say you're using the symbolic name 'MyRenderer' 
+		as an argument for ContextLookupRenderer. By defining 'MyRenderer' 
+		differently in the configuration files of several Pages, you might
+		still reuse the layout defined once in an HTML-template.
+	</li>
+	<li>A ContextLookupRenderer allows you to invoke Renderer specifications
+		that are defined anywhere in the Context (e.g. some Page/Role 
+		configuration file). The same building block may be reused
+		in different places.
+	</li>
+</ol>
+<h3>Preconditions</h3>
+<ol>
+	<li>You need the Page - i.e. the respective Page configuration file - where
+		you want to use the Renderer.
+	</li>
+	<li>A ContextLookupRenderer expects to find a valid Renderer specification
+		- or nothing at all - under the slotname that it was given as an 
+		argument. (If nothing is found in the Context ContextLookupRenderer 
+		degenerates to a 'nop') Usually the referenced Renderer specification
+		is defined in a configuration file (e.g. XxxRole.any or XxxPage.any)
+	</li>
+	<li>If you want to use ContextLookupRenderer by an alias name (e.g. Lookup) be
+		sure to include that name in the Renderers section of Config.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Renderers {"
+		"	/ContextLookupRenderer { Lookup }"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<h3>Steps to do:</h3>
+<ol>
+	<li>It is usually a good idea to do a bit of planning before
+		rushing to the code writing part. Find - at least - answers to the 
+		following questions:
+		<p>- What is the structure of the pages I am trying to set up? 
+		<br>- Which parts do I wish to reuse as building blocks for pages? 
+		<br>- Which parts need to change under what circumstances?<br><br>
+		<ul>
+			<li>Example 1:<br>
+				The first example demonstrates how a ContextLookupRenderer is used
+				to refer to a Renderer specification which is defined in the Page's 
+				configuration file:<br>
+				Say you've got a page XPage that displays the HTML-template 
+				XPageTemplate.html and that's already all for step one.
+			</li>
+			<li>Example 2:<br>
+				You're having a page XPage and you're using XPageTemplate.html
+				as a template for the general layout of that page. 
+				You've also got the two roles Guest and Customer in your system.
+				Now say you want XPage to always reflect to fact what role a user 
+				is in by either rendering the text 'Guest' or 'Customer'.<br><br>
+			</li>
+		</ul>
+	</li>
+	<li>According to your findings - regarding those questions - define Renderer 
+		specification(s) in the Context (This is typically done by placing
+		the Renderer specification in some configuration file. Eventhough it 
+		is of course possible to add a specification programmatically at 
+		runtime.. say by placing it in the TmpStore).<br><br>
+		<ul>
+			<li>Example 1:<br>
+				In the XPage's configuration file XPage.any the building
+				block 'MyBuildingBlock' is created. (This is then used by 
+				HTML-template.) 
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/MyBuildingBlock {"
+		"	/String {"
+		"		/Default &#34;Hello World&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+			</li>
+			<li>Example 2:<br>
+				You define Renderer specifications for the two strings - since
+				their use depends exclusively on the current role - and place them 
+				in the respective Guest.any and Customer.any configuration files
+				(it is assumed that those files already exist):
+				<p>in Guest.any you put the Renderer specification:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/DynamicText {"
+		"	/String {"
+		"		/Default &#34;Guest&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+				in Customer.any you put the Renderer specification:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/DynamicText {"
+		"	/String {"
+		"		/Default &#34;Customer&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+				(Depending on the current Context - i.e. what role a user is in -
+				a lookup of the name 'DynamicText' will now return one or the other
+				Renderer specification!)			
+			</li>
+		</ul><br>
+	</li>
+	<li>Include a ContextLookupRenderer that references the Renderer specification 
+		in some HTML-template.
+		<ul>
+			<li>Example 1:<br>
+				Wherever you want to have the string 'hello world' rendered, you include a 
+				call to ContextLookupRenderer (with the parameter 'MyBuildingBlock') in 
+				your XPageTemplate.html file:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"[[&#35;wd Lookup MyBuildingBlock &#93;&#93;"
+	}
+}]]
+</pre>
+			</li>
+			<li>Example 2:<br>
+				Wherever you want to have the string rendered, you include a 
+				call to ContextLookupRenderer (with the parameter 'DynamicText') in 
+				your XPageTemplate.html file and you will get 'Customer' or 'Guest':
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"[[&#35;wd Lookup DynamicText &#93;&#93;"
+	}
+}]]
+</pre>
+			</li>
+		</ul>
+	</li>
+</ol>
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>creating new Pages, creating Renderer specifications, using HTML-templates

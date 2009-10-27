@@ -1,0 +1,72 @@
+<center><h2>[[#wd Lookup TitleRecipe14 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>Style Sheets give you the possibility to define the format of different
+HTML commands (font-type, font-size, bold, ...). If you like to change the
+'look' of your page - just change the specific entry in the style sheet definition.
+You can define style sheets directly in the *.html files, no change is needed in the
+*.any files. Or you can define all (or most of them) in one or more specific *.css files.
+In that case you need this recipe.
+<p>But be aware that style sheets are relatively new. They exists since 1996 (CSS-Version 1.0,
+1998 CSS-Version 2.0). Netscape support this feature since version 4.0 and InternetExplorer
+since version 3.0.
+<h3>Preconditions</h3>
+<ul>
+	<li>You know the use of style sheets (more details see 
+		<a href="http://www.teamone.de/selfaktuell/">http://www.teamone.de/selfaktuell/</a>)
+	</li>
+	<li>The config.any file exists and contains a valid Coast application
+		configuration.
+	</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Just add the definition for <tt>/StylePath</tt> and the specific MIME-Type to the
+		Server.any (similar to images):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/StylePath		    &#34;/static/styles/&#34;"
+	 	"..."
+		"/Ext2MIMETypeMap {"
+		"	/gif	&#34;image/gif&#34;"
+		"	/jpg	&#34;image/jpeg&#34;"
+		"	/css	&#34;text/css&#34;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Define a style sheet file (*.css). Put it into the directory defined in 
+		<tt>/StylePath</tt>.<br>
+		Formats.css:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/* style definitions for Coast Cookbook */"
+		"p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i,a"
+		"	{ font-family:&#34;Frutiger 55 Roman&#34;, Helvetica, Arial; }"
+		"..."
+	}
+}]]
+</pre>
+	</li>
+	<li>Put in the appropriate html definition into the <tt>&#60;head></tt> section of
+		the central html file.<br>
+		SharedPageLayout.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"&#60;link rel=stylesheet type=&#34;text/css&#34; href=[[&#35;wd Lookup StylePath &#93;&#93;Formats.css>"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<p>This recipe allows you to handle different MIME-Types with Coast.
+<h3>Glossary</h3>
+<p>Style Sheets (CSS)
+<h3>Related Topics</h3>
+<ul>
+	<li>[[#wd Lookup Recipe5 ]]: [[#wd Lookup TitleRecipe5 ]]</li>
+	<li>[[#wd Lookup Recipe27 ]]: [[#wd Lookup TitleRecipe27 ]]</li>
+</ul>

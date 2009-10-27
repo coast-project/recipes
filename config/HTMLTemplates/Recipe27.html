@@ -1,0 +1,101 @@
+<center><h2>[[#wd Lookup TitleRecipe27 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>This recipe describes how to put one of these fancy
+Java-Applets on a page using Coast. 
+<h3>Preconditions</h3>
+<ul>
+	<li>Understand how to call your Java-applet from HTML
+		- or know the phone number of the company Java-wizard ;-).<br><br>
+	</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define the interface to jour java applet and implement your class.<br><br>
+	</li>
+	<li>Add the definition for <tt>/AppletPath</tt> and the specific MIME-Type to the
+		Server.any (more details see [[#wd Lookup Recipe14 ]]):
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/AppletPath		    &#34;/static/applets/&#34;"
+	 	"..."
+		"/Ext2MIMETypeMap {"
+		"	/gif	&#34;image/gif&#34;"
+		"	/jpg	&#34;image/jpeg&#34;"
+		"	/css	&#34;text/css&#34;"
+		"	/class	&#34;text/plain&#34;"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Make the necessary entries in the config.any:<br>
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Renderers {"
+		"..."
+		"/AppletRenderer 		{	Applet			}"
+		"..."
+	}
+}]]
+</pre>
+	</li>
+	<li>Write an HTML-Template which calls the AppletRenderer and
+		write a Renderer specification which uses it. You may
+		use ContextLookupRenderers or something similar to fill
+		in parameters.<br>
+		Ex4Page.any:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/ButtAppl {"
+		"	/Applet {"
+		"		/Options &#34;width=380 height=90&#34;     # size of the whole applet"
+		"		/CodeBase 			{ /Lookup AppletPath }"
+		"		/Applet		 		&#34;AppletButton.class&#34;"
+		"		/Params {"
+		"			/WINDOWCLASS	{ &#34;TestWindow&#34; }"
+		"			/BUTTONTEXT		{ &#34;Creates a new window ...&#34;}"
+		"			/WINDOWTITLE	{ &#34;my Window&#34; }"
+		"			/WINDOWWIDTH	{ &#34;500&#34;	}"
+		"			/WINDOWHEIGHT	{ &#34;300&#34;	}"
+		"			/FONT			{ &#34;SansSerif&#34;	}"
+		"		}"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+		As text on this java button may be written:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/WrittenOnButton {"
+		"	/String {"
+		"		/Default &#34;dynamically rendered text&#34;"
+		"	}"
+		"}"
+	}
+}]]
+</pre>
+	</li>
+	<li>Put the Renderer on your page.<br>
+		Ex4Page.html:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"..."
+		"&lt;p>&lt;center>[[&#35;wd Lookup ButtAppl &#93;&#93;&lt;/center>"
+		"..."
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<h3>Remarks</h3>
+<p>You might have some problems with this recipe because of one or more of the following items:
+<ul>
+	<li>You don't have the module 'AppletRenderer' (or not the right version)</li>
+	<li>The alias names of the AppletRenderer and the URLRenderer are missing in config.any</li>
+	<li>Your browser is not capable to run java applets</li>
+	<li>The configuration to find the java applets in the runtime environment is still wrong</li>
+</ul>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>

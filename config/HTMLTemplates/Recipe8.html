@@ -1,0 +1,107 @@
+<center><h2>[[#wd Lookup TitleRecipe8 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>One of the main advantages using Coast is that it support roles in 
+a highly flexible manner. This let you define exactly which user may 
+access which pages. Because Coast also provides a session mechanism the 
+user can login once and all his privileges are granted from then on.
+<h3>Preconditions</h3>
+<ul>
+	<li>Setup of the Pages to be used by the application is done.</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>Define the roles and their hierarchy.<br>
+		Within Config.any there must be a /Roles tag:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/Roles {"
+		"	/Role {"
+		"		&#34;Default&#34;"
+		"	}"
+		"}"
+		" "
+		"or another one"
+		" "
+		"/Roles {"
+		"	/Role { &#34;Admin&#34; &#34;Guest&#34; &#34;Customer&#34; }"
+		"	/Guest { &#34;Default&#34; }"
+		"}"
+	}
+}]]
+</pre>
+		All the Roles must be defined there. You may also specify a Default role
+		but this is not implemented properly by now.<br>
+		Another important tag is /RoleChanges:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/RoleChanges {"
+		"	/GoAdmin     &#34;Admin&#34;"
+		"	/GoCustomer  &#34;Customer&#34;"
+		"}"
+	}
+}]]
+</pre>
+		This defines actions that forces the role to be changed (Use a 
+		overwritten 'DoAction' to launch the appropriate Action - see [[#wd Lookup Recipe9 ]] ).. <br>
+		Define the user levels in the Role.any file:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"/GuestRole     0"
+		"/CustomerRole  1"
+		"/AdminRole     2"
+	}
+}]]
+</pre>
+		This defines the hierarchy AdminRole > CustomerRole > GuestRole.<br>
+		Remember the higher roles have all the privileges of the roles with a lower level.<br><br>
+	</li>
+	<li>Configure the Maps for the different roles.<br>
+		For each role create a "RoleName".any configuration file, where you can define
+		the role specific navigation maps (Refer to [[#wd Lookup Recipe1 ]] for a description).<br><br>
+	</li>
+	<li>Create the subclasses for the different roles.<br>
+		Until now you have to create a new subclass of Role for each different
+		role (this will change in the future, such that you can have different
+		roles instanciatied from the same class).<br>
+		The most important method to overwrite is the Constructor because
+		it is there where the name is set properly:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"MyNewRole::MyNewRole() : Role(&#34;MyNewRole&#34;)"
+		"{}"
+	}
+}]]
+</pre>
+		There are three interesting methods more which may be overwritten.
+		They allow you to implement specific security checks.
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"// Resolve the name for the next page with currentpage and action."
+		"// The default implementation uses a table driven"
+		"// approach. The table is usually defined in [RoleName].any"
+		" "
+		"virtual bool DoGetNewPageName( Context &c, String &transition, String& pagename );"
+		" "
+		"// checks role levels by name according to role precedence defined in Role.any"
+		"// GuestRole &#60; CustomerRole &#60; AnotherRole"
+		" "
+		"virtual bool CheckLevel(const char *name) const;"
+		" "
+		"// verifies query params default implementation"
+		"// does nothing"
+		"virtual bool DoVerify(Context &,String &,String &);"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
+<p>Navigation Map, Role concept
+<ul>
+	<li>[[#wd Lookup Recipe9 ]]: [[#wd Lookup TitleRecipe9 ]]</li>
+	<li>[[#wd Lookup Recipe11 ]]: [[#wd Lookup TitleRecipe11 ]]</li>
+</ul>

@@ -1,0 +1,120 @@
+<center><h2>[[#wd Lookup TitleRecipe29 ]]</h2></center>
+
+<h3>Overview</h3>
+<p>This recipe discusses the issues in deciding whether to reuse existing
+renderers or to introduce a new one. Since this is not a question where
+you can decide on hard facts it also involves taste and is ultimately
+based on good judgement.
+<p>In the following we try to outline the basic line of thoughts you should
+consider when you have to decide about a new class. 
+<h3>Preconditions</h3>
+<ul>
+	<li>You have a basic understanding of the concepts and classes of Coast.</li>
+	<li>You have a deeper knowledge of existing Renderers and their capabilities.</li>
+	<li>You have analyzed the requirements for the needed component and have
+		a clear idea of the functionality and the presentation of the wanted part.</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+	<li>First of all: <b>Try to reuse existing renderers</b>, that's why they're here!!
+		<p>So based on your knowledge, go through the list of the existing
+		renderers and try them out. Maybe you don't know all that deep or you can
+		combine several toghether to achieve the functionality and presentation
+		you wish.
+		<p><b>Caveat:</b> With HTML-Templates you can virtually do everything needed, but
+		it is not always the most performant solution. HTML-Templates are great
+		in defining layouts (fixed tables) or in providing some snippets with
+		dynamic data.
+		<p>Beware of flag setting mania, too much conditional rendering is as bad
+		as too much conditional code. Try to use polymorphism instead. Thats why
+		the page configurations have some sort of inheritance.
+		<p>There are several results possible regarding your first step.
+		<ul>
+			<li>You found something simple you're completely satisfied with.
+				<br>Congratulations you're done and you reused a given object! (best case)<br>
+				Sample:
+<pre>
+HTML-Template for Layout
+Image Buttons, Anchors and fields with dynamic content
+</pre>
+			</li>
+			<li>You found something that's not simple (in terms of configuration) but
+				fullfills your requirement. Depending on the performance of your
+				construct or maintainability you have to reconsider your solution.<br>
+				Sample:
+<pre>
+Dynamic Table with HTML-Templates and dynamic content
+Most templates contain conditional renderers triggered by flags
+that must be maintained by your code.
+</pre>
+			</li>
+			<li>You found nothing that can serve your purpose. So you have to build something new.
+			</li>
+		</ul><br><br>
+	</li>
+	<li>If the result of your second step is that you have to build something
+		new, then you have to decide several things:<br><br>
+		<ul>
+			<li>Should the renderer be reusable or special purpose?<br>
+				If you build something new for your special purposes, be
+				aware, if the same situation arrives several times, that you have to
+				generalize your design to make it reusable.<br>&nbsp;
+			</li>
+			<li>What kind of role does it play?<br>
+				Arrange layouts, some sort of box or a fancy new widget
+				with special bookkeeping<br><br>
+			</li>
+			<li>How is it configured?<br>
+				Define the needed options that have to be configured. Since it is a new
+				thing you can design to your needs. But be aware, that you still can
+				exploit the existing renderers by having attributes that are themselves
+				renderer specifications. If the need arrives you can easily support
+				extensions of your renderer by calling Renderer::ContextLookup with
+				specifications you don't know in your Renderer-Code.<br><br>
+			</li>
+			<li>What kind of data does it need that have to be rendered?<br>
+				Try to configure your needed data access, so you can easily adapt to
+				new data configurations. If you're not absolutely sure (and you'll never
+				be) it's a one shot DON'T HARDCODE your data access paths into you're 
+				rendering code.<br><br>
+			</li>
+		</ul>
+	</li>
+	<li>The technical implementation of a new Renderer is quite simple. You
+		have to derive a subclass of Renderer. You have to implement the Method
+		RenderAll and call the Macro RegisterRenderer('ClassName'). <br>
+		If you want to use the new Renderer with an alias, you can define one
+		in the Config.any file of the Server.<br>
+		Sample:
+<pre>[[#wd DisplayAnythingRenderer {
+	/AnythingInfo {
+		"class MyNewRenderer : public Renderer {"
+		"public:"
+		"	MyNewRenderer(const char *name);"
+		"	~MyNewRenderer();"
+		" "
+		"	virtual void RenderAll(ostream &reply, Context &c, const ROAnything &config);"
+		"};"
+		" "
+		"//---- MyNewRenderer ----------------------------------------------------------------"
+		" "
+		"RegisterRenderer(MyNewRenderer);"
+		" "
+		"MyNewRenderer::MyNewRenderer(const char *name) : Renderer(name) { }"
+		" "
+		"MyNewRenderer::~MyNewRenderer() { }"
+		" "
+		"void MyNewRenderer::RenderAll(ostream &reply, Context &c, const ROAnything &config)"
+		"{"
+		"	StartTrace(MyNewRenderer.RenderAll);"
+		"	// do some fancy stuff here"
+		"	..."
+		"}"
+	}
+}]]
+</pre>
+	</li>
+</ol>
+<h3>Remarks</h3>
+<h3>Glossary</h3>
+<h3>Related Topics</h3>
