@@ -1,7 +1,7 @@
 <center><h2>[[#wd Lookup TitleRecipe23 ]]</h2></center>
 
 <h3>Overview</h3>
-<p>WebDisplay supports two mechanisms for localization:
+<p>COAST supports two mechanisms for localization:
 <ol>
 	<li>Localization of individual strings may be achieved by using a StringRenderer.
 		By localizing individual strings StringRenderer offers a very fine level of
@@ -18,7 +18,7 @@
 	</li>
 </ol>
 <p>There are several language related settings in the Config.any configuration file.
-These define if and what localized versions are supported by the WebDisplay server. 
+These define if and what localized versions are supported by the COAST server. 
 <h3>Preconditions</h3>
 <p>It is assumed that the un-localized application already exists, i.e. all the
 necessary configuration files for roles, pages etc. are completed.
@@ -47,9 +47,9 @@ necessary configuration files for roles, pages etc. are completed.
 	}
 }]]
 </pre>
-		Notice: In WebDisplay a language is typically identified by a short string. (In the
+		Notice: In COAST a language is typically identified by a short string. (In the
 		above example the strings "D", "E", "F" and "I" were used as identifiers for
-		German, English, French and Italian.) This identifier is used by WebDisplay to
+		German, English, French and Italian.) This identifier is used by COAST to
 		retrieve localized versions of strings and HTML templates.
 		<p>All the localization related settings in Config.any are optional: 
 		<ul>
@@ -58,12 +58,12 @@ necessary configuration files for roles, pages etc. are completed.
 				language.
 			</li>
 			<li>The entry 'UseBrowserLang' decides if the language may be chosen at runtime. If
-				'UseBrowserLang' is set to 1 (TRUE) WebDisplay decides at runtime what language
+				'UseBrowserLang' is set to 1 (TRUE) COAST decides at runtime what language
 				to use by evaluating the users browser settings. (The user may choose his
 				preferred language in the WWW browser.)
 			</li>
 			<li>The settings in 'LanguageKeyMap' are then
-				used to map browser language settings to the identifiers used by WebDisplay.
+				used to map browser language settings to the identifiers used by COAST.
 			</li>
 		</ul>
 		<br>Example:	
@@ -72,11 +72,11 @@ necessary configuration files for roles, pages etc. are completed.
 		browser settings was defined. (If a user has defined French to
 		be the language of his choice, each of his requests will contain
 		the browser setting "fr". Because of above 'LanguageKeyMap' each
-		such request will cause WebDisplay to use its "F" localized version.<br><br>
+		such request will cause COAST to use its "F" localized version.<br><br>
 	</li>
 	<li>Localizing strings:<br><br>
 		A given string may be localized by replacing the respective text with a call to
-		a StringRenderer. (This indirection allows WebDisplay to render a language
+		a StringRenderer. (This indirection allows COAST to render a language
 		specific string.)<br>
 		Example: The static text "Good day" is replaced by a call to a StringRenderer:
 <pre>[[#wd DisplayAnythingRenderer {
@@ -105,7 +105,7 @@ necessary configuration files for roles, pages etc. are completed.
 }]]
 </pre>
 		<i><font size=-1>(<b>Notice:</b> The slot names for the different localized versions of a 
-		text directly correspond to the language identifier used by WebDisplay.
+		text directly correspond to the language identifier used by COAST.
 		If the StringRenderer specification does not contain an entry for the
 		current language identifier then the 'Default' entry is used. 
 		A minimal specification for a String Renderer must always contain the 

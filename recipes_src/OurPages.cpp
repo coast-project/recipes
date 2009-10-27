@@ -204,8 +204,8 @@ void ViewPage::Body(ostream &reply, Context&)
 }
 void ViewPage::Footer(ostream &reply, Context&)
 {
-//	reply.Append("powered by WebDisplay\n");
-//	cerr << "powered by WebDisplay\n";
+//	reply.Append("powered by COAST\n");
+//	cerr << "powered by COAST\n";
 }
 
 

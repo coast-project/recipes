@@ -8,7 +8,7 @@
  #--------------------------------------------------------------------
 
 {
-    /PageTitle "Example 2 Page of WebDisplay (text from ShowInputPage.any)"
+    /PageTitle "Example 2 Page of COAST (text from ShowInputPage.any)"
 
 	/Body {
 		/HTML {

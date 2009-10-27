@@ -2,7 +2,7 @@
 
 <h3>Overview</h3>
 <p>Many elements of a HTML page are shared between most, if not all,
-pages of a website. This recipe shows how you can use WebDisplay
+pages of a website. This recipe shows how you can use COAST
 to define common stuff just once and use it on every page.
 
 <h3>Preconditions</h3>
@@ -37,11 +37,11 @@ Page
 </pre>
 		<i><font size=-1><b>Remarkable:</b> mixed mode Anything - Slotnames and Values are defining pages !</font></i><br><br>
 	</li>
-	<li>Specify the different parts, that should be shared amongst the pages 
+	<li>Specify the different parts, that should be shared amongst the pages
 		(e.g. Header, Footer, NavBar etc). This is only a mental process.<br><br>
 	</li>
-	<li>Specify a tag /PageLayout in the configuration file for the 
-		topmost page (normally Page.any), that declares a shared layout 
+	<li>Specify a tag /PageLayout in the configuration file for the
+		topmost page (normally Page.any), that declares a shared layout
 		html-file.<br>
 		For Example like this:
 <pre>[[#wd DisplayAnythingRenderer {
@@ -59,7 +59,7 @@ Page
 	</li>
 	<li>Create the shared layout html-file in the HTMLTemplates directory.
 		Write the common overall Layout for all pages into this file, using
-		Standard HTML and WebDisplay Renderer tags.
+		Standard HTML and COAST Renderer tags.
 		<p><b>Important:</b> Use ContextLookupsRenderers for the shared parts identified in step 2.
 		<br>The following example will give you a good start:
 <pre>[[#wd DisplayAnythingRenderer {
@@ -80,7 +80,7 @@ Page
 }]]
 </pre>
 	</li>
-	<li>Now you can easily define different renderers for the elements in Page.any. 
+	<li>Now you can easily define different renderers for the elements in Page.any.
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
 		"/Header {"
@@ -91,12 +91,12 @@ Page
 		"			&#34;&lt;hr>&#34;"
 		"		}"
 		"	}"
-		"}"	
+		"}"
 		" "
 		"/Footer {"
 		"	/HTML {"
 		"		/Template {"
-		"			&#34;&lt;hr>&lt;center>powered by WebDisplay&lt;/center>&#34;"
+		"			&#34;&lt;hr>&lt;center>powered by COAST&lt;/center>&#34;"
 		"		}"
 		"	}"
 		"}"
@@ -104,12 +104,12 @@ Page
 }]]
 </pre>
 		As you can see, the Renderer specifications
-		may also refer to more ContextLookupRenderer, which of course may be specified 
+		may also refer to more ContextLookupRenderer, which of course may be specified
 		differently within subpages (e.g. Menu in Header).
-		Only Renderer specifications that are shared have to be defined in the 
-		superpages configuration files. 
+		Only Renderer specifications that are shared have to be defined in the
+		superpages configuration files.
 		If you specify any of the renderers again in the configuration file
-		of a subpage the definition of its superpage is overwritten on 
+		of a subpage the definition of its superpage is overwritten on
 		this page and all its subpages.<br>
 		AccountPage.any could look like this:
 <pre>[[#wd DisplayAnythingRenderer {
@@ -122,7 +122,7 @@ Page
 		"			&#34;[[&#35;wd Lookup LinkBalance &#93;&#93;&#34;"
 		"			&#34;&lt;/center>&#34;"
 		"		}"
-		"	}"			
+		"	}"
 		"}"
 		" "
 		"/LinkBookings {"
@@ -164,7 +164,7 @@ Page
 		"	}"
 		"}"
 	}
-}]]		
+}]]
 </pre>
 		Assume there is a BalanceRenderer that maybe fetch the Balance from a Database.
 		<p>The Balance page will look like this
@@ -177,10 +177,10 @@ Page
 | ------                  -------- -------                        |
 | --------------------------------------------------------------- |
 |                                                                 |
-| You have $1'000'000 bilion on your account                      | BalancePage.any
+| You have $1'000'000 billion on your account                     | BalancePage.any
 |                                                                 |
 | --------------------------------------------------------------- |
-|                      powered by WebDisplay                      | Page.any
+|                         powered by COAST                        | Page.any
 |                                                                 |
 -------------------------------------------------------------------
 </pre>

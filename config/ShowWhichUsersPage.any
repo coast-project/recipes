@@ -8,7 +8,7 @@
  #--------------------------------------------------------------------
 
 {
-    /PageTitle "Example 3 Page of WebDisplay (text from ShowWhichUsersPage.any)"
+    /PageTitle "Example 3 Page of COAST (text from ShowWhichUsersPage.any)"
 	
 	/Body {
 		/Form {

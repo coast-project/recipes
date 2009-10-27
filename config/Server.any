@@ -57,7 +57,7 @@
 	/Dispatcher	RendererDispatcher
 
  	/URIPrefix2ServiceMap {			# map to define service handler
-		/"/WebDisplayDoc"	WebDocuFile
+		/"/COASTDoc"	WebDocuFile
 		/"/favicon.ico"		HttpFile
 		/"/static"			HttpFile
 		/"/recipes"			wdsample

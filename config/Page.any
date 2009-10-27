@@ -14,9 +14,8 @@
 		}
 	}
 
-	/WebDisplay2DocuIndex	"/WebDisplayDoc/index.html"					# DevTest
-#	/WebDisplay2DocuIndex	"http://hexa/WebDisplayDoc/index.html"
-#	/WebDisplay2DocuIndex	"http://feadntsrv1.telekurs.com/WebDisplayDoc/index.html"
+	/COASTDocuIndex	"/COASTDoc/index.html"					# DevTest
+#	/COASTDocuIndex	"http://hexa/COASTDoc/index.html"
 
 	/ImageNameSmall	coast_200x100.png
 	/ImageNameBig	coast_500x250.png
@@ -27,14 +26,14 @@
 			"<table width=100%>"
 				"<tr>"
 					"<td width=80% align=center>"
-						"<h1>Cookbook WebDisplay</h1>"
+						"<h1>Cookbook COAST</h1>"
 						"<h3>"{/Lookup PageTitle }"</h3>"
 						"<p>"{/Lookup RecipesListPage }"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 # no actual docu available, link is set to class doc
 #						{/Lookup Doku }"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 						"<a href='"
-							{ /Lookup WebDisplay2DocuIndex }
-						"' target=_blank>WebDisplay2 Class-Index</a>"
+							{ /Lookup COASTDocuIndex }
+						"' target=_blank>COAST Class-Index</a>"
 						"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 						{/Lookup TipsAndHints }
 						"<br><br>"
@@ -224,7 +223,7 @@
 
 	/Doku {
 		/Link {
-			/Label { "WebDisplay Documentation" }
+			/Label { "COAST Documentation" }
 			/Action GoDoku
 		}
 	}
@@ -487,7 +486,7 @@
 	/TitleRecipe1 { "How do I create a 'static' HTML page?" }
 	/TitleRecipe2 { "I want to link 2 (static) pages forth and back" }
 	/TitleRecipe3 { "I've already got these (static) HTML pages. How can I get\
-					WebDisplay to display them for me?" }
+					COAST to display them for me?" }
 	/TitleRecipe4 { "You've got these predefined building blocks for HTML pages.\
 					How do I compose my page using these nice components?" }
 	/TitleRecipe5 { "Hey, my website should look consistent without too much work.\
@@ -501,9 +500,9 @@
 					a login-page?" }
 	/TitleRecipe10 { "My 'corporate communication' department wants to have the internet bar's menu on every page" }
 	/TitleRecipe11 { "How Do I personalize the information on a page?" }
-	/TitleRecipe12 { "How can I implement a shopping cart application with WebDisplay?" }
+	/TitleRecipe12 { "How can I implement a shopping cart application with COAST?" }
 	/TitleRecipe13 { "How do I establish a page hierarchy?" }
-	/TitleRecipe14 { "How can I use Style Sheets with WebDisplay?" }
+	/TitleRecipe14 { "How can I use Style Sheets with COAST?" }
 	/TitleRecipe20 { "How do you get these nice-looking tables on a page? - or how I use the list renderer." }
 	/TitleRecipe21 { "I need to show my company logo on each page" }
 	/TitleRecipe22 { "When and how should I use this strange thing \
@@ -520,7 +519,7 @@
 					zap through a lengthy page forth and back?" }
 	/TitleRecipe29 { "When and how should I create a new Renderer subclass?" }
 	/TitleRecipe30 { "When and how should I create a new Page C++ subclass?" }
-	/TitleRecipe40 { "How do I configure a http-server with WebDisplay?" }
+	/TitleRecipe40 { "How do I configure a http-server with COAST?" }
 
     #---- Footer stuff ---------------------------------------------------------
     /Footer {
@@ -532,10 +531,10 @@
 					{/Date { /Format "%A the %#d. %B %Y, %X" }}
 				"</td>"
 				"<td width=30% align=center>"
-					"Powered by WebDisplay2"
+					"Powered by COAST"
 				"</td>"
 				"<td width=35% align=right>"
-					"<a href='mailto:marcel.huber@telekurs.com'>Changes are welcome: marcel.huber@telekurs.com</a>"
+					"<a href='mailto:marcel.huber@hsr.ch'>Changes are welcome: marcel.huber@hsr.ch</a>"
 				"</td>"
 			"</tr>"
 		"</table>"

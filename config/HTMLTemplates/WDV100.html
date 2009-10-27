@@ -3,7 +3,7 @@
 <head>
 <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1252">
 <meta NAME="GENERATOR" CONTENT="Microsoft FrontPage 3.0">
-<title>WebDisplay Documentation V. 1.0</title>
+<title>COAST Documentation V. 1.0</title>
 </head>
 
 <body LINK="#0000FF" VLINK="#800080" background="WB00516_.gif">
@@ -23,7 +23,7 @@
 <dir>
   <font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">1.1</font><font color="#0000FF" size="3">
   <a HREF="#_Toc411764530" style="color: rgb(0,0,255)">External view/Environment</a></font><big><br>
-  </big><font COLOR="#0000ff" size="3">1.2 </font><a HREF="#_Toc411764531" class="HyperLink"><font size="3">Internal view of WebDisplay</font></a><big><br>
+  </big><font COLOR="#0000ff" size="3">1.2 </font><a HREF="#_Toc411764531" class="HyperLink"><font size="3">Internal view of COAST</font></a><big><br>
   </big><font COLOR="#0000ff" size="3">1.3 </font><font size="3"><a HREF="#_Toc411764532">Initial
   request</a></font><big><br>
   </big><font COLOR="#0000ff" size="3">1.4 &#130;</font><font size="3"><a HREF="#_Toc411764533">Normal&#145; request</a></font><big><br>
@@ -75,7 +75,7 @@
   </big><font COLOR="#0000ff" size="3">3.8 Class</font><font FACE="Courier New" size="3"> </font><font FACE="Courier New" COLOR="#000000" size="4"><a HREF="#_Toc411764566">Anything</a></font><font COLOR="#0000ff" size="3">: A Dynamic Data Structure<br>
   <i>3.8.1 </font><font size="3"><a HREF="#_Toc411764567">Import/Export format</a><font COLOR="#0000ff"> of </font><font FACE="Courier New">Anythings</font></font><big><br>
   </big><font COLOR="#0000ff" size="3">3.8.2 Anythings as a </font><font size="3"><a HREF="#_Toc411764568">Configuration Mechanism</a></font><big><br>
-  </big><font COLOR="#0000ff" size="3">3.8.3 Usage of </font><font size="3"><a HREF="#_Toc411764569">Anythings in WebDisplay</a></font></i></p>
+  </big><font COLOR="#0000ff" size="3">3.8.3 Usage of </font><font size="3"><a HREF="#_Toc411764569">Anythings in COAST</a></font></i></p>
   <dir>
     <font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">3.8.3.1 </font><font size="3"><a HREF="#_Toc411764570">Global configuration</a></font><big><br>
     </big><font COLOR="#0000ff" size="3">3.8.3.2 </font><font size="3"><a HREF="#_Toc411764571">Debugging subsystem</a></font><big><br>
@@ -104,7 +104,7 @@
 <b><font SIZE="2" COLOR="#0000ff">
 
 <ol>
-  </font></b><font COLOR="#0000ff"><font size="3"><i><p ALIGN="JUSTIFY">WebDisplay</i> is a
+  </font></b><font COLOR="#0000ff"><font size="3"><i><p ALIGN="JUSTIFY">COAST</i> is a
   platform for developing and deploying World Wide Web applications. For development, it
   provides an extensible framework, reusable components, and a configuration mechanism that
   is used to create web applications. For deployment, it provides an efficient and scaleable
@@ -119,7 +119,7 @@
 
 <ol>
   <font size="3"><b><p ALIGN="JUSTIFY"></b>The following sequence chart illustrates the
-  outside view of the WebDisplay environment:<b></p>
+  outside view of the COAST environment:<b></p>
   </b></font>
 </ol>
 
@@ -134,7 +134,7 @@
     <b>
     <li></font><font COLOR="#0000ff" size="3">Web Browser</b>:<br>
       Any standard Web browser. Advanced capabilities, e.g. support for Frames, Java, JavaScript
-      are not required by the architecture of <i>WebDisplay</i>. But if they are available <i>WebDisplay</i>
+      are not required by the architecture of <i>COAST</i>. But if they are available <i>COAST</i>
       can take advantage of it.</li>
     <b>
     <li>HTTP Server</b>:<br>
@@ -143,22 +143,22 @@
       Internet Server API (ISAPI).</li>
     <b>
     <li>Gateway<i>:</i></b><br>
-      <i>wdgateway</i> (for <i>WebDisplay</i> <b>Gateway</b>). acts as an intermediary between
-      HTTP servers and <i>WebDisplay</i>. The gateway insulates <i>WebDisplay</i> from HTTP
+      <i>wdgateway</i> (for <i>COAST</i> <b>Gateway</b>). acts as an intermediary between
+      HTTP servers and <i>COAST</i>. The gateway insulates <i>COAST</i> from HTTP
       server interfaces by handling all communication aspects. Because most HTTP servers support
       the Common Gateway Interface (CGI). By default <i>wdgateway</i> is configured as a CGI
       program, but it is easy to convert <i>wdgateway</i> into a server extension. <br>
       <i>wdgateway</i> extracts all necessary information from the CGI calling environment (e.g.
       URL, query arguments, type of client browser, etc.) into a canonical data structure and
-      streams this structure via a socket to <i>WebDisplay</i>. Any data returned from this
+      streams this structure via a socket to <i>COAST</i>. Any data returned from this
       socket is passed back to the HTTP server.</li>
     <b>
-    <li>WebDisplay-Server<i>:</i></b><br>
-      <i>WebDisplay-Server</i> is a multi threaded server process which handles requests coming
+    <li>COAST-Server<i>:</i></b><br>
+      <i>COAST-Server</i> is a multi threaded server process which handles requests coming
       from <i>wdgateway</i> by returning a stream of data, usually a dynamically generated HTML
-      page. In order to maintain state across requests, <i>WebDisplay</i> associates all
+      page. In order to maintain state across requests, <i>COAST</i> associates all
       requests coming from a single user with a session. The session defines the context in
-      which a web application is executed. Building a web application on top of <i>WebDisplay</i>
+      which a web application is executed. Building a web application on top of <i>COAST</i>
       involves three activities:</li>
   </ul>
   <blockquote>
@@ -171,7 +171,7 @@
   <ul TYPE="SQUARE">
     <b>
     <li>Data-Access:<br>
-      </b>In many cases <i>WebDisplay-Server</i> implements the &quot;presentation&quot; of data
+      </b>In many cases <i>COAST-Server</i> implements the &quot;presentation&quot; of data
       stored in a database.</li>
   </ul>
   </font>
@@ -185,14 +185,14 @@
 <blockquote>
   <blockquote>
     <h2><b><a NAME="_Toc411764529"></a><a NAME="_Ref411830153"></a><a NAME="_Toc411764531"><big>1.2.
-    &nbsp; Internal view of WebDisplay</big></a></font><a NAME="_Toc411764530"></a><font COLOR="#0000ff" size="3"></h2>
+    &nbsp; Internal view of COAST</big></a></font><a NAME="_Toc411764530"></a><font COLOR="#0000ff" size="3"></h2>
     </b>
   </blockquote>
 </blockquote>
 
 <ol>
   <ul>
-    <p ALIGN="JUSTIFY">The figure below shows a high level view of <i>WebDisplay</i>&#146;s
+    <p ALIGN="JUSTIFY">The figure below shows a high level view of <i>COAST</i>&#146;s
     internal architecture. When processing a single request three phases can be distinguished:
     on the left hand side requests coming from <i>wdgateway</i> are accepted from the main
     thread and then immediately dispatched to another thread which processes the request. The
@@ -220,7 +220,7 @@
 <ol>
   <ul>
     <font SIZE="2" COLOR="#0000ff"><p ALIGN="center">[[#wd ContextLookup InitialRequest ]]</p>
-    <p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3">When a user first accesses a <i>WebDisplay-Server
+    <p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3">When a user first accesses a <i>COAST-Server
     </i>using an initial URL or a stored bookmark a new </font><font COLOR="#0000ff" size="3" FACE="Courier New">Session</font><font COLOR="#0000ff" size="3"> and a corresponding </font><font FACE="Courier New" size="3" color="#000000">Role</font><font COLOR="#0000ff" size="3">
     object have to be created. This occurs during the first phase if a request cannot be
     associated with a existing </font><font COLOR="#0000ff" size="3" FACE="Courier New">Session</font><font COLOR="#0000ff" size="3"> object. When a </font><font COLOR="#0000ff" size="3" FACE="Courier New">Session</font><font COLOR="#0000ff" size="3"> is created it generates a
@@ -238,7 +238,7 @@
       </tr>
       <tr>
         <td WIDTH="35%" VALIGN="TOP"><p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3" FACE="Courier New"><a HREF="#_Ref411765686">Server</a></font><font COLOR="#0000ff" size="3"></font></td>
-        <td WIDTH="65%" VALIGN="TOP"><i><p ALIGN="JUSTIFY">WebDisplay</i> server </td>
+        <td WIDTH="65%" VALIGN="TOP"><i><p ALIGN="JUSTIFY">COAST</i> server </td>
       </tr>
       <tr>
         <td WIDTH="35%" VALIGN="TOP"><p ALIGN="JUSTIFY"><font COLOR="#0000ff" size="3" FACE="Courier New"><a HREF="#_Ref411764848">Anything</a></font><font COLOR="#0000ff" size="3"></font></td>
@@ -265,7 +265,7 @@
     </table>
     <font COLOR="#0000ff" SIZE="2"><p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3">A
     single </font><font COLOR="#000000" size="4" FACE="Courier New"><a HREF="#_Ref411765686">Server</a></font><font COLOR="#0000ff" size="3"> object (typically a subclass of </font><font FACE="Courier New" size="3" color="#000000">Server</font><font COLOR="#0000ff" size="3">) running in the main
-    thread controls the <i>WebDisplay</i> server and accepts new connections on a configurable
+    thread controls the <i>COAST</i> server and accepts new connections on a configurable
     socket port. Whenever a new connection is received from <i>wdgateway</i> a new
     HandleSession object is created in a new thread. The </font><font FACE="Courier New" size="3" color="#000000">HandleSession</font><font COLOR="#0000ff" size="3"> object is
     connected to the client by means of a bi-directional socket connection.</p>
@@ -274,7 +274,7 @@
     of </font><font COLOR="#000000" size="4" FACE="Courier New"><a HREF="#_Toc411764566">Anythings</a></font><font COLOR="#0000ff" size="3"> refer to chapter 3.8). Then the session information is extracted
     from the request and used to find an already existing session object in a table. If none
     can be found a new session is created.</p>
-    <p ALIGN="JUSTIFY">The session object is the single most important class of <i>WebDisplay</i>.
+    <p ALIGN="JUSTIFY">The session object is the single most important class of <i>COAST</i>.
     A session object maintains the state for a user session across requests. A session object
     is terminated either by an explicit user action (e.g. logout) or by a timeout if the
     session object hasn&#146;t been accessed for some time.</p>
@@ -350,9 +350,9 @@
     required for the rendering process. For example if a page represents a report of host data
     the associated transaction will be called from within the </font><font FACE="Courier New" color="#000000" size="3">Preprocess</font><font COLOR="#0000ff" size="3"> method.</p>
     <p ALIGN="JUSTIFY">After a page has been rendered it is transferred to the users&#146;s
-    browser. If the page contains links clicking on a link will send a new request back to <i>WebDisplay</i>.
-    <i>WebDisplay</i> maps this request back to a session object in order to establish the
-    original context in which the page has been created. Before determining a new page, <i>WebDisplay</i>
+    browser. If the page contains links clicking on a link will send a new request back to <i>COAST</i>.
+    <i>COAST</i> maps this request back to a session object in order to establish the
+    original context in which the page has been created. Before determining a new page, <i>COAST</i>
     first gives the old page a chance for processing the request by calling a method </font><font FACE="Courier New" color="#000000" size="3">Postprocess</font><font COLOR="#0000ff" size="3"> on the old page. A typical example of postprocessing would be the validation of
     a form.</p>
     <p ALIGN="JUSTIFY">One way to create different pages is to derive new classes from </font><font COLOR="#0000ff" size="4" FACE="Courier New">Page</font><font COLOR="#0000ff" size="3"> and
@@ -471,7 +471,7 @@
 <blockquote>
   <blockquote>
     <font SIZE="2" COLOR="#0000ff"><p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3">Every
-    WebDisplay application is controlled by a single </font><font FACE="Courier New" size="3">Server</font><font COLOR="#0000ff" size="3"> object (typically a subclass of </font><font FACE="Courier New" size="3">Server</font><font COLOR="#0000ff" size="3">). This object is most easily
+    COAST application is controlled by a single </font><font FACE="Courier New" size="3">Server</font><font COLOR="#0000ff" size="3"> object (typically a subclass of </font><font FACE="Courier New" size="3">Server</font><font COLOR="#0000ff" size="3">). This object is most easily
     allocated in the application&#146;s </font><font FACE="Courier New" size="3">main()</font><font COLOR="#0000ff" size="3"> function:</p>
     </font>
   </blockquote>
@@ -503,7 +503,7 @@
     list defined in &quot;Config.any&quot; (</font><font FACE="Courier New" size="3" color="#000000">/PathList</font><font COLOR="#0000ff" size="3">). If </font><font FACE="Courier New" size="3" color="#000000">WD_ROOT</font><font COLOR="#0000ff" size="3">
     is not defined relative paths are used.</p>
     <p ALIGN="JUSTIFY">The </font><font COLOR="#0000ff" size="3" FACE="Courier New">Run</font><font COLOR="#0000ff" size="3"> method of a </font><font COLOR="#0000ff" size="3" FACE="Courier New">Server</font><font COLOR="#0000ff" size="3"> object controls a
-    WebDisplay server and accepts new connections on a socket port (defined in Config.any).
+    COAST server and accepts new connections on a socket port (defined in Config.any).
     For each connection </font><font COLOR="#0000ff" size="3" FACE="Courier New">Server</font><font COLOR="#0000ff" size="3"> tries to find an existing </font><font FACE="Courier New" size="3" color="#000000"><a HREF="#_Toc411764537">Session</a></font><font COLOR="#0000ff" size="3"> object (</font><font FACE="Courier New" size="3" color="#000000">LookupSession</font><font COLOR="#0000ff" size="3">) or creates a new one (</font><font FACE="Courier New" size="3" color="#000000">CreateSession</font><font COLOR="#0000ff" size="3">).</p>
     <p ALIGN="JUSTIFY">In the rare case where you need to create an application specific
     subclass of </font><font COLOR="#0000ff" size="3" FACE="Courier New">Session</font><font COLOR="#0000ff" size="3"> you need to subclass class </font><font COLOR="#0000ff" size="3" FACE="Courier New">Server</font><font COLOR="#0000ff" size="3"> as well and override its
@@ -530,7 +530,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /argv0 &quot;name of program&quot;<br>
     &nbsp;&nbsp;&nbsp; }<br>
     &nbsp;&nbsp;&nbsp; /<b>Query</b> {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /adr &quot;tcp/ip address of WebDisplay&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /adr &quot;tcp/ip address of COAST&quot;<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /port &quot;port number&quot;<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /sessionId &quot;session id&quot;<br>
     &nbsp;&nbsp;&nbsp; }<br>
@@ -717,7 +717,7 @@
     to provide a more sophisticated implementation for the state machine in </font><font FACE="Courier New" size="3">GetNewPage()</font><font COLOR="#0000ff" size="3">.</p>
     <p ALIGN="JUSTIFY">Subclasses of roles must be registered in a role registry by using the
     macro </font><font FACE="Courier New" size="3">RegisterRole(name)</font><font COLOR="#0000ff" size="3"> in the implementation of the class and passing the role&#146;s
-    class name. Role aliases can be defined in the main WebDisplay configuration file
+    class name. Role aliases can be defined in the main COAST configuration file
     (Config.any). The format of the associated </font><font FACE="Courier New" COLOR="#000000" size="4"><a HREF="#_Toc411764566">Anything</a></font><font COLOR="#0000ff" size="3"> is:</p>
     </font><font FACE="Courier New" size="3"><p>/<b>Roles</b> {<br>
     &nbsp;&nbsp;&nbsp; /Role1 { &quot;Alias11&quot; &quot;Alias12&quot; &#133; }<br>
@@ -756,7 +756,7 @@
     rarely necessary to subclass </font><font color="#000000" face="Courier New" size="3">Page</font><font size="3" COLOR="#0000ff">. But if it becomes necessary subclasses of pages must be
     registered in a page registry using the macro </font><font face="Courier New" size="3">RegisterPage(subclassname</font><font face="Courier New" size="2">)</font><font size="3" COLOR="#0000ff">.</font><font COLOR="#0000ff" size="2"></p>
     <p ALIGN="JUSTIFY"></font><font size="3" COLOR="#0000ff">Page aliases can be defined in
-    the main WebDisplay configuration file (Config.any). The format of the associated </font><font face="Courier New" size="3">Anything</font><font size="3" COLOR="#0000ff"> is:</p>
+    the main COAST configuration file (Config.any). The format of the associated </font><font face="Courier New" size="3">Anything</font><font size="3" COLOR="#0000ff"> is:</p>
     </font><font size="3"><p></font><font FACE="Courier New" size="3"><b>/Pages </b>{<b><br>
     &nbsp;&nbsp;&nbsp;</b> /Page1 { &quot;Alias11&quot; &quot;Alias12&quot; &#133; }<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /Page2 { &quot;Alias21&quot; &quot;Alias22&quot;
@@ -779,7 +779,7 @@
     important methods of </font><font size="3" face="Courier New">Page</font><font face="Futura Medium" COLOR="#0000ff" size="3"> are </font><font size="3" face="Courier New">Start()</font><font face="Futura Medium" COLOR="#0000ff" size="3"> and </font><font size="3" face="Courier New">Finish()</font><font face="Futura Medium" COLOR="#0000ff" size="3">. Both are called from the Session&#146;s </font><font size="3" face="Courier New">RenderNextPage</font><font face="Futura Medium" COLOR="#0000ff" size="3"> method. </font><font size="3" face="Courier New">Start</font><font face="Futura Medium" COLOR="#0000ff" size="3"> first prepares a page and then renders the
     page into an </font><font size="3" face="Courier New">Reply</font><font face="Futura Medium" COLOR="#0000ff" size="3"> object. Afterwards the page is displayed in
     the user&#146;s browser. If he or she clicks on a link contained in the page the link is
-    sent back to WebDisplay and the original page gets a chance to post process the request by
+    sent back to COAST and the original page gets a chance to post process the request by
     means of the </font><font size="3" face="Courier New">Finish()</font><font face="Futura Medium" COLOR="#0000ff" size="3"> method. These methods shuold not be
     overidden by subclasses.</font><font COLOR="#0000ff" size="1"></p>
     <p ALIGN="JUSTIFY"></font><font face="Futura Medium" COLOR="#0000ff" size="3">Internally </font><font size="3" face="Courier New">Start</font><font face="Futura Medium" COLOR="#0000ff" size="3"> calls first </font><font size="3" face="Courier New">PreProcess</font><font face="Futura Medium" COLOR="#0000ff" size="3"> and then </font><font size="3" face="Courier New">Render</font><font face="Futura Medium" COLOR="#0000ff" size="3">. </font><font size="3" face="Courier New">PreProcess</font><font face="Futura Medium" COLOR="#0000ff" size="3"> can be overridden to initialize or prepare data structures for rendering.
@@ -866,7 +866,7 @@
     reason not to.</p>
     <p ALIGN="JUSTIFY">Subclasses of actions must be registered in an action registry by using
     the macro </font><font FACE="Courier New" size="3">RegisterAction(name)</font><font COLOR="#0000ff" size="3"> in the implementation of the class. Action aliases can be
-    defined in the main WebDisplay configuration file (Config.any). The format of the
+    defined in the main COAST configuration file (Config.any). The format of the
     associated </font><font FACE="Courier New" COLOR="#000000" size="4"><a HREF="#_Toc411764575">Anything</a></font><font COLOR="#0000ff" size="3"> is:</p>
     </font>
   </blockquote>
@@ -938,7 +938,7 @@
     registered in a renderer registry by using the macro</font><font COLOR="#0000ff" SIZE="2">
     </font><font size="4" color="#000000" FACE="Courier New">RegisterRenderer(name</font><font size="4" COLOR="#0000ff" FACE="Courier New">)</font><font COLOR="#0000ff" SIZE="2"> in the
     implementation of the class and passing the renderer&#146;s class name. Renderer aliases
-    can be defined in the main WebDisplay configuration file (Config.any). The format of the
+    can be defined in the main COAST configuration file (Config.any). The format of the
     associated Anything is:</p>
     </font><font FACE="Courier New" SIZE="2" COLOR="#0000ff"><p></font><font SIZE="3" color="#000000" FACE="Courier New">/Renderers {<br>
     &nbsp;&nbsp;&nbsp; /Renderer1 { &quot;Alias11&quot; &quot;Alias12&quot; &#133; }<br>
@@ -1761,7 +1761,7 @@
       <font COLOR="#000000" size="3"><b>
       <li>RenderPrivateState</b></font> -- renders the &quot;private&quot; and usually encoded
         part of the state put into the URL. Different link generation contexts require different
-        names of the parameter (X, X1 and X2) these parameter names are known by the WebDisplay
+        names of the parameter (X, X1 and X2) these parameter names are known by the COAST
         gateway program (<i>wdgateway</i>), that decodes them.</li>
       <font COLOR="#000000" size="3"><b>
       <li>BuildPrivateState</b></font> -- sets up the state Anything to be encoded by
@@ -2052,7 +2052,7 @@
     employees.Add(anotherEmployee);<br>
     </font><font SIZE="3" FACE="Courier New"></p>
     </font><font SIZE="2"><p ALIGN="JUSTIFY"></font><font size="3" COLOR="#0000ff">Anything
-    are used within <i>WebDisplay</i> whenever dynamic extensibility is useful or necessary.
+    are used within <i>COAST</i> whenever dynamic extensibility is useful or necessary.
     An illustrative example is the session store. Because most objects are shared and all
     session state is stored in the session object, it would be a royal pain if one had to
     subclass Session in order to add an additional member. Using a single </font><font FACE="Courier New" color="#000000" size="3">Anything</font><font COLOR="#0000ff" size="3">
@@ -2130,7 +2130,7 @@
       <p ALIGN="JUSTIFY">On the other hand using </font></font><font color="#000000" FACE="Courier New" size="3">Anythings</font><font COLOR="#0000ff" size="3"> from within a
       program is simple because there is only little API of a single class to learn.</p>
       </font><font size="4" COLOR="#0000ff" FACE="Courier New"><p ALIGN="JUSTIFY"></font><font color="#000000" FACE="Courier New" size="3">Anything</font><font COLOR="#0000ff" size="3">
-      are used as a configuration mechanism by most of WebDisplays classes, e.g. </font><font SIZE="2" COLOR="#0000ff"><font FACE="Courier New" size="4"><a HREF="#_Toc411764535">Server</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764538">Role</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764539">Page</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764543">Renderer</a></font><font COLOR="#0000ff" size="3">. Typically every object of these classes has an instance name.
+      are used as a configuration mechanism by most of COASTs classes, e.g. </font><font SIZE="2" COLOR="#0000ff"><font FACE="Courier New" size="4"><a HREF="#_Toc411764535">Server</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764538">Role</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764539">Page</a></font><font COLOR="#0000ff" size="3">, </font><font FACE="Courier New" size="4"><a HREF="#_Toc411764543">Renderer</a></font><font COLOR="#0000ff" size="3">. Typically every object of these classes has an instance name.
       This name is used at creation time of the object to locate an </font></font><font FACE="Courier New" color="#000000" size="3">Anything</font><font COLOR="#0000ff" size="3">
       configuration file (*.any). If there is no instance name, the class name is used instead.
       The configuration file is then streamed into a member of type </font><font FACE="Courier New" color="#000000" size="3">Anything</font><font COLOR="#0000ff" size="3">.
@@ -2359,7 +2359,7 @@
         </font></font><font FACE="Courier New" SIZE="2" COLOR="#0000ff"><p></font><font size="3" color="#000000" FACE="Courier New">/Type &lt;renderername&gt;<br>
         /Data { &lt;parameters to the renderer&gt; }<br>
         </font><font size="3" COLOR="#0000ff" FACE="Courier New"></p>
-        </font><font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">Please refer to the WebDisplay
+        </font><font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">Please refer to the COAST
         documentation for <a HREF="#_Toc411764543">details of specific renderer</a> data.</p>
         <p ALIGN="JUSTIFY"><i><b>&nbsp;</p>
         <hr>

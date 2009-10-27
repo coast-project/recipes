@@ -8,7 +8,7 @@
  #--------------------------------------------------------------------
 
 {
-    /PageTitle "Second Page of WebDisplay (from SecondPage.any)"
+    /PageTitle "Second Page of COAST (from SecondPage.any)"
 
 	/Body {
 		/HTML {

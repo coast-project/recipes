@@ -6,18 +6,18 @@
  #
  # $Id$
  #==================================================================-->
-<center><h2>Tips and Hints for starting developing with WebDisplay</h2></center>
+<center><h2>Tips and Hints for starting developing with COAST</h2></center>
 
 <center><h3>Index</h3>
 <table>
 	<tr><td align=center><br><h4>General overview</h4></td></tr>
 	<tr><td align=left><ul>
-		<li><a href="[[#wd Lookup PageURL ]]#WD">Short description of WebDisplay</a></li>
-		<li><a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new WebDisplay application</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#WD">Short description of COAST</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new COAST application</a></li>
 	</ul></td></tr>
 	<tr><td align=center><br><h4>Some Details</h4>
 	<tr><td align=left><ul>
-		<li><a href="[[#wd Lookup PageURL ]]#ContentOfWD">What WebDisplay is made of</a></li>
+		<li><a href="[[#wd Lookup PageURL ]]#ContentOfWD">What COAST is made of</a></li>
 		<li><a href="[[#wd Lookup PageURL ]]#DebugWD">How to Debug</a></li>
 		<li><a href="[[#wd Lookup PageURL ]]#Spec1WD">Architecture of renderer specifications</a></li>
 		<li><a href="[[#wd Lookup PageURL ]]#Misc">Miscellaneous</a></li>
@@ -25,9 +25,9 @@
 </center>
 <a name="WD"></a>
 <hr>
-<h3>Short description of WebDisplay</h3>
+<h3>Short description of COAST</h3>
 <h4>Abstract</h4>
-<p>WebDisplay is a platform for developing and deploying World Wide Web applications.
+<p>COAST is a platform for developing and deploying World Wide Web applications.
 For development, it provides a framework, reusable components, and a configuration 
 mechanism that is used to create web applications. For deployment, it provides 
 an efficient and scaleable server and additional flexible communication infrastructure.
@@ -41,14 +41,14 @@ because HTTP servers and the CGI mechanism has no simple means for maintaining s
 Keeping state in files within the filesystem is slow and doesn't scale very well.
 In addition since http servers typically call CGIs concurrently 
 appropriate file locking has to take place.
-<p>The design and implementation of WebDisplay started out as an attempt to solve 
+<p>The design and implementation of COAST started out as an attempt to solve 
 the problem of maintaining state within a session in an efficient and scaleable way. 
 The underlying architecture was based on the concept of a server framework. 
 The basic server receives requests for pages from an associated http server. 
 In order to handle a request a developer has to override a single method. 
 Because the method belongs to an object that can be preserved across requests 
 it is simple to keep state across requests too.
-<h4>Steps to perform for developing a new WebDisplay application</h4>
+<h4>Steps to perform for developing a new COAST application</h4>
 <ol>
 	<li>You need a concept for your target system e.g.
 		<ul>
@@ -59,18 +59,18 @@ it is simple to keep state across requests too.
 			<li><br>and so forth</li>
 		</ul>
 	</li>
-	<li>Then you must match your requests to the structure WebDisplay is offering. That means 
+	<li>Then you must match your requests to the structure COAST is offering. That means 
 		<ul>
-			<li>you have to know what WebDisplay is supposed to be 
+			<li>you have to know what COAST is supposed to be 
 				<br>(see
-				<a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay Class-Index</a>
+				<a href='[[#wd Lookup COASTDocuIndex ]]' target=_blank>COAST Class-Index</a>
 				 and of course [[#wd Lookup RecipesListPage ]] )</li>
-			<li>keep in mind, that with WebDisplay you can configure a lot without writing any code</li>
+			<li>keep in mind, that with COAST you can configure a lot without writing any code</li>
 			<li>think about the hierarchical structure and what parts are used again and again
 				<br>and so on</li>
 		</ul>
 	</li>
-	<li>Now set up your developing environment (see <a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new WebDisplay application</a>)
+	<li>Now set up your developing environment (see <a href="[[#wd Lookup PageURL ]]#StartWD">Starting a new COAST application</a>)
 		<br>&nbsp;</li> 
 	<li>Go on adding the necessary configuration files and writing some code (e.g. for the back end)
 		<br>&nbsp;</li>
@@ -80,17 +80,17 @@ it is simple to keep state across requests too.
 <a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
 
 <a name="StartWD"></a><hr>
-<h3>Starting a new WebDisplay application</h3>
+<h3>Starting a new COAST application</h3>
 <ul>
 	<li><h4>Preconditions:</h4>
 		<ul>
 			<li>Developing System e.g. UNIX with SNiFF+ and Compiler g++</li>
 			<li>Browser like Netscape Navigator</li>
-			<li>At last you need the source of the framework WebDisplay and for an easy start a sample application like 'Hello World'</li>
+			<li>At last you need the source of the framework COAST and for an easy start a sample application like 'Hello World'</li>
 		</ul>
 	</li>
 	<li><h4>Steps to do:</h4>
-		<ul><li>Copy the WebDisplay2 framework in one Directory and the small 'Hello World' project in a different directory
+		<ul><li>Copy the COAST framework in one Directory and the small 'Hello World' project in a different directory
 		</li><li>Setup your project with SNiFF+
 		</li><li>Change the sample configuration files (at least config.any, page.any, role.any) to fit your needs
 		</li><li>Generate the application using the existing makefiles
@@ -98,21 +98,21 @@ it is simple to keep state across requests too.
 			<br>Start your browser and enter the following (to your environment adapted) URL:
 			<br><i>'http://[[#wd Lookup header.HOST ]]/'</i>
 		</li><li>Hopefully you will get now your first page. 
-			<br><i>(If not, you just started to develop and debug your own WebDisplay application.)</i>
+			<br><i>(If not, you just started to develop and debug your own COAST application.)</i>
 		</li></ul>
 	</li>
 </ul>
 <a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
 
 <a name="ContentOfWD"></a><hr>
-<h3>What WebDisplay is made of</h3>
-<p>The WebDisplay framework consists of the following C++ classes:
-<p><a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay2 Class-Index</a>
+<h3>What COAST is made of</h3>
+<p>The COAST framework consists of the following C++ classes:
+<p><a href='[[#wd Lookup COASTDocuIndex ]]' target=_blank>COAST Class-Index</a>
 <p>Furthermore there are some predefined make files to create a linkable library. These makefiles
 are updated automatically supported by Sniff+.
-<p>By the way, WebDisplay2 can be generated for SunOS5.[678], Linux >= 2.1.2 and Win32!
+<p>By the way, COAST can be generated for SunOS5.[678], Linux >= 2.1.2 and Win32!
 <p>In order to get a running application one has to add some mandatory configuration files 
-<br><i>(Add this files in a different directory structure than the WebDisplay sources)</i>:
+<br><i>(Add this files in a different directory structure than the COAST sources)</i>:
 <table border=1 bgcolor=#DFFEFE>
 <tr valign=top>
 	<td>
@@ -157,8 +157,8 @@ are updated automatically supported by Sniff+.
 		</td>
 	</tr>
 </table>
-<p>For a deeper description of WebDisplay see
-	<a href='[[#wd Lookup WebDisplay2DocuIndex ]]' target=_blank>WebDisplay2 Class-Index</a>
+<p>For a deeper description of COAST see
+	<a href='[[#wd Lookup COASTDocuIndex ]]' target=_blank>COAST Class-Index</a>
 <br>&nbsp;<br>
 <a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
 
@@ -216,7 +216,7 @@ are updated automatically supported by Sniff+.
 	</li>
 	<li><h4>Native Debug Output</h4>
 		<p>With some environment settings you have the possibility to get more information about
-		the inner work from WebDisplay.<br>
+		the inner work from COAST.<br>
 		The values of <tt>WD_LOGONCERR</tt> and <tt>WD_DOLOG</tt> control the level of severities 
 		shown either on the console or in the syslog.<br>Possible values are:
 <pre>
@@ -227,14 +227,14 @@ are updated automatically supported by Sniff+.
   5: ALERT
 </pre>
 		The flag <tt>TRACE_STATICALLOC</tt> shows you the allocation and deletion of
-		all statically allocated objects used in WebDisplay2.
+		all statically allocated objects used in COAST.
 	</li>
 </ol>
 <a href="[[#wd Lookup PageURL ]]#top">Top of the page</a>
 
 <a name="Spec1WD"></a><hr>
 <h3>Architecture of renderer specifications</h3>
-<p>In order to let the WebDisplay know which renderer to use now and what data to overgive,
+<p>In order to let the COAST know which renderer to use now and what data to overgive,
 a renderer specification is needed. It's obvious that the renderer specification 
 is described in an anything format and it has the following principle structure:
 <pre>[[#wd DisplayAnythingRenderer {

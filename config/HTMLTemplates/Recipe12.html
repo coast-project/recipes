@@ -7,7 +7,7 @@ assumes no relation between pages other than defined by the link structure
 of html pages themselves. For an application like a shopping mall you need more
 information to handle the interaction correctly. You need a session context
 that holds accumulated information over a defined set of pages and
-during some period of time. WebDisplay executes every request in a session
+during some period of time. COAST executes every request in a session
 context, where you can store long lived data and accumulate the state
 necessary to guide the interaction of your application.
 <h3>Preconditions</h3>
@@ -61,7 +61,7 @@ necessary to guide the interaction of your application.
 <h3>Steps to do:</h3>
 <ol>
 	<li>Decide whether you need subclasses of roles or can do it with the built-in
-		Role class of WebDisplay. You have to decide on the grounds of security
+		Role class of COAST. You have to decide on the grounds of security
 		considerations. If you just use a role to access a different set of pages but
 		have no further security restrictions use the built-in role.<br><br>
 	</li>
@@ -249,7 +249,7 @@ necessary to guide the interaction of your application.
 
 <h3>Remarks</h3>
 <p>Config.any entries for Roles, Pages, Renderers, Actions.<br>
-State handling in WebDisplay<br>
+State handling in COAST<br>
 Uses protocoll of Action, Page
 <h3>Glossary</h3>
 <h3>Related Topics</h3>

@@ -1,7 +1,7 @@
 <center><h2>[[#wd Lookup TitleRecipe3 ]]</h2></center>
 
 <h3>Overview</h3>
-<p>Some (static) HTML pages should be showed by a new WebDisplay project.
+<p>Some (static) HTML pages should be showed by a new COAST project.
 The pages will be linked with a next and previous button. To achieve this
 result the following steps are performed:
 <ol>
@@ -14,13 +14,13 @@ result the following steps are performed:
 	<li>Adjust the Action/Page navigation map for the roles at hand (<i>/Map</i>)</li>
 </ol>
 <p><i><font size=-1><b>Note:</b> This example is much more complex than the title task implies
-to show more relevant features of WebDisplay. Look at other [[#wd Lookup Recipe2 ]]
-for simpler ways of integrating and connecting HTML files to a WebDisplay
+to show more relevant features of COAST. Look at other [[#wd Lookup Recipe2 ]]
+for simpler ways of integrating and connecting HTML files to a COAST
 server using simple links.</font>
 </i>
 <h3>Preconditions</h3>
 <ol>
-	<li>The config.any file exists and contains a valid WebDisplay application
+	<li>The config.any file exists and contains a valid COAST application
 		configuration.</li>
 	<li>We got 3 simple static HTML files - that's it.</li>
 </ol>
@@ -117,11 +117,11 @@ buttons in every PageName.any file e.g.
 		"&lt;html>"
 		"	&lt;head>"
 		"		&lt;title>"
-		"			Welcome to the WebDisplay"
+		"			Welcome to the COAST"
 		"		&lt;/title>"
 		"	&lt;/head>"
 		"	&lt;body background= imagedir/backgrnd.gif >"
-		"		&lt;center>&lt;h1>Welcome on the second page of WebDisplay&lt;/h1>&lt;/center>"
+		"		&lt;center>&lt;h1>Welcome on the second page of COAST&lt;/h1>&lt;/center>"
 		"		&lt;!-- Renderers for Next/Previous buttons specified in SecondPage.any -->"
 		"		[[&#35;wd Lookup PrevPage &#93;&#93;"
 		"		[[&#35;wd Lookup NextPage &#93;&#93;"
@@ -160,7 +160,7 @@ buttons in every PageName.any file e.g.
 </ol>
 
 <h3>Remarks</h3>
-<p>This example shows how you can build a WebDisplay application from scratch
+<p>This example shows how you can build a COAST application from scratch
 in a simple way. In every Page.any file we had to insert a Renderer specification
 for the buttons. This disadvantage should be avoided. It's recommended
 to use a 'Shared Page-Layout', which allows to define layout rules only

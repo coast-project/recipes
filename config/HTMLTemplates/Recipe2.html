@@ -5,27 +5,27 @@
 a 'direct' Link. This is achieved by the following steps:
 <ol>
 	<li>Prepare configuration files for the two existing pages.</li>
-	<li>Add the new configured "WebDisplay-pages" to the main configuration in config.any</li>
+	<li>Add the new configured "COAST-pages" to the main configuration in config.any</li>
 	<li>Add a LinkRenderer call to both page's HTML source</li>
 	<li>Specify the corresponding LinkRenderer arguments in both pages config files</li>
 	<li>Adjust the Action/Page navigation map for the roles you have (<i>Role.any</i>)</li>
 </ol>
 <h3>Preconditions</h3>
 <ol>
-	<li>The config.any file exists and contains a valid WebDisplay 
+	<li>The config.any file exists and contains a valid COAST 
 		application configuration.</li>
 	<li>There are already two simple HTML files like these 
 			e.g. FirstPage.html:	
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {		
-		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of COAST&lt;/h1&gt;&lt;/center&gt;"
 	}
 }]]
 </pre>
 			and	e.g. AnotherPage.html:
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
-		"&lt;center&gt;&lt;h1&gt;Welcome on the Another page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+		"&lt;center&gt;&lt;h1&gt;Welcome on the Another page of COAST&lt;/h1&gt;&lt;/center&gt;"
 	}
 }]]
 </pre>
@@ -34,7 +34,7 @@ a 'direct' Link. This is achieved by the following steps:
 <ol>
 	<li>Create a new configuration file for the corresponding HTML files. In our 
 example these are called FirstPage.any and AnotherPage.any. These configurations
-will connect WebDisplay's configuration with the already existing HTML files.
+will connect COAST's configuration with the already existing HTML files.
 <br>Content of file FirstPage.any:
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
@@ -70,7 +70,7 @@ Using more active content allows you to generate a myriad
 of pages with a single configuration (and some kind of 
 more dynamic action). See other recipes.</i></font>
 
-	<li>Add the new configured "WebDisplay-pages" to the main configuration in config.any.
+	<li>Add the new configured "COAST-pages" to the main configuration in config.any.
 This is done in section /Pages. The super-tag of our new pages will denote the 
 C++ class used for creating the Page objects.
 In our example these pages can be instances of base class Page.
@@ -88,14 +88,14 @@ in /Pages section in file Config.any as follows:
 }]]
 </pre>
 	<li>Insert a macro call to a "LinkRenderer" into your HTML files. Now they become
-real HTML template files, that are to be interpreted by WebDisplay's
+real HTML template files, that are to be interpreted by COAST's
 HTMLTemplateRenderer. In this example we do it by using the 
 indirection mechanism provided by the ContextLookupRenderer (aliased to "Lookup").
 This results to the following content of FirstPage.html 
 and AnotherPage.html:
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
-		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of WebDisplay&lt;/h1&gt;&lt;/center&gt;"
+		"&lt;center&gt;&lt;h1&gt;Welcome on the first page of COAST&lt;/h1&gt;&lt;/center&gt;"
 		"&lt;!-- LinkRenderer in FirstPage.html --&gt;"
 		"[[&#35;wd Lookup AnotherLink &#93;&#93;"
 	}

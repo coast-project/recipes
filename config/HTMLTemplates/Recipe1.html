@@ -1,7 +1,7 @@
 <center><h2>[[#wd Lookup TitleRecipe1 ]]</h2></center>
 
 <h3>Overview</h3>
-<p>A new page is incorporated into an existing WebDisplay project, using an
+<p>A new page is incorporated into an existing COAST project, using an
 already defined superpage by the following steps:
 <ul>
 	<li>Add the new page name to the config.any slot /Pages (<i>MyNewPage</i>).</li>
@@ -11,7 +11,7 @@ already defined superpage by the following steps:
 </ul>
 <h3>Preconditions</h3>
 <ol>
-	<li>The config.any file exists and contains a valid WebDisplay application
+	<li>The config.any file exists and contains a valid COAST application
 		configuration.</li>
 	<li>There exists an appropriate and valid "super page" with a corresponding
 configuration file "SuperPage.any" (e.g. Page.any for pages instantiated
@@ -39,9 +39,9 @@ looks like this:
 	</li>
 </ol>
 <i><font size=-1><b>Explanation:</b> This HTML template file defines several
-places for WebDisplay to fill in. Each of these places is specified using
+places for COAST to fill in. Each of these places is specified using
 the macro-extension mechanism with a pair of double square brackets ([[&#35;wd
-... ]]). The &#35;wd specifies this as a WebDisplay macro. The rest of the
+... ]]). The &#35;wd specifies this as a COAST macro. The rest of the
 macro is a Renderer specification. This can be given literally using the
 renderer name (Image) and an Anything defining the renderers parameters.
 Note that Lookup stands short for ContextLookupRenderer, which in turn looks
