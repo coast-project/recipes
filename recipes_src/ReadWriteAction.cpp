@@ -15,6 +15,7 @@
 #include "Dbg.h"
 #include "System.h"
 #include "Renderer.h"
+#include "AnythingUtils.h"
 
 //---- ReadAction ---------------------------------------------------------------
 
@@ -32,7 +33,7 @@ bool ReadAction::DoExecAction(String &transitionToken, Context &ctx, const ROAny
 
 	ROAnything filename;
 	ROAnything slotname;
-	Anything containercopy(Storage::Global());
+	Anything containercopy;
 
 	if (! (config.LookupPath(filename,"Filename") && config.LookupPath(slotname,"Slotname") )) {
 		return false;
@@ -40,7 +41,6 @@ bool ReadAction::DoExecAction(String &transitionToken, Context &ctx, const ROAny
 
 	TraceAny(filename,"Filename");
 	TraceAny(slotname,"Slotname");
-
 
 	iostream *ifp= System::OpenIStream( filename.AsString(), "any" );
 	if (ifp) {
@@ -54,11 +54,7 @@ bool ReadAction::DoExecAction(String &transitionToken, Context &ctx, const ROAny
 	Trace("reading ok");
 	TraceAny(containercopy,"ContainerCopy");
 
-	Anything query = ctx.GetQuery();
-
-	Anything sessionStore(ctx.GetSessionStore());
-	sessionStore[slotname.AsString()]= containercopy;
-
+	StorePutter::Operate(containercopy, ctx, "Session", slotname.AsString());
 	return true;
 }
 
