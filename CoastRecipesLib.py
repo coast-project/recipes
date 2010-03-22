@@ -1,8 +1,8 @@
 import os, pdb
-import StanfordUtils
+import SConsider
 from stat import *
 
-packagename = StanfordUtils.getPackageName(__name__)
+packagename = SConsider.getPackageName(__name__)
 
 def setUp(target, source, env):
     logpath = env['BASEOUTDIR'].Dir(os.path.join('tests', packagename, 'logs', 'rotate'))
@@ -17,19 +17,19 @@ buildSettings = {
     packagename : {
         'includeSubdir'    : 'recipes_src',
         'linkDependencies' : ['CoastWDBase'],
-        'sourceFiles'      : StanfordUtils.listFiles(['recipes_src/*.cpp']),
+        'sourceFiles'      : SConsider.listFiles(['recipes_src/*.cpp']),
         'targetType'       : 'LibraryShared',
         'appendUnique'     : { 'CPPDEFINES' : [packagename.upper() + '_IMPL'] },
         'public' : {
             'includeSubdir': 'recipes_src',
-            'includes'     : StanfordUtils.listFiles(['recipes_src/*.h']),
+            'includes'     : SConsider.listFiles(['recipes_src/*.h']),
         }
     },
     'Runner' : {
         'targetType'       : 'AppTest',
         'requires'         : [packagename + '.' + packagename, 'CoastActions', 'CoastRenderers', 'CoastStdDataAccess', 'CoastAppLog'],
         'usedTarget'       : 'wdapp.wdapp',
-        'copyFiles'        : [(StanfordUtils.findFiles(['.', 'config'],['.txt', '.html', '.any', '.pem', '.gif', '.png', '.jpg', '.jpeg']), S_IRUSR|S_IRGRP|S_IROTH)],
+        'copyFiles'        : [(SConsider.findFiles(['.', 'config'],['.txt', '.html', '.any', '.pem', '.gif', '.png', '.jpg', '.jpeg']), S_IRUSR|S_IRGRP|S_IROTH)],
         'runConfig'        : {
             'setUp': setUp,
             'tearDown': tearDown,
@@ -37,4 +37,4 @@ buildSettings = {
     },
 }
 
-StanfordUtils.createTargets(packagename, buildSettings)
+SConsider.createTargets(packagename, buildSettings)
