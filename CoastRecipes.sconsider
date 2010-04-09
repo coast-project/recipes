@@ -2,7 +2,7 @@ import os, pdb
 import SConsider
 from stat import *
 
-packagename = SConsider.getPackageName(__name__)
+Import('*')
 
 def setUp(target, source, env):
     logpath = env['BASEOUTDIR'].Dir(os.path.join('tests', packagename, 'logs', 'rotate'))
