@@ -25,11 +25,11 @@ buildSettings = {
             'includes'     : SConsider.listFiles(['recipes_src/*.h']),
         }
     },
-    'Runner' : {
+    'app' : {
         'targetType'       : 'AppTest',
         'requires'         : [packagename + '.' + packagename, 'CoastActions', 'CoastRenderers', 'CoastStdDataAccess', 'CoastAppLog'],
         'usedTarget'       : 'coastd.coastd',
-        'copyFiles'        : [(SConsider.findFiles(['.', 'config'],['.txt', '.html', '.any', '.pem', '.gif', '.png', '.jpg', '.jpeg']), S_IRUSR|S_IRGRP|S_IROTH)],
+        'copyFiles'        : [(SConsider.findFiles(['.', 'config'],['.txt', '.html', '.any', '.pem', '.gif', '.png', '.jpg', '.jpeg','.class']), S_IRUSR|S_IRGRP|S_IROTH)],
         'runConfig'        : {
             'setUp': setUp,
             'tearDown': tearDown,
