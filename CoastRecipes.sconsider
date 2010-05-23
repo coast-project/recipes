@@ -19,14 +19,14 @@ buildSettings = {
         'linkDependencies' : ['CoastWDBase'],
         'sourceFiles'      : SConsider.listFiles(['recipes_src/*.cpp']),
         'targetType'       : 'LibraryShared',
-        'appendUnique'     : { 'CPPDEFINES' : [packagename.upper() + '_IMPL'] },
+        'appendUnique'     : { 'CPPDEFINES' : ['RECIPES_IMPL'] },
         'public' : {
             'includeSubdir': 'recipes_src',
             'includes'     : SConsider.listFiles(['recipes_src/*.h']),
         }
     },
-    'app' : {
-        'targetType'       : 'AppTest',
+    'wdapp' : {
+        'targetType'       : 'ProgramApp',
         'requires'         : [packagename + '.' + packagename, 'CoastActions', 'CoastRenderers', 'CoastStdDataAccess', 'CoastAppLog'],
         'usedTarget'       : 'coastd.coastd',
         'copyFiles'        : [(SConsider.findFiles(['.', 'config'],['.txt', '.html', '.any', '.pem', '.gif', '.png', '.jpg', '.jpeg','.class']), S_IRUSR|S_IRGRP|S_IROTH)],
