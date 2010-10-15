@@ -23,7 +23,7 @@
 class EXPORTDECL_RECIPES DisplayAnythingRenderer : public Renderer {
 public:
 	DisplayAnythingRenderer(const char *name);
-	void RenderAll(/*Reply*/ ostream &reply, Context &c, const ROAnything &config);
+	void RenderAll(/*Reply*/ std::ostream &reply, Context &c, const ROAnything &config);
 };
 
 #endif

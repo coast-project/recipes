@@ -25,7 +25,7 @@ MyDataRenderer::MyDataRenderer(const char *name) : Renderer(name) { }
 
 MyDataRenderer::~MyDataRenderer() { }
 
-void MyDataRenderer::RenderAll(ostream &reply, Context &c, const ROAnything &config)
+void MyDataRenderer::RenderAll(std::ostream &reply, Context &c, const ROAnything &config)
 {
 	StartTrace(MyDataRenderer.RenderAll);
 	Session *s= c.GetSession();

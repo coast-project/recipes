@@ -23,7 +23,7 @@
 class EXPORTDECL_RECIPES ButtonAppletRenderer : public Renderer {
 public:
 	ButtonAppletRenderer(const char *name);
-	void RenderAll(ostream &reply, Context &c, const ROAnything &config);
+	void RenderAll(std::ostream &reply, Context &c, const ROAnything &config);
 };
 
 #endif

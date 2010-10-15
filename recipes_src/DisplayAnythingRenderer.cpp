@@ -20,7 +20,7 @@ DisplayAnythingRenderer::DisplayAnythingRenderer(const char *name) : Renderer(na
 {
 };
 
-void DisplayAnythingRenderer::RenderAll(/*Reply*/ ostream &reply, Context &c, const ROAnything &config)
+void DisplayAnythingRenderer::RenderAll(/*Reply*/ std::ostream &reply, Context &c, const ROAnything &config)
 {
 	Anything anythingToPrint = config["AnythingInfo"].DeepClone();
 

@@ -42,7 +42,7 @@ bool ReadAction::DoExecAction(String &transitionToken, Context &ctx, const ROAny
 	TraceAny(filename,"Filename");
 	TraceAny(slotname,"Slotname");
 
-	iostream *ifp= System::OpenIStream( filename.AsString(), "any" );
+	std::iostream *ifp= System::OpenIStream( filename.AsString(), "any" );
 	if (ifp) {
 		containercopy.Import (*ifp);
 		delete ifp;
@@ -91,7 +91,7 @@ bool WriteAction::DoExecAction(String &transitionToken, Context &ctx, const ROAn
 	containercopy= ctx.Lookup(containerKey).DeepClone();
 	TraceAny(containercopy,"Container");
 
-	iostream *ofp= System::OpenOStream( filename.AsString(), "any" );
+	std::iostream *ofp= System::OpenOStream( filename.AsString(), "any" );
 	if (ofp) {
 		containercopy.Export (*ofp);
 		delete ofp;

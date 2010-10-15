@@ -65,11 +65,11 @@ public:
 
 	IFAObject *Clone() const;
 	virtual void Preprocess(Context&);
-	virtual void Mime(ostream &reply, Context &c);
-	virtual void Header(ostream &reply, Context&);
-	virtual void Title(ostream &reply, Context&);
-	virtual void Body(ostream &reply, Context&);
-	virtual void Footer(ostream &reply, Context&);
+	virtual void Mime(std::ostream &reply, Context &c);
+	virtual void Header(std::ostream &reply, Context&);
+	virtual void Title(std::ostream &reply, Context&);
+	virtual void Body(std::ostream &reply, Context&);
+	virtual void Footer(std::ostream &reply, Context&);
 };
 
 #endif

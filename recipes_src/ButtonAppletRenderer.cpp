@@ -23,7 +23,7 @@ ButtonAppletRenderer::ButtonAppletRenderer(const char *name) : Renderer(name)
 {
 };
 
-void ButtonAppletRenderer::RenderAll(/*Reply*/ ostream &reply, Context &c, const ROAnything &config)
+void ButtonAppletRenderer::RenderAll(/*Reply*/ std::ostream &reply, Context &c, const ROAnything &config)
 {
 	StartTrace(ButtonAppletRenderer.RenderAll);
 	TraceAny(config,"Config");
