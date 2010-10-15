@@ -29,7 +29,8 @@ class EXPORTDECL_RECIPES MyNewPage : public Page {
 public:
 	MyNewPage();
 	MyNewPage(const char *name);
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 	void Preprocess(Context&);
 	virtual bool Postprocess(String &action, Context &c);
 };
@@ -40,7 +41,8 @@ class EXPORTDECL_RECIPES MyAccountPage : public Page {
 public:
 	MyAccountPage();
 	MyAccountPage(const char *name);
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 	void Preprocess(Context&);
 	virtual bool Postprocess(String &action, Context &c);
 };
@@ -52,7 +54,8 @@ public:
 	Ex4Page();
 	Ex4Page(const char *title);
 
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 	virtual void Preprocess(Context&);
 };
 
@@ -63,7 +66,8 @@ public:
 	ViewPage();
 	ViewPage(const char *title);
 
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 	virtual void Preprocess(Context&);
 	virtual void Mime(std::ostream &reply, Context &c);
 	virtual void Header(std::ostream &reply, Context&);

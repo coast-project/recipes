@@ -28,9 +28,9 @@ GuestRole::GuestRole(const char *title): Role(title)
 {
 }
 
-IFAObject *GuestRole::Clone() const
+IFAObject *GuestRole::Clone(Allocator *a) const
 {
-	return new GuestRole();
+	return new (a) GuestRole();
 }
 
 
@@ -57,9 +57,9 @@ AdminRole::AdminRole(const char *title): Role(title)
 {
 }
 
-IFAObject *AdminRole::Clone() const
+IFAObject *AdminRole::Clone(Allocator *a) const
 {
-	return new AdminRole();
+	return new (a) AdminRole();
 }
 
 bool AdminRole::Init(Context &c)
@@ -79,9 +79,9 @@ CustomerRole::CustomerRole(const char *title): Role(title)
 {
 }
 
-IFAObject *CustomerRole::Clone() const
+IFAObject *CustomerRole::Clone(Allocator *a) const
 {
-	return new CustomerRole();
+	return new (a) CustomerRole();
 }
 
 

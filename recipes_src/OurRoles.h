@@ -27,7 +27,8 @@ public:
 	GuestRole( const char *name);
 	virtual bool Init(Context &c);
 protected:
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 };
 
 //---- AdminRole -------------------------------------------------------------------
@@ -37,7 +38,8 @@ public:
 	AdminRole(const char *);
 	virtual bool Init(Context &c);
 protected:
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 };
 
 
@@ -49,7 +51,8 @@ public:
 	virtual bool Init(Context &c);
 
 protected:
-	IFAObject *Clone() const;
+	/*! @copydoc IFAObject::Clone(Allocator *) */
+	IFAObject *Clone(Allocator *a) const;
 
 };
 

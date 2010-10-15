@@ -29,9 +29,9 @@ MyNewPage::MyNewPage(const char *title): Page(title)
 {
 }
 
-IFAObject *MyNewPage::Clone() const
+IFAObject *MyNewPage::Clone(Allocator *a) const
 {
-	return new MyNewPage();
+	return new (a) MyNewPage();
 }
 
 bool MyNewPage::Postprocess(String &action, Context &c)
@@ -67,9 +67,9 @@ MyAccountPage::MyAccountPage(const char *title): Page(title)
 {
 }
 
-IFAObject *MyAccountPage::Clone() const
+IFAObject *MyAccountPage::Clone(Allocator *a) const
 {
-	return new MyAccountPage();
+	return new (a) MyAccountPage();
 }
 
 bool MyAccountPage::Postprocess(String &action, Context &c)
@@ -120,9 +120,9 @@ Ex4Page::Ex4Page(const char *title)
 {
 }
 
-IFAObject *Ex4Page::Clone() const
+IFAObject *Ex4Page::Clone(Allocator *a) const
 {
-	return new Ex4Page();
+	return new (a) Ex4Page();
 }
 
 void Ex4Page::Preprocess(Context &c)
@@ -174,9 +174,9 @@ ViewPage::ViewPage(const char *title)
 {
 }
 
-IFAObject *ViewPage::Clone() const
+IFAObject *ViewPage::Clone(Allocator *a) const
 {
-	return new ViewPage();
+	return new (a) ViewPage();
 }
 
 void ViewPage::Preprocess(Context &c)
