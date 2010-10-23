@@ -6,11 +6,16 @@
 # the license that is included with this library/application in the file license.txt.
 #-----------------------------------------------------------------------------------------------------
 {
+#--- MasterServer configuration ----------------------------------------------------
 	/ServerModules {
 		{
-			/ServerName		Server
+			/ServerName				Server
+			/UsePoolStorage			1					# optional, [0|1], default 0, use preallocated memory pool for storage of Queue elements
+			/PoolStorageSize		4001				# optional, [kB], default 10240, pool storage size in kbytes
+			/NumOfPoolBucketSizes	26					# optional, default 10, number of different allocation units within PoolStorage, starts at 16 bytes and always doubles the size so 16 << 10 will give a max usable size of 8192 bytes
 		}
 	}
+
 	# generate a file with the servers pid; useful to send kill -HUP pid
 	/UsePIDFile		1
 	# location and name of the pid file
@@ -25,17 +30,43 @@
 	/ThreadPoolSize			10					# number of parallel pending requests
 	/AwaitResetEmpty		10
 
-	/RequestProcessor		HTTPProcessor		# processor for accepted requests
-	/URISizeLimit 			1024
-
 	/ListenerPool {					# this server listens on 2 ports
 		HTTP
 		HTTPS
 	}
 
-	/DocumentRoot		"config/HTMLTemplates"
+# --- builtin HTTP server configuration --------------------------------
+	/ServicePrefix		recipes
 
-#--- default settings for session creation --------------------------
+# --- Dispatcher configuration --------------------------------
+	/Dispatcher			RendererDispatcher
+ 	/URIPrefix2ServiceMap {			# map to define service handler
+		/"/COASTDoc"	WebDocuFile
+		/"/favicon.ico"	FaviconLoader
+		/"/static"		HttpFile
+		/"/recipes"		wdsample
+		/"/"			wdsample
+	}
+
+# --- HTTPProcessor configuration --------------------------------
+	/RequestProcessor		HTTPProcessor		# processor for accepted requests
+	/URISizeLimit 			4096
+	/RequestSizeLimit       5120
+	/LineSizeLimit          4096
+
+	/DisableZipEncoding	0
+	/ContentGzipEncoding {
+		/"text/html"	1
+	}
+
+# --- Session configuration --------------------------------
+	/URLFilterSpec {
+		/Tags2Unscramble { X1 X2 X }
+	}
+
+	#/StartPage		"RecipesPage"
+	#/DefaultRole	"NobodyRole"
+	#/DefaultAction	"GoRefresh"
 
 	/RoleChanges {
 		/GoExample3			"GuestRole"
@@ -48,27 +79,12 @@
 		/GoExample4 		"Default"
 		/GoTips			 	"Default"
 	}
-	#/StartPage	"HelloWorldPage"
-	#/DefaultRole	"NobodyRole"
-	#/DefaultAction	"GoRefresh"
 
-#--- settings specific to built-in HTTP server/HTTPProcessor --------
+	/DocumentRoot		"config/HTMLTemplates"
 
  	/ImagePath		    "/static/images/"
  	/StylePath		    "/static/styles/"
  	/AppletPath			"/static/applets/"
-
-	/Dispatcher	RendererDispatcher
-
- 	/URIPrefix2ServiceMap {			# map to define service handler
-		/"/COASTDoc"	WebDocuFile
-		/"/favicon.ico"		HttpFile
-		/"/static"			HttpFile
-		/"/recipes"			wdsample
-		/"/"				wdsample
-	}
-
-	/ServicePrefix		recipes
 
 	/Ext2MIMETypeMap {
 		/gif	"image/gif"
@@ -78,6 +94,7 @@
 		/css	"text/css"
 		/class	"text/plain"
 		/js		"text/javascript"
+		/ico	"image/x-icon"
 	}
 
 #--- BaseURL support ------------------------------------------------
@@ -85,32 +102,23 @@
 	/UseBaseURL		0	 				# switches use of base URL on/off
 	/HostName		{ /Lookup header.HOST }
 	/BaseAddress {
-		/Lookup  BaseWithoutSlash
-		"/"
-	}
-
-	/BaseWithoutSlash {
 		/Condition {
 			/ContextCondition { header.HTTPS }
-			/True 	{ "https://" {/Lookup HostName} }
-			/False 	{ "http://" {/Lookup HostName} }
+			/True 	{ "https://" %HostName }
+			/False 	{ "http://" %HostName }
 		}
-	}
-
-	/URLFilterSpec {
-		/Tags2Unscramble { X1 X2 X }
 	}
 
 #--- Localization and language issues -----------------------------------------
 
-	/ShowDebugOutput    1					# shows debug output in the footer
-#	/StringFile			"LocalizedStrings"  # string ressource file for different languages
 	/Language 			D					# default language (overriden per user)
 	/UseBrowserLang		0					# set to 1 if you want to use browsers prefs
 	/LanguageKeyMap {
-		/D				{ "de" "de-CH" "de-DE" "de-AU" }
-		/E				{ "en" "en-GB" "en-US" }
-		/F				{ "fr" "fr-BE" "fr-CA" "fr-FR" "fr-CH" }
-		/I				{ "it" }
+		/D { "de-CH" "de-ch" "de" "de-DE" "de-AU" }
+		/E { "en" "en-US" "en-us" "en-GB" "en-gb" }
+		/F { "fr" "fr-CH" "fr-ch" "fr-lu" "fr-FR"}
+		/I { "it" "it-CH" "it-ch" }
 	}
+
+	/ShowDebugOutput    1					# shows debug output in the footer
 }

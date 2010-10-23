@@ -6,7 +6,17 @@
 # the license that is included with this library/application in the file license.txt.
 #--------------------------------------------------------------------
 {
-	/Version    "$Id$"
+	/HttpFile {
+	}
+
+	/FaviconLoader {
+		/DocumentRoot {
+			/RendererMapper {
+				{ /Lookup DocumentRoot }
+				{ /Lookup ImagePath }
+			}
+		}
+	}
 	/WebDocuFile {
 		/DocumentRoot	""
 	}

@@ -14,20 +14,31 @@
 	/HTTPS {
 		/Port 51201
 		#--- SSL configuration needs certificate and private key files
-		/CertFileServer	"recipes_cert.pem"
-		/KeyFileServer	"recipes_key.pem"
+		/CertFileServer	%CertFileServerRelative
+		/KeyFileServer	%KeyFileServerRelative
 	}
+	/SSLPeerCAFile	%FullChainCertRelative
 
 	# directory to place logfiles into
-	/LogDir			"logs"
+	/LogDir			"##LOGDIRREL##"
 
-	# location and name of the pid file
-	/PIDFileName	"logs/recipes.PID"
+	/PIDFileName	"##PIDFILEPATHNAME##"		# location and name of the pid file
 
-	/UserName		""
+	/UserName		"##RUNUSERNAME##"
 
-	/BFKey			!bf_key.any?Key
-	/BFInitVec0 	!bf_key.any?InitVec0
-	/BFInitVec1		!bf_key.any?InitVec1
-	/MDKey			!sign_key.any?Key
+	/BFKey			"{My very! secure@\"key;2go! 4BloW@\"FiSh_}"
+	/BFInitVec0		0x55AAF3DC
+	/BFInitVec1		0x1AAA5507
+	/MDKey			"{secure@\"key;2go! 4sIgNer@\"?*}"
+
+#! server section
+	/KeyFileServerRelative	"##serverkey_rel##"
+	/CertFileServerRelative	"##servercrt_rel##"
+	/KeyFileServer			%KeyFileServerRelative
+	/CertFileServer			%CertFileServerRelative
+
+#! cert chains
+	/ServerChainCertRelative	"##serverchain_rel##"
+	/FullChainCertRelative		"##fullchain_rel##"
+	/ChainWoServerCertRelative	"##chainwoservercrt_rel##"
 }

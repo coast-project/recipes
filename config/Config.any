@@ -57,6 +57,9 @@
 			/HTTPS { HTTPAdmin }
 		}
 	}
+	/AcceptorFactory {}
+	/SSLAcceptorFactory {}
+	/PseudoSSLAcceptorFactory {}
 
 	# defines http listener
 	/HTTP	!Defaults.any?HTTP
@@ -75,8 +78,6 @@
 		/MaxSessionsAllowed	20
 		/CleanerTimeout		60
 	}
-
-	/ServiceDispatchers {}
 
 	/ContentGzipEncoding {
 		/"text/html"	1
@@ -98,14 +99,10 @@
 	/HTMLTemplateConfig {
 		/TemplateDir		"config/HTMLTemplates"
 		/LanguageDirMap {	# maps language key to localized templates dir
-	#		/D				"Localized_D"
-	#		/E				"Localized_E"
-	#		/F				"Localized_F"
-	#		/I				"Localized_I"
-			/D				"."
-			/E				"."
-			/F				"."
-			/I				"."
+			/D				"."		# "Localized_D"
+			/E				"."		# "Localized_E"
+			/F				"."		# "Localized_F"
+			/I				"."		# "Localized_I"
 		}
 	}
 
@@ -131,16 +128,22 @@
 		}
 	}
 
-#--- ServiceHandlersModule configuration ------------------------------------
+#--- ServiceHandlersModule configuration ---------------------------------------
 
+	/ServiceDispatchers {}
 	/ServiceHandlers {
-		/SimpleDataAccessService	{ HttpFile WebDocuFile }
+		/SimpleDataAccessService	{ HttpFile WebDocuFile FaviconLoader }
 		/WebAppService				{ wdsample }
 	}
 
 #--- SecurityModule configuration -------------------------------------
 
-	/SecurityModule {			# settings from URL encoding
+	/SecurityModule {
+		#! Don't reset the module even if server is resetted. This avoids the problem that the
+		#! key files are read as root user at server startup and as the server's run user at
+		#! server reset time.
+		/DoNotReset	1
+		#! configure security items usable below, which may have also a config in SecurityItems.any
 		/SecurityItems {
 			/Base64	{ b64 }
 			/Scrambler {
@@ -151,10 +154,16 @@
 			/MD5Signer { ServerMD5Signer }
 			/TableCompressor { tc }
 		}
-
+			#! Selection of encryption for cookies (bs == blowfish)
 		/Scrambler 		ServerBlowfishScrambler
+
+			#! Selection of ascii encoding (b64 == Base64)
 		/Encoder 		b64
+
+			#! Hash algorithm used for signature generation
 		/Signer	 		ServerMD5Signer
+
+			#! Compressor to keep URLs and Cookies short (tc == Huffman table compressor)
 		/Compressor		tc
 	}
 
@@ -162,7 +171,8 @@
 
 	/DataAccessImpls {
 		/HTTPFileLoader {
-			HttpFile
+			HttpFile		# simple loader for static files
+			FaviconLoader
 			WebDocuFile
 		}
 	}
@@ -173,17 +183,18 @@
 		/Input {
 			/URI2FileNameMapper {
 				HttpFile
+				FaviconLoader
 				WebDocuFile
 			}
 		}
 		/Output {
-			/ResultMapper {
-				# local file service output
+			/HTTPBodyMapper {
 				HttpFile	# simple output mapper for different static files
 							# it needs http body mapper because of the binary image
+				FaviconLoader
 				WebDocuFile
 			}
-		}
+ 		}
 	}
 
 #--- RendererModule configuration -------------------------------------
@@ -228,10 +239,25 @@
 	/AppLogModule {
 		#! Where the logfiles are kept
 		/LogDir		!Defaults.any?LogDir
-		#! When to rotate the logifles in hour:minute
-		/RotateTime	"23:59"
+		#! When to rotate the logfiles in hour:minute
+		/RotateTime	"23:50"
 		/Servers {
 			/Server	{
+				/SecurityLog {
+					/FileName "Security.log"
+					/Header	"# TimeStamp REMOTE_ADDR HTTPS? [RequestLine] [HttpStatusCode:HttpResponseMsg] [Reason] [FaultyRequestLine]"
+					/Format {
+						{ /DateRenderer { /Format "%a, %m-%d-%Y %T" /DeltaGMT 1 }  }
+						" "
+						{ /Lookup HTTPRequestReader.REMOTE_ADDR }
+						" "
+						{ /Lookup HTTPRequestReader.HTTPS }
+						" [" { /Lookup HTTPRequestReader.Request.REQUEST_METHOD } "]"
+						" [" { /Lookup HTTPRequestReader.HttpStatusCode } ":" { /Lookup HTTPRequestReader.HttpResponseMsg } "]"
+						" [" { /Lookup HTTPRequestReader.Reason } "]"
+						" [" { /Lookup HTTPRequestReader.FaultyRequestLine } "]"
+					}
+				}
 				/AccessLog {
 					/FileName	"Access.log"
 					/Format		{ /Lookup AccessLogFormat }
@@ -283,4 +309,20 @@
 		" "
 		{ /Lookup { RoleName "-" } }
 	}
+
+#--- Localization and language issues -----------------------------------------
+
+#	/StringFile			"LocalizedStrings"  # string resource file for different languages
+
+	#! The trusted certificates needed to verify the peer (one file)
+	/SSLPeerCAFile				!Defaults.any?SSLPeerCAFile
+		#! The trusted certificates needed to verify the peer (c_rehash hashed directory)
+#	/SSLVerifyPath				"/tmp/SSLSocketTestHashedCerts"
+
+	/SSLClientSessionTimeout	14400
+		#!The servers's client certificate private key
+	/KeyFileServer				!Defaults.any?KeyFileServer
+		#! The server's client certificate
+	/CertFileServer				!Defaults.any?CertFileServer
+
 }
