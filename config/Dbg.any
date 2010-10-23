@@ -300,7 +300,7 @@
 			/EnableAll					640
 		}
 	}
-	/RequestReader {
+	/HTTPRequestReader {
 		/MainSwitch						530
 		/EnableAll						530
 		/ReadRequest					640

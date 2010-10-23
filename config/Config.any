@@ -264,7 +264,7 @@
 	}
 
 	/AccessLogFormat {
-		{ /Lookup	{ REMOTE_ADDR "-" } }
+		{ /Lookup	{ header.REMOTE_ADDR "-" } }
 		" - "
 		"["
 		{ /DateRenderer { /Format "%a, %m-%d-%Y %T" /DeltaGMT 1 }  }
