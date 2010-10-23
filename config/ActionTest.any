@@ -1,13 +1,11 @@
 #--------------------------------------------------------------------
-# Copyright (c) 2000 itopia
-# All Rights Reserved
+# Copyright (c) 2000, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+# All rights reserved.
 #
-# $RCSfile$: comment purpose of file
-#
+# This library/application is free software; you can redistribute and/or modify it under the terms of
+# the license that is included with this library/application in the file license.txt.
 #--------------------------------------------------------------------
 {
-	/Version	"$Id$"
-
     /PageTitle "Action Test"
 
 	/Body {
