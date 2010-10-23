@@ -15,12 +15,11 @@ import java.applet.Applet;
 /**
  *
  * Simple Button which opens a new window.
- * 
+ *
  * @author		bub
- * @version		$Id$
  * @since		28.7.00
  * @see			java.applet.Applet
- * 
+ *
  */
 public class AppletButton extends Applet implements Runnable {
     int frameNumber = 1;
@@ -59,7 +58,7 @@ public class AppletButton extends Applet implements Runnable {
                 //Use default width.
             }
         }
- 
+
         String windowHeightString = getParameter("WINDOWHEIGHT");
         if (windowHeightString != null) {
             try {
@@ -68,7 +67,7 @@ public class AppletButton extends Applet implements Runnable {
                 //Use default height.
             }
         }
- 
+
         setLayout(new GridLayout(2,0));
         add(button = new Button(buttonText));
         font = getParameter("FONT");
@@ -92,7 +91,7 @@ public class AppletButton extends Applet implements Runnable {
         Class windowClassObject = null;
         Class tmp = null;
         String name = null;
-        
+
         // Make sure the window class exists and is really a Frame.
         // This has the added benefit of pre-loading the class,
         // which makes it much quicker for the first window to come up.
@@ -120,7 +119,7 @@ public class AppletButton extends Applet implements Runnable {
                           " isn't a Frame subclass.");
             button.setEnabled(false);
             return;
-        } else if (name.equals("java.awt.Frame")) { 
+        } else if (name.equals("java.awt.Frame")) {
             //Everything's OK. Wait until we're asked to create a window.
             while (windowThread != null) {
                 while (pleaseCreate == false) {
@@ -162,14 +161,14 @@ public class AppletButton extends Applet implements Runnable {
             }
         }
     }
-                
+
     public synchronized boolean action(Event event, Object what) {
         if (event.target instanceof Button) {
             //signal the window thread to build a window
             label.setText("Please wait while the window comes up...");
             pleaseCreate = true;
             notify();
-        } 
+        }
         return true;
     }
 }

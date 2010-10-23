@@ -18,8 +18,8 @@
 	/COASTDocuIndex	"/COASTDoc/index.html"					# DevTest
 #	/COASTDocuIndex	"http://hexa/COASTDoc/index.html"
 
-	/ImageNameSmall	coast_200x100.png
-	/ImageNameBig	coast_500x250.png
+	/ImageNameSmall	"coast_200x100.png"
+	/ImageNameBig	"coast_500x250.png"
 
 	#---- Header stuff ---------------------------------------------------------
 	/NewHeader {

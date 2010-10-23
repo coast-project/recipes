@@ -47,14 +47,14 @@
 			"</table>"
 		}
 	}
-	
+
 	#----for recipe 20 -----------------------------------------------
 	/DataContents {
 		"<table border=1 cellpadding=3 cellspacing=0>"
 		"<tr bgcolor=#BEBEBE><th>"
 		"Konto</th><th>"
 		"Kontobezeichnung</th><th>"
-		"W�hrung</th></tr>"
+		"W&auml;hrung</th></tr>"
 		{
 			 /ListRenderer {
 				 /ListName  AccountData
@@ -80,22 +80,22 @@
 	#----for recipe 21 -----------------------------------------------
 	/ShowImage1 {
 		/Image {
-			/ImageName somelogo_small.gif
+			/ImageName coast_200x100.png
 			/Options {
 				"Border=2" "alt='somelogo'"
-			}			
+			}
 		}
 	}
-	
+
 	/ShowImage2 {
 		/Image {
-			/ImageName somelogo_small.gif
+			/ImageName coast_500x250.png
 			/Options {
 				"Border=0" "HEIGHT=105" "WIDTH=365" "HSPACE=15" "alt='somelogo'"
-			}			
+			}
 		}
 	}
-	
+
 	#----for recipe 24 -----------------------------------------------
 	/UserInputForm {
 		/Form {
@@ -119,7 +119,7 @@
 			/Action "DoSomething"
 		}
 	}
-	
+
 	/AnElementOfForm {
 		/Text {
 			/Name		username
@@ -127,14 +127,14 @@
 			/Size		32
 		}
 	}
-	
+
 	/TextArea {
 		/TextArea {
 			/Name	textarea
 			/Value 	TextAreaField
 		}
 	}
-	
+
 	/PasswordField {
 		/Text {
 			/Name	resultPassword
@@ -143,14 +143,14 @@
 			/Size	16
 		}
 	}
-	
+
 	/CheckBox {
 		/CheckBox {
 			/Name 	BoxField
 			/Value	"on"
 		}
 	}
-	
+
 	/SubmitButton {
 		/Button {
 			/Name	submit
@@ -168,7 +168,7 @@
 			/Value	"myValue"
 			/Src 	{
 				/ImageLocation {
-					 "somelogo_small.gif"
+					 "coast_200x100.png"
 				}
 			}
 			/Options {
@@ -176,7 +176,7 @@
 			}
 		}
 	}
-	
+
 	#----for recipe 26 -----------------------------------------------
 	/MyBuildingBlock {
 		/String {
@@ -193,7 +193,7 @@
 			/Action "GoExample3"
 		}
 	}
-	
+
 	#----for recipe 27 -----------------------------------------------
 	/ButtAppl {
 		/Applet {
@@ -209,6 +209,6 @@
 				/FONT			{ "SansSerif"	}
 			}
 		}
-	}	
+	}
 }
 
