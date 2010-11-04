@@ -245,17 +245,17 @@
 			/Server	{
 				/SecurityLog {
 					/FileName "Security.log"
-					/Header	"# TimeStamp REMOTE_ADDR HTTPS? [RequestLine] [HttpStatusCode:HttpResponseMsg] [Reason] [FaultyRequestLine]"
+					/Header	"# TimeStamp REMOTE_ADDR HTTPS? [RequestLine] [ResponseCode:ResponseMsg] [ErrorMessage] [FaultyContent]"
 					/Format {
 						{ /DateRenderer { /Format "%a, %m-%d-%Y %T" /DeltaGMT 1 }  }
 						" "
-						{ /Lookup HTTPRequestReader.REMOTE_ADDR }
+						{ /Lookup ClientInfo.REMOTE_ADDR }
 						" "
-						{ /Lookup HTTPRequestReader.HTTPS }
-						" [" { /Lookup HTTPRequestReader.Request.REQUEST_METHOD } "]"
-						" [" { /Lookup HTTPRequestReader.HttpStatusCode } ":" { /Lookup HTTPRequestReader.HttpResponseMsg } "]"
-						" [" { /Lookup HTTPRequestReader.Reason } "]"
-						" [" { /Lookup HTTPRequestReader.FaultyRequestLine } "]"
+						{ /Lookup ClientInfo.HTTPS }
+						" [" { /Lookup REQUEST_METHOD } "]"
+						" [" { /Lookup { { /Lookup { RequestProcessorErrorSlot } ":0.ResponseCode" } } } ":" { /Lookup { { /Lookup { RequestProcessorErrorSlot } ":0.ResponseMsg" } } } "]"
+						" [" { /Lookup { { /Lookup { RequestProcessorErrorSlot } ":0.ErrorMessage" } } } "]"
+						" [" { /Lookup { { /Lookup { RequestProcessorErrorSlot } ":0.FaultyContent" } } } "]"
 					}
 				}
 				/AccessLog {
