@@ -10,7 +10,7 @@
 
 {
     /PageTitle "Example 3 Page of COAST (text from Ex3Page.any)"
-	
+
 	/Body {
 		/Form {
 			/Method "POST"

@@ -44,7 +44,7 @@
 			"</table>"
 		}
 	}
-	
+
 	/ShowInputForm {
 		/Form {
 			/Method "GET"
@@ -62,7 +62,7 @@
 			}
 		}
 	}
-	
+
 	/GoBackButtonRenderer {
 		/Button {
 			/Name "GoBackButton"
@@ -73,12 +73,11 @@
 			}
 		}
 	}
-	
+
 	/ShowInputPagePage {
 		/String {
 			/Default "Show Input"
 		}
 	}
-
 
 }

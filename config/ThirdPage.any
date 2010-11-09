@@ -16,14 +16,14 @@
 			/TemplateName { ThirdPage }
 		}
 	}
-	
+
 	#---- Parts --------------------------------------------------------------
 	/Question1 {
 		/String {
 			/Default "This is Zermatt again ..."
 		}
 	}
-	
+
 	#---- Renderer Specification for Next Button -----------------------------
 	/NextPage {
 		/Form {
@@ -34,7 +34,7 @@
 			}
 		}
 	}
-	
+
 	/NextButton {
 		/Button {
 			/Name "submit"
@@ -55,7 +55,7 @@
 			}
 		}
 	}
-	
+
 	/PrevButton {
 		/Button {
 			/Name "submit"

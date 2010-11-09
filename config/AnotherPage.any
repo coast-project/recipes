@@ -29,7 +29,7 @@
 			}
 		}
 	}
-	
+
 	/AnotherText {
 		/String {
 			/Default "(This page is built without using SharedPageLayout.html but with its own slot /PageLayout)"	

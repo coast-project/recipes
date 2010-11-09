@@ -19,11 +19,10 @@
 		}
 	}
 
-
 	#---- Parts --------------------------------------------------------------
 	/Header {
 	}	
-	
+
 	/PageSpecificWelcomeSection {
 		/HTML {
 			/Template {
@@ -46,7 +45,7 @@
 			}
 		}
 	}
-	
+
 	/StartAppli1 {
 		/Form {
 			/Method "GET"
@@ -65,7 +64,7 @@
 			}
 		}
 	}
-		
+
 	/StartAppli2 {
 		/Form {
 			/Method "GET"
@@ -84,7 +83,7 @@
 			}
 		}
 	}
-		
+
 	/StartAppli3 {
 		/Form {
 			/Method "GET"
@@ -103,7 +102,7 @@
 			}
 		}
 	}	
-	
+
 	/StartAppli4 {
 		/Form {
 			/Method "GET"

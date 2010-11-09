@@ -1,13 +1,10 @@
 /*
- * Copyright (c) 1999 itopia
- * All Rights Reserved
+ * Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+ * All rights reserved.
  *
- * $Id$
+ * This library/application is free software; you can redistribute and/or modify it under the terms of
+ * the license that is included with this library/application in the file license.txt.
  */
-
-#ifdef __GNUG__
-#pragma implementation
-#endif
 
 //--- interface ------------
 #include "EvalExpression.h"
@@ -67,7 +64,6 @@ bool EvalExpression::DoExecAction(String &transitionToken, Context &ctx, const R
 	Anything tmp2= renderCtx.GetTmpStore();
 	for (long i= 0; i<tmp2.GetSize(); i++)
 		ctx.GetTmpStore()[tmp2.SlotName(i)]= tmp2[i];
-
 
 	String result("<");
 	String result1;

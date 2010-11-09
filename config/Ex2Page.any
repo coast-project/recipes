@@ -10,7 +10,7 @@
 
 {
     /PageTitle "Example 2 Page of COAST (text from Ex2Page.any)"
-	
+
 	/Body {
 		/HTML {
 			/Template {
@@ -63,7 +63,7 @@
 			"</table>"
 		}
 	}
-	
+
 	/MyForm {
 		/Form {
 			/Method "GET"
@@ -94,7 +94,7 @@
 			/Size 32
 		}
 	}
-	
+
 	/MySecondFieldRenderer {
 		/CheckBox {
 			/Name  "MySecondField"

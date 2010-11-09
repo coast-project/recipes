@@ -19,7 +19,6 @@
 		}
 	}
 
-
 	#---- Parts --------------------------------------------------------------
 	/PageSpecificWelcomeSection {
 		{
@@ -45,7 +44,7 @@
 			"</table>"
 		}
 	}
-	
+
 	/ConfirmationForm {
 		/Form {
 			/Method "GET"
@@ -63,7 +62,7 @@
 			}
 		}
 	}
-	
+
 	/OkButtonRenderer {
 		/Button {
 			/Name "OkButton"
@@ -74,7 +73,7 @@
 			}
 		}
 	}
-	
+
 	/CancelButtonRenderer {
 		/Button {
 			/Name "CancelButton"
@@ -85,11 +84,11 @@
 			}
 		}
 	}
-	
+
 	/ConfirmPagePage {
 		/String {
 			/Default "Confirmation Page"
 		}
 	}
-	
+
 }

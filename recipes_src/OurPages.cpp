@@ -1,13 +1,10 @@
 /*
- * Copyright (c) 2000 itopia
- * All Rights Reserved
+ * Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+ * All rights reserved.
  *
- * $Id$
+ * This library/application is free software; you can redistribute and/or modify it under the terms of
+ * the license that is included with this library/application in the file license.txt.
  */
-
-#ifdef __GNUG__
-#pragma implementation
-#endif
 
 //--- interface ------------
 #include "OurPages.h"
@@ -160,7 +157,6 @@ void Ex4Page::Preprocess(Context &c)
 	Page::Preprocess(c);
 }
 
-
 //---- ViewPage -------------------------------------------------------------------
 RegisterPage(ViewPage);
 
@@ -207,6 +203,4 @@ void ViewPage::Footer(std::ostream &reply, Context&)
 //	reply.Append("powered by COAST\n");
 //	cerr << "powered by COAST\n";
 }
-
-
 

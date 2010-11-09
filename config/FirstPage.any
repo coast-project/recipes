@@ -17,7 +17,6 @@
 		}
 	}
 
-
 	#---- Parts --------------------------------------------------------------
 	/NextPage {
 		/Form {
@@ -28,7 +27,7 @@
 			}
 		}
 	}
-	
+
 	/NextButton {
 		/Button {
 			/Name "submit"
@@ -38,7 +37,7 @@
 			}
 		}
 	}
-	
+
 	/InfoPage {
 		/Form {
 			/Method "GET"
@@ -58,7 +57,7 @@
 			}
 		}		
 	}
-	
+
 	/AnotherLink {
 		/Link {
 			/Action "GoAnotherPage"

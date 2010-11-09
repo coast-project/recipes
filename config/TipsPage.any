@@ -22,10 +22,10 @@
 	#---- Parts --------------------------------------------------------------
 	/Header {
 	}
-	
+
 	/PageSpecificWelcomeSection {
 	}
-	
+
 	/ViewFiles {
 		/Link {
 			/Label { "SharedPageLayout.html" }

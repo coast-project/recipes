@@ -28,7 +28,6 @@
 		}
 	}
 
-
 	#---- Parts --------------------------------------------------------------	
 	/RecipesWelcome {
 		/Type HTML
@@ -60,7 +59,7 @@
 			/Label { " Go to the list of all recipes " }
 		}
 	}	
-		
+
 	/Example1 {
 		/Form {
 			/Method "GET"
@@ -77,7 +76,7 @@
 			/Label { "       Go to the Example  1     " }            
 		}
 	}	
-	
+
 	/Example2 {
 		/Form {
 			/Method "GET"
@@ -110,7 +109,7 @@
 			/Label { "       Go to the Example  3     "	}            
 		}
 	}
-	
+
 	/Example4 {
 		/Form {
 			/Method "GET"
@@ -127,13 +126,13 @@
 			/Label { "       Go to the Example  4     " }            
 		}
 	}	
-		
+
 	/ConcreteRecipe {
 		/HTML {
 			/TemplateName { /Lookup WhichRecipe }
 		}
 	}	
-	
+
 	/AppropriateExample {
 		/Switch {
 			/ContextLookupName "WhichRecipe"

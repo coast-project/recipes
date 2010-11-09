@@ -1,19 +1,13 @@
 /*
- * Copyright (c) 2000 itopia
- * All Rights Reserved
+ * Copyright (c) 2009, Peter Sommerlad and IFS Institute for Software at HSR Rapperswil, Switzerland
+ * All rights reserved.
  *
- * OurActions:    executing custom actions
- *
- *
- *  $Id$
+ * This library/application is free software; you can redistribute and/or modify it under the terms of
+ * the license that is included with this library/application in the file license.txt.
  */
 
 #ifndef _OURACTIONS_H
 #define _OURACTIONS_H
-
-#ifdef __GNUG__
-	#pragma interface
-#endif
 
 //---- OurActions include -------------------------------------------------
 #include "Action.h"

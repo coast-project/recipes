@@ -22,7 +22,7 @@
 	#---- Parts --------------------------------------------------------------
 	/Header {
 	}
-	
+
 	/PageSpecificWelcomeSection {
 	}
 
@@ -34,7 +34,7 @@
 			}			
 		}
 	}
-	
+
 	/InternalArch {
 		/Image {
 			/ImageName "InternalArch.GIF"
@@ -43,7 +43,7 @@
 			}			
 		}
 	}	
-	
+
 	/InitialRequest {
 		/Image {
 			/ImageName "InitialRequest.GIF"
@@ -52,7 +52,7 @@
 			}			
 		}
 	}
-	
+
 	/NormalRequest {
 		/Image {
 			/ImageName "NormalRequest.GIF"
