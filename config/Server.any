@@ -30,7 +30,8 @@
 	/ThreadPoolSize			10					# number of parallel pending requests
 	/AwaitResetEmpty		10
 
-	/ListenerPool {					# this server listens on 2 ports
+	/PoolManager			ServerLFThreadPoolsManager
+	/ListenerPool {			# this server listens on 2 ports
 		HTTP
 		HTTPS
 	}
