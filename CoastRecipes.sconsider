@@ -69,8 +69,7 @@ def runCommand(args, logpath, stdincontent=None, useShell=False, cwd=None):
 
 def prepareMkCaParams(env, commandargs, tdirabs, certOutDir, mkcaScriptName, cnfFilename=''):
     ## set writable cfgfilename
-    targets = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
-    target = targets['target']
+    target = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
     if not os.path.isfile(mkcaScriptName):
         return False
     commandargs.extend([mkcaScriptName])
@@ -108,8 +107,7 @@ def createCertificates(env, targetdir, mkcaScriptName, certdirrel='cert_files', 
         # get list of copied certificates
         certFileNodesList=SConsider.findFiles([certOutDir], ['.pem','.p12'])
         certDict=createCertDict(certFileNodesList)
-        targets = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
-        target = targets['target']
+        target = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
         sslbin='openssl'
         if target:
             sslbin=''+target.abspath+' -S --'
