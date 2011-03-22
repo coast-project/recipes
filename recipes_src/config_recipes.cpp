@@ -6,10 +6,6 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface include --------------------------------------------------------
-#include "config_recipes.h"
-
-//--- standard modules used ----------------------------------------------------
 #include "InitFinisManager.h"
 
 static void Init()

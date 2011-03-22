@@ -6,12 +6,8 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface ------------
 #include "OurActions.h"
-
 #include "Context.h"
-#include "Dbg.h"
-#include "System.h"
 
 //---- RecipeAction -------------------------------------------------------------------
 RegisterAction(RecipeAction);

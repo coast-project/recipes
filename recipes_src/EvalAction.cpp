@@ -6,17 +6,14 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface ------------
 #include "EvalAction.h"
-
-#include "Dbg.h"
 #include "Server.h"
 #include "Renderer.h"
 #include "Role.h"
 #include "Page.h"
+#include "StringStream.h"
 
 //---- EvalAction ---------------------------------------------------------------
-
 RegisterAction(EvalAction);
 
 EvalAction::EvalAction(const char *name) : Action(name) { }

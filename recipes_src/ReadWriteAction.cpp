@@ -6,16 +6,12 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface ------------
 #include "ReadWriteAction.h"
-
-#include "Dbg.h"
 #include "System.h"
 #include "Renderer.h"
 #include "AnythingUtils.h"
 
 //---- ReadAction ---------------------------------------------------------------
-
 RegisterAction(ReadAction);
 
 ReadAction::ReadAction(const char *name) : Action(name) { }

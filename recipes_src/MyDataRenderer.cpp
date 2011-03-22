@@ -6,16 +6,12 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface ------------
 #include "MyDataRenderer.h"
-
-#include "Dbg.h"
 #include "Session.h"
-#include "Role.h"
 #include "Page.h"
+#include "Role.h"
 
 //---- MyDataRenderer ---------------------------------------------------------------
-
 RegisterRenderer(MyDataRenderer);
 
 MyDataRenderer::MyDataRenderer(const char *name) : Renderer(name) { }

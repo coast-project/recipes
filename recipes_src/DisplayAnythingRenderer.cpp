@@ -6,11 +6,10 @@
  * the license that is included with this library/application in the file license.txt.
  */
 
-//--- interface ------------
 #include "DisplayAnythingRenderer.h"
+#include "StringStream.h"
 
 //---- DisplayAnythingRenderer --------------------------------------------------------------
-
 RegisterRenderer(DisplayAnythingRenderer);
 
 DisplayAnythingRenderer::DisplayAnythingRenderer(const char *name) : Renderer(name)
