@@ -10,58 +10,77 @@
 #define _OURPAGES_H
 
 #include "Page.h"
-#include "config_recipes.h"
 
 class Context;
 class Role;
 class Session;
 class String;
 
-//---- MyNewPage -------------------------------------------------------------------
-
-class EXPORTDECL_RECIPES MyNewPage : public Page {
+class MyNewPage: public Page {
 public:
-	MyNewPage();
-	MyNewPage(const char *name);
+	MyNewPage() :
+		Page("MyNewPage") {
+	}
+	MyNewPage(const char *name) :
+		Page(name) {
+	}
 	/*! @copydoc IFAObject::Clone(Allocator *) */
-	IFAObject *Clone(Allocator *a) const;
+	IFAObject *Clone(Allocator *a) const {
+		return new (a) MyNewPage();
+	}
 	void Preprocess(Context&);
 	virtual bool Postprocess(String &action, Context &c);
 };
 
 //---- MyAccountPage -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyAccountPage : public Page {
+class MyAccountPage: public Page {
 public:
-	MyAccountPage();
-	MyAccountPage(const char *name);
+	MyAccountPage() :
+		Page("MyAccountPage") {
+	}
+	MyAccountPage(const char *name) :
+		Page(name) {
+	}
 	/*! @copydoc IFAObject::Clone(Allocator *) */
-	IFAObject *Clone(Allocator *a) const;
+	IFAObject *Clone(Allocator *a) const {
+		return new (a) MyAccountPage();
+	}
 	void Preprocess(Context&);
 	virtual bool Postprocess(String &action, Context &c);
 };
 
 //---- Ex4Page -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES Ex4Page : public Page {
+class Ex4Page: public Page {
 public:
-	Ex4Page();
-	Ex4Page(const char *title);
-
+	Ex4Page() :
+		Page("Ex4Page") {
+	}
+	Ex4Page(const char *title) :
+		Page(title) {
+	}
 	/*! @copydoc IFAObject::Clone(Allocator *) */
-	IFAObject *Clone(Allocator *a) const;
+	IFAObject *Clone(Allocator *a) const {
+		return new (a) Ex4Page();
+	}
 	virtual void Preprocess(Context&);
 };
 
 //---- ViewPage -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES ViewPage : public Page {
+class ViewPage: public Page {
 public:
-	ViewPage();
-	ViewPage(const char *title);
-
+	ViewPage() :
+		Page("ViewPage") {
+	}
+	ViewPage(const char *title) :
+		Page(title) {
+	}
 	/*! @copydoc IFAObject::Clone(Allocator *) */
-	IFAObject *Clone(Allocator *a) const;
+	IFAObject *Clone(Allocator *a) const {
+		return new (a) ViewPage();
+	}
 	virtual void Preprocess(Context&);
 	virtual void Mime(std::ostream &reply, Context &c);
 	virtual void Header(std::ostream &reply, Context&);
