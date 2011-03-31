@@ -9,7 +9,6 @@
 #ifndef _ReadWriteAction_H
 #define _ReadWriteAction_H
 
-//---- Action include -------------------------------------------------
 #include "Action.h"
 #include "config_recipes.h"
 

@@ -9,7 +9,6 @@
 #ifndef _EvalAction_H
 #define _EvalAction_H
 
-//---- Action include -------------------------------------------------
 #include "Action.h"
 #include "config_recipes.h"
 

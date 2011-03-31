@@ -9,7 +9,6 @@
 #ifndef _OURROLE_H
 #define _OURROLE_H
 
-//---- OurRoles include -------------------------------------------------
 #include "Role.h"
 #include "config_recipes.h"
 

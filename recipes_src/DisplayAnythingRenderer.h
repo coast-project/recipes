@@ -9,7 +9,6 @@
 #ifndef _DisplayAnythingRenderer_H
 #define _DisplayAnythingRenderer_H
 
-//---- DisplayAnythingRenderer include -------------------------------------------------
 #include "Renderer.h"
 #include "config_recipes.h"
 

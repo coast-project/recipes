@@ -9,7 +9,6 @@
 #ifndef _OURPAGES_H
 #define _OURPAGES_H
 
-//---- OurPages include -------------------------------------------------
 #include "Page.h"
 #include "config_recipes.h"
 

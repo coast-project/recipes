@@ -9,7 +9,6 @@
 #ifndef _MyDataRenderer_H
 #define _MyDataRenderer_H
 
-//---- Renderer include -------------------------------------------------
 #include "Renderer.h"
 #include "config_recipes.h"
 

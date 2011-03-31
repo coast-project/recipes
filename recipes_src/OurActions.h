@@ -9,7 +9,6 @@
 #ifndef _OURACTIONS_H
 #define _OURACTIONS_H
 
-//---- OurActions include -------------------------------------------------
 #include "Action.h"
 #include "config_recipes.h"
 

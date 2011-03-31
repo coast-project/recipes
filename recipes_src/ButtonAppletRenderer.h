@@ -9,7 +9,6 @@
 #ifndef _ButtonAppletRenderer_H
 #define _ButtonAppletRenderer_H
 
-//---- ButtonAppletRenderer include -------------------------------------------------
 #include "Renderer.h"
 #include "config_recipes.h"
 

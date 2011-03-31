@@ -11,7 +11,6 @@
 #ifndef _EvalExpression_H
 #define _EvalExpression_H
 
-//---- Action include -------------------------------------------------
 #include "Action.h"
 #include "config_recipes.h"
 
