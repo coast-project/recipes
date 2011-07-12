@@ -2242,15 +2242,15 @@
     <blockquote>
       <blockquote>
         <p ALIGN="JUSTIFY"><font COLOR="#0000ff" size="3">The debugging subsystem is completely
-        controlled and fine-tuned with a configuration file called &quot;Dbg.any&quot;. This file
+        controlled and fine-tuned with a configuration file called &quot;Tracer.any&quot;. This file
         is used to control the calls to the methods of class Tracer. The names of the sections
         relate to the names used in the constructor of the </font><font FACE="Courier New" color="#000000" size="3">Tracer</font><font COLOR="#0000ff" size="3"> objects. The
         convention is to use a dot-notation that relates to classname.methodname. This makes it
         easy to define the debug information according to the program structure.</p>
         <p ALIGN="JUSTIFY">You can enable and disable debugging statements by editing the file
-        &quot;</font><font FACE="Courier New" color="#000000" size="3">Dbg.any</font><font COLOR="#0000ff" size="3">&quot;. The structure of this file is hierarchical and reflects
+        &quot;</font><font FACE="Courier New" color="#000000" size="3">Tracer.any</font><font COLOR="#0000ff" size="3">&quot;. The structure of this file is hierarchical and reflects
         the dot-delimited structure of the trigger strings used as the argument for </font><font FACE="Courier New" color="#000000" size="3">Tracer</font><font COLOR="#0000ff" size="3">.
-        A &quot;Dbg.any&quot; file for the above example would look like the following:</p>
+        A &quot;Tracer.any&quot; file for the above example would look like the following:</p>
         <dir>
           <dir>
             </font><font FACE="Courier New" COLOR="#0000ff" size="3"><p></font><font FACE="Courier New" color="#000000" size="3">{<br>
@@ -2287,7 +2287,7 @@
           <li><font FACE="Courier New" color="#000000" size="3">MainSwitch</font> defines the minimum
             value to enable tracing at this level. If it is set to zero no tracing information for
             this level and all nested levels takes place. Therefore you need to enable the top-level
-            MainSwitch in &quot;Dbg.any&quot; to generate any debugging output.</li>
+            MainSwitch in &quot;Tracer.any&quot; to generate any debugging output.</li>
           <li><font FACE="Courier New" color="#000000" size="3">EnableAll</font><font SIZE="2" COLOR="#0000ff"> </font>defines the maximum value to enable tracing. </li>
         </ul>
         <p>&nbsp;</p>
@@ -2617,9 +2617,9 @@
       </dir>
     </dir>
     </font><font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY"><br>
-    You can enable and disable debugging statements by creating and editing the &quot;</font><font FACE="Courier New" size="3">Dbg.any</font><font COLOR="#0000ff" size="3">&quot; file. The
+    You can enable and disable debugging statements by creating and editing the &quot;</font><font FACE="Courier New" size="3">Tracer.any</font><font COLOR="#0000ff" size="3">&quot; file. The
     structure of this file is hierarchical and reflects the dot-delimited structure of the
-    trigger strings used as the argument for </font><font FACE="Courier New" size="3">Tracer</font><font COLOR="#0000ff" size="3">. A </font><font FACE="Courier New" size="3">Dbg.any</font><font SIZE="2" COLOR="#0000ff"> </font><font COLOR="#0000ff" size="3">file for the above example
+    trigger strings used as the argument for </font><font FACE="Courier New" size="3">Tracer</font><font COLOR="#0000ff" size="3">. A </font><font FACE="Courier New" size="3">Tracer.any</font><font SIZE="2" COLOR="#0000ff"> </font><font COLOR="#0000ff" size="3">file for the above example
     would look like the following:</p>
     <dir>
       <dir>

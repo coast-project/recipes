@@ -119,7 +119,7 @@ are updated automatically supported by Sniff+.
 	<td>
 		<ul>
 			<li>Config.any</li>
-			<li>Dbg.any</li>
+			<li>Tracer.any</li>
 			<li>'YourFirst'Page.any</li>
 			<li>Page.any</li>
 			<li>Role.any</li>
@@ -141,7 +141,7 @@ are updated automatically supported by Sniff+.
 			<br>HelloWorldActions.h
 		</td><td width=25%>
 			Config.any
-			<br>Dbg.any
+			<br>Tracer.any
 			<br>HelloWorldPage.any
 			<br>OutputMapperMeta.any
 			<br>Page.any
@@ -172,8 +172,8 @@ are updated automatically supported by Sniff+.
 		for inserting trace statements into the source-code at a minimum.
 		If the preprocessor flag DEBUG is not set they expand into nothing.
 		To keep the trace output at acceptable levels we introduced a config
-		file for debugging Dbg.any. Therein you can switch the trace on and off.<br>
-		At the top of Dbg.any you can set some general switches:
+		file for debugging Tracer.any. Therein you can switch the trace on and off.<br>
+		At the top of Tracer.any you can set some general switches:
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
 		"/LowerBound        10      # 0 => no debug output"
@@ -189,7 +189,7 @@ are updated automatically supported by Sniff+.
 		<tt>Server.Load: --- leaving ---</tt>
 		on entering resp. leaving the scope. Within the scope you can use as many
 		Trace macros as you need. They are all set with the same switch.
-		To set the switch you have to insert the following lines into Dbg.any
+		To set the switch you have to insert the following lines into Tracer.any
 <pre>[[#wd DisplayAnythingRenderer {
 	/AnythingInfo {
 		"/Server {"
@@ -203,7 +203,7 @@ are updated automatically supported by Sniff+.
 		The keyword <tt>MainSwitch</tt> enable or disable the output from
 		all those traces which start with "Server". The keyword <tt>EnableAll</tt>
 		overrides the specific switches (e.g. Load).
-		See as well Dbg.cpp or rather Dbg.h and Dbg.any.
+		See as well Tracer.cpp or rather Tracer.h and Tracer.any.
 	</li>
 	<li><h4>Debug output at the end of each HTML-Page:</h4>
 		<p>If the flag DEBUG is set, some information about session, stores and so forth 

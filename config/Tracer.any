@@ -80,11 +80,6 @@
 		/Header							0
 		/Body							40
 		/Footer							0
-		/Render {
-			/MainSwitch					15
-			/Render						10
-			/HTMLDbg					15
-		}
 		/FindPage						10
 		/Register 						10
 		/Action							40
