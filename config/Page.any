@@ -529,7 +529,7 @@
 			"<tr>"
 				"<td width=35% align=left>"
 					"Today is: "
-					{/Date { /Format "%A the %#d. %B %Y, %X" }}
+					{/Date { /Format "%A the %e. %B %Y, %X" }}
 				"</td>"
 				"<td width=30% align=center>"
 					"Powered by COAST"
