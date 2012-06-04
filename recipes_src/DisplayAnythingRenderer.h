@@ -10,11 +10,10 @@
 #define _DisplayAnythingRenderer_H
 
 #include "Renderer.h"
-#include "config_recipes.h"
 
 //---- DisplayAnythingRenderer ---------------------------------------------------------------
 
-class EXPORTDECL_RECIPES DisplayAnythingRenderer : public Renderer {
+class DisplayAnythingRenderer : public Renderer {
 public:
 	DisplayAnythingRenderer(const char *name);
 	void RenderAll(/*Reply*/ std::ostream &reply, Context &c, const ROAnything &config);

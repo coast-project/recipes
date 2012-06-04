@@ -10,7 +10,6 @@
 #define _OURACTIONS_H
 
 #include "Action.h"
-#include "config_recipes.h"
 
 class Context;
 class Role;
@@ -18,7 +17,7 @@ class Session;
 
 //---- RecipeAction -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES RecipeAction : public Action {
+class RecipeAction : public Action {
 public:
 	RecipeAction(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -26,7 +25,7 @@ public:
 
 //---- MyFormAction -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyFormAction : public Action {
+class MyFormAction : public Action {
 public:
 	MyFormAction(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -34,7 +33,7 @@ public:
 
 //---- MyNextFormAction -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyCheckFormAction : public Action {
+class MyCheckFormAction : public Action {
 public:
 	MyCheckFormAction(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -42,7 +41,7 @@ public:
 
 //---- MyConfirmationAction -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyConfirmationAction : public Action {
+class MyConfirmationAction : public Action {
 public:
 	MyConfirmationAction(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -50,7 +49,7 @@ public:
 
 //---- MyGoBackAction -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyGoBackAction : public Action {
+class MyGoBackAction : public Action {
 public:
 	MyGoBackAction(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -58,7 +57,7 @@ public:
 
 //---- MyDoCheckPassword -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES MyDoCheckPassword : public Action {
+class MyDoCheckPassword : public Action {
 public:
 	MyDoCheckPassword(const char *name);
 	bool DoAction(String &action, Context &c);
@@ -66,7 +65,7 @@ public:
 
 //---- DoSomething -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES DoSomething : public Action {
+class DoSomething : public Action {
 public:
 	DoSomething(const char *name);
 	bool DoAction(String &action, Context &c);

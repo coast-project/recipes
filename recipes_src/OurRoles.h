@@ -10,11 +10,10 @@
 #define _OURROLE_H
 
 #include "Role.h"
-#include "config_recipes.h"
 
 //---- GuestRole -------------------------------------------------------------------
 
-class EXPORTDECL_RECIPES GuestRole : public Role {
+class GuestRole : public Role {
 public:
 	GuestRole();
 	GuestRole( const char *name);
@@ -25,7 +24,7 @@ protected:
 };
 
 //---- AdminRole -------------------------------------------------------------------
-class EXPORTDECL_RECIPES AdminRole : public Role {
+class AdminRole : public Role {
 public:
 	AdminRole();
 	AdminRole(const char *);
@@ -36,7 +35,7 @@ protected:
 };
 
 //---- CustomerRole -------------------------------------------------------------------
-class EXPORTDECL_RECIPES CustomerRole : public Role {
+class CustomerRole : public Role {
 public:
 	CustomerRole();
 	CustomerRole(const char *name);

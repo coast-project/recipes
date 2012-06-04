@@ -12,7 +12,6 @@
 #define _EvalExpression_H
 
 #include "Action.h"
-#include "config_recipes.h"
 
 //---- EvalExpression ----------------------------------------------------------
 //! action that evaluates a renderer expression on a given page in a given role with some additional state in tmpstore
@@ -21,7 +20,7 @@
 //!		/RendererSlot	{} # renderer spec defining the location of the renderer anything as string
 //!      /StateSlot		{} # renderer spec defining the location of additional state anything as string
 //!	}</PRE>
-class EXPORTDECL_RECIPES EvalExpression : public Action
+class EvalExpression : public Action
 {
 public:
 	//--- constructors

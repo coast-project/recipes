@@ -10,11 +10,10 @@
 #define _ButtonAppletRenderer_H
 
 #include "Renderer.h"
-#include "config_recipes.h"
 
 //---- ButtonAppletRenderer ---------------------------------------------------------------
 
-class EXPORTDECL_RECIPES ButtonAppletRenderer : public Renderer {
+class ButtonAppletRenderer : public Renderer {
 public:
 	ButtonAppletRenderer(const char *name);
 	void RenderAll(std::ostream &reply, Context &c, const ROAnything &config);

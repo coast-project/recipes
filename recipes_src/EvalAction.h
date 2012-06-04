@@ -10,7 +10,6 @@
 #define _EvalAction_H
 
 #include "Action.h"
-#include "config_recipes.h"
 
 //---- EvalAction ----------------------------------------------------------
 //! comment action
@@ -19,7 +18,7 @@
 //!		/Slot1	....
 //!      ...
 //!	}</PRE>
-class EXPORTDECL_RECIPES EvalAction : public Action
+class EvalAction : public Action
 {
 public:
 	//--- constructors

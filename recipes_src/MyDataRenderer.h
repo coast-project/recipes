@@ -10,7 +10,6 @@
 #define _MyDataRenderer_H
 
 #include "Renderer.h"
-#include "config_recipes.h"
 
 //---- MyDataRenderer ----------------------------------------------------------
 //! comment Renderer
@@ -19,7 +18,7 @@
 //!		/Slot1	....
 //!      ...
 //!	}</PRE>
-class EXPORTDECL_RECIPES MyDataRenderer : public Renderer
+class MyDataRenderer : public Renderer
 {
 public:
 	//--- constructors

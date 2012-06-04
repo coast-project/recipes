@@ -10,7 +10,6 @@
 #define _ReadWriteAction_H
 
 #include "Action.h"
-#include "config_recipes.h"
 
 //---- ReadAction ----------------------------------------------------------
 //! comment action
@@ -19,7 +18,7 @@
 //!		/Slot1	....
 //!      ...
 //!	}</PRE>
-class EXPORTDECL_RECIPES ReadAction : public Action
+class ReadAction : public Action
 {
 public:
 	//--- constructors
@@ -42,7 +41,7 @@ public:
 //!		/Slot1	....
 //!      ...
 //!	}</PRE>
-class EXPORTDECL_RECIPES WriteAction : public Action
+class WriteAction : public Action
 {
 public:
 	//--- constructors
