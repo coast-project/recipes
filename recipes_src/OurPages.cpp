@@ -53,7 +53,7 @@ void MyAccountPage::Preprocess(Context &c) {
 
 	// get some data from a file in Anything-format
 	Anything input;
-	std::iostream *is = System::OpenStream("AccountData.any", 0);
+	std::iostream *is = coast::system::OpenStream("AccountData.any", 0);
 	if (is != 0) {
 		// opened ok; now read the content, close the file and store the data in tmpStore
 		input.Import(*is);
@@ -74,7 +74,7 @@ void Ex4Page::Preprocess(Context &c) {
 
 	// get some data from a file in Anything-format (recipe 20)
 	Anything input;
-	std::iostream *is = System::OpenStream("AccountData.any", 0);
+	std::iostream *is = coast::system::OpenStream("AccountData.any", 0);
 	if (is != 0) {
 		// opened ok; now read the content, close the file and store the data in tmpStore
 		input.Import(*is);
@@ -125,6 +125,6 @@ void ViewPage::Body(std::ostream &reply, Context&) {
 }
 void ViewPage::Footer(std::ostream &reply, Context&) {
 	//	reply.Append("powered by COAST\n");
-	//	cerr << "powered by COAST\n";
+	//	std::cerr << "powered by COAST\n";
 }
 
