@@ -1,9 +1,9 @@
 import SConsider
-import os, socket, pdb, re
+import os, socket, re
 import shutil
 from stat import *
 from OpenSSL import SSL, crypto
-from SomeUtils import runCommand
+import SomeUtils
 
 Import('*')
 
@@ -15,13 +15,15 @@ configdirs=[
     configdir,
     'cert_files',
 ]
-appname='app'
+appname='recipes'
 servername=packagename
 runusername=''
+helperscriptTarget = 'openssl.script_openssl'
+
 hostonly, domain, fqdn = SConsider.getfqdn()
 
 def setAndCreateRotatedir(env):
-    targetdir = env['BASEOUTDIR'].Dir(env['RELTARGETDIR'])
+    targetdir = env.getTargetBaseInstallDir()
     logrotatepathrel = os.path.join(logpathrel, rotatepathrel)
     logdir = targetdir.Dir(logrotatepathrel)
     if not os.path.isdir(logdir.abspath):
@@ -32,10 +34,10 @@ searchReplace = {
     "LOGDIRREL": logpathrel,
     "ROTATEDIRREL": setAndCreateRotatedir,
     "COAST_PATH": ':'.join(configdirs),
-    "COAST_ROOT": lambda env: env['BASEOUTDIR'].Dir(env['RELTARGETDIR']).abspath,
-    "APP_NAME": SConsider.createUniqueTargetname(packagename, appname),
+    "COAST_ROOT": lambda env: env.getTargetBaseInstallDir().abspath,
+    "APP_NAME": appname,
     "SERVERNAME": packagename,
-    "PIDFILEPATHNAME": os.path.join(logpathrel,'.'.join([SConsider.createUniqueTargetname(packagename, appname), 'PID'])),
+    "PIDFILEPATHNAME": os.path.join(logpathrel,'.'.join([appname, 'PID'])),
     "RUNUSERNAME": runusername,
 }
 
@@ -63,12 +65,12 @@ def ModifyConfigFiles(env, searchReplace=[], files=[]):
             ## set writable
             os.chmod(fname, oldmode | S_IWUSR)
             ## replace tokens in file
-            SConsider.replaceRegexInFile(fname, searchReplace)
+            SomeUtils.replaceRegexInFile(fname, searchReplace)
             os.chmod(fname, oldmode)
 
 def prepareMkCaParams(env, commandargs, tdirabs, certOutDir, mkcaScriptName, cnfFilename=''):
     ## set writable cfgfilename
-    target = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
+    target = registry.getRealTarget(helperscriptTarget)
     if not os.path.isfile(mkcaScriptName):
         return False
     commandargs.extend([mkcaScriptName])
@@ -101,18 +103,18 @@ def createCertificates(env, targetdir, mkcaScriptName, certdirrel='cert_files', 
     certDict={}
     retCode=1
     if commandargs:
-        retCode=runCommand(commandargs, logpath=logpathabs, stdincontent='\n'.join(stdincontent))
+        retCode=SomeUtils.runCommand(commandargs, logpath=logpathabs, stdincontent='\n'.join(stdincontent))
     if retCode == 0 and doCertDict:
         # get list of copied certificates
         certFileNodesList=SConsider.findFiles([certOutDir], ['.pem','.p12'])
         certDict=createCertDict(certFileNodesList)
-        target = SConsider.packageRegistry.getPackageTarget('openssl', 'openSSL')
+        target = registry.getRealTarget(helperscriptTarget)
         sslbin='openssl'
         if target:
             sslbin=''+target.abspath+' -S --'
         # if there is now c_rehash available, use the following improved script, (base from from http://www.commandlinefu.com/commands/view/2532/c_rehash-replacement)
         command='for file in *crt*.pem; do theHash=`'+sslbin+' x509 -hash -noout -in $file 2>/dev/null` && test ! -f ${theHash}.0 && ln -s $file ${theHash}.0; done'
-        retCode=runCommand(command, logpath=logpathabs, stdincontent=None, shell=True, cwd=certOutDir)
+        retCode=SomeUtils.runCommand(command, logpath=logpathabs, stdincontent=None, shell=True, cwd=certOutDir)
     return (certOutDir, certFileNodesList, certDict)
 
 def createCertDict(certFileNodesList):
@@ -125,7 +127,8 @@ def createCertDict(certFileNodesList):
     return certDict
 
 def setUp( target, source, env ):
-    targetdir = env['BASEOUTDIR'].Dir(env['RELTARGETDIR'])
+    targetdir = env.getTargetBaseInstallDir()
+    logdirrel = targetdir.rel_path(env.getLogInstallDir())
     tdirabs = targetdir.abspath
     configdirabs = targetdir.Dir(configdir).abspath
     env['ENV']['COAST_ROOT'] = tdirabs
@@ -143,7 +146,7 @@ def setUp( target, source, env ):
     filelist=SConsider.findFiles([configdirabs], matchfiles=['mkca-new.sh'])
     if filelist:
         mkcaScriptName=filelist[0].abspath
-    if mkcaScriptName: certOutDir,certFileNodesList,certDict=createCertificates(env, targetdir=targetdir, mkcaScriptName=mkcaScriptName, certdirrel='cert_files', createlogdirrel=os.path.join(env['LOGDIR'], env['VARIANTDIR']), cnfFilename=sslconfpath, doCertDict=True)
+    if mkcaScriptName: certOutDir,certFileNodesList,certDict=createCertificates(env, targetdir=targetdir, mkcaScriptName=mkcaScriptName, certdirrel='cert_files', createlogdirrel=logdirrel, cnfFilename=sslconfpath, doCertDict=True)
     if certDict:
         for key,value in certDict.items():
             searchReplace.append((r"##"+key+"_abs##",value));
@@ -171,12 +174,14 @@ buildSettings = {
     },
     appname : {
         'targetType'       : 'ProgramApp',
+        'targetName': appname,
         'requires' : [
             SConsider.generateFulltargetname(packagename, packagename),
             'CoastAppLog',
             'CoastRenderers',
             'CoastStdDataAccess',
-            SConsider.generateFulltargetname('openssl','openSSL'),
+            'CoastActions',
+            helperscriptTarget,
             SConsider.generateFulltargetname('scripts','scripts'),
         ],
         'usedTarget'       : 'coastd.coastd',
