@@ -52,11 +52,9 @@
 		/HTMLWDDebug {
 			/MainSwitch					40
 			/EnableAll					40
-
-			/SessionStore				40
 			/TmpStore					40
 			/EnvStore					40
-			/QueryStore					40
+			/LookupStack				40
 		}
 		/DoLookup						15
 		/LookupStores {
