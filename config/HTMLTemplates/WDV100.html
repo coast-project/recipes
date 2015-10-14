@@ -1734,7 +1734,7 @@
       </font><font FACE="Courier New" size="3" COLOR="#0000ff"></p>
       </font><font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">The utility class URLPrinter is
       used to abstract from the concrete URL Format. URLs are the main link of generated pages
-      back to the current webdisplay session. Unfortunately some browsers (MSIE) cannot handle
+      back to the current Coast session. Unfortunately some browsers (MSIE) cannot handle
       URLs of arbitrary length. In addition, pages with many URLs are common, therefore flexible
       mechanisms are needed to shorten the generated URLs and thus the generated pages. Another
       issue is, that the syntax of URLs are slightly dependent on the place where they are used
@@ -2147,7 +2147,7 @@
   <blockquote>
     <blockquote>
       <p><a NAME="_Toc411764569"></a><font COLOR="#0000ff" size="3"><strong>3.8.3.</strong><i><b><a NAME="_Toc412022483">Usage of </font></font><font face="Courier New" color="#000000" size="5">Anythings</font><font SIZE="2" COLOR="#0000ff"><font COLOR="#0000ff" size="3"> in
-      Webdisplay</a></p>
+      Coast</a></p>
       </font></b></i>
     </blockquote>
   </blockquote>
@@ -2157,7 +2157,7 @@
   <ol>
     <ol>
       <p ALIGN="JUSTIFY"></font><font COLOR="#0000ff" size="3">Anythings are the configuration
-      mechanism used throughout the Webdisplay framework. The following sections briefly
+      mechanism used throughout the Coast framework. The following sections briefly
       describe how it is used for the specific part.</font><font SIZE="2" COLOR="#0000ff"></p>
     </ol>
   </ol>
@@ -2210,7 +2210,7 @@
           <tr>
             <td WIDTH="204" VALIGN="TOP"><font size="4" color="#000000" FACE="Courier New"><p ALIGN="JUSTIFY">/port</font></td>
             <td WIDTH="398" VALIGN="TOP"><font COLOR="#0000ff" size="3"><p ALIGN="JUSTIFY">defines IP
-            port number to be used by webdisplay server</font></td>
+            port number to be used by Coast server</font></td>
           </tr>
           <tr>
             <font SIZE="2"><td WIDTH="204" VALIGN="TOP"><font FACE="Courier New" size="4"><p ALIGN="JUSTIFY"><font color="#000000">/SessionTimeout</font></font></font></td>
@@ -2497,7 +2497,7 @@
         <p ALIGN="JUSTIFY"></b></i>These Anything attributes are used for passing arbitrary data
         structures between different function calls. These might even be calls not in a single
         call chain (e.g. passing data between different renderers activated in sequence). Several
-        classes within the Webdisplay framework provide such generic storage (<font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764537">Session</a></font>, <font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764538">Role</a></font>, <font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764540">Context</a></font>).
+        classes within the Coast framework provide such generic storage (<font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764537">Session</a></font>, <font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764538">Role</a></font>, <font FACE="Courier New" color="#000000" size="4"><a HREF="#_Toc411764540">Context</a></font>).
         This allows to add &#145;data members&#146; to these non-shared objects on behalf of the
         shared instances of Page and Renderer subclasses. In addition the parameters of a HTTP
         Request (HTML form fields) are passed in the </font><font FACE="Courier New" color="#000000" size="3">Context</font><font COLOR="#0000ff" size="3"> as an Anything
