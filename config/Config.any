@@ -311,18 +311,5 @@
 	}
 
 #--- Localization and language issues -----------------------------------------
-
 #	/StringFile			"LocalizedStrings"  # string resource file for different languages
-
-	#! The trusted certificates needed to verify the peer (one file)
-	/SSLPeerCAFile				!Defaults.any?SSLPeerCAFile
-		#! The trusted certificates needed to verify the peer (c_rehash hashed directory)
-#	/SSLVerifyPath				"/tmp/SSLSocketTestHashedCerts"
-
-	/SSLClientSessionTimeout	14400
-		#!The servers's client certificate private key
-	/KeyFileServer				!Defaults.any?KeyFileServer
-		#! The server's client certificate
-	/CertFileServer				!Defaults.any?CertFileServer
-
 }

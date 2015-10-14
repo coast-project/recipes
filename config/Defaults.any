@@ -8,16 +8,35 @@
 {
 	# defines http listener
 	/HTTP {
+#		/Address 0
 		/Port 51200
+#		/Backlog 50
 	}
 	# defines https listener
 	/HTTPS {
+#		/Address 0
 		/Port 51201
+#		/Backlog 50
 		#--- SSL configuration needs certificate and private key files
-		/CertFileServer	%CertFileServerRelative
-		/KeyFileServer	%KeyFileServerRelative
+		/CertFileServer	"##servercrt_rel##"
+		/KeyFileServer	"##serverkey_rel##"
+		/ServerCipherList "HIGH:-SSLv2:+SSLv3" # or "AES256-SHA"
+#		/ServerDHLength 1024
+#		/ServerRSALength 2048
+#		/VerifyCertifiedEntity 0
+#		/CertVerifyString ""
+#		/CertVerifyStringIsFilter 0
+#		/SSLSessionCacheSize 20480 # default of openssl is 1024 * 20
+#		/SSLSessionTimeout 300
+#		/SSLSessionIdContext "coastd"
+		#! The trusted certificates needed to verify the peer (one file)
+		/SSLPeerCAFile "##fullchain_rel##"  # used for verify location and client CA list
+#		/SSLVerifyPeerCert 0 # default for client
+#		/SSLVerifyFailIfNoPeerCert 0 # default for client
+		/SSLVerifyPath "##certdir_abs##"  # must be prepared with openssl's c_rehash if defined
+#		/SSLVerifyDepth 0  # default client CA verification depth
+#		/SSLUseAppCallback 0
 	}
-	/SSLPeerCAFile	%FullChainCertRelative
 
 	# directory to place logfiles into
 	/LogDir			"##LOGDIRREL##"
@@ -30,15 +49,4 @@
 	/BFInitVec0		0x55AAF3DC
 	/BFInitVec1		0x1AAA5507
 	/MDKey			"{secure@\"key;2go! 4sIgNer@\"?*}"
-
-#! server section
-	/KeyFileServerRelative	"##serverkey_rel##"
-	/CertFileServerRelative	"##servercrt_rel##"
-	/KeyFileServer			%KeyFileServerRelative
-	/CertFileServer			%CertFileServerRelative
-
-#! cert chains
-	/ServerChainCertRelative	"##serverchain_rel##"
-	/FullChainCertRelative		"##fullchain_rel##"
-	/ChainWoServerCertRelative	"##chainwoservercrt_rel##"
 }

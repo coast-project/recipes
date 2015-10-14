@@ -331,6 +331,18 @@
 			/EnableAll					530
 		}
 	}
+	/SSLModule {
+		/MainSwitch						50
+		/EnableAll						50
+	}
+	/SSLAcceptorFactory {
+		/MainSwitch						50
+		/EnableAll						50
+	}
+	/SSLObjectManager {
+		/MainSwitch						50
+		/EnableAll						50
+	}
 
 #--- Hello specific stuff -------------------------------------
 
