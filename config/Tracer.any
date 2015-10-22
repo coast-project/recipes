@@ -184,22 +184,16 @@
 	/DateRenderer {
 		/MainSwitch						60
 		/EnableAll						70
-
-		#/Render							0
 	}
 
 	/ConditionalRenderer {
 		/MainSwitch						60
 		/EnableAll						70
-
-		#/Render							0
 	}
 
 	/ContextLookupRenderer {
 		/MainSwitch						60
 		/EnableAll						70
-
-		#/Render							0
 	}
 
 	/LinkRenderer {

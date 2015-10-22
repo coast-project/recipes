@@ -40,6 +40,7 @@
 
 	# directory to place logfiles into
 	/LogDir			"##LOGDIRREL##"
+	/RotateDir		"##ROTATEDIRREL##"
 
 	/PIDFileName	"##PIDFILEPATHNAME##"		# location and name of the pid file
 

@@ -54,7 +54,7 @@
 			HTTP
 		}
 		/SSLAcceptorFactory {
-			/HTTPS { HTTPAdmin }
+			HTTPS
 		}
 	}
 	/AcceptorFactory {}
@@ -239,6 +239,8 @@
 	/AppLogModule {
 		#! Where the logfiles are kept
 		/LogDir		!Defaults.any?LogDir
+		#! Where the rotated logfiles are kept
+		/RotateDir	!Defaults.any?RotateDir
 		#! When to rotate the logfiles in hour:minute
 		/RotateTime	"23:50"
 		/Servers {
